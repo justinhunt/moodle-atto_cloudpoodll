@@ -97,6 +97,12 @@ $string['fallbackupload'] = 'Upload';
 $string['fallbackiosupload'] = 'iOS: upload, else warning';
 $string['fallbackwarning'] = 'Warning';
 
+$string['subtitle'] = 'Subtitles';
+$string['subtitlecheckbox'] = 'Request subtitles for this recording';
+$string['subtitleinstructions'] = 'Requested subtitles are ready about 5 minutes after recording. You must request before recording.';
+$string['mediainsertcheckbox'] = 'Insert media player into editor. Otherwise it\'s a media link.';
+
+
 $string['cloudpoodll:allowaudiomp3'] = 'Allow Audio Recording';
 $string['cloudpoodll:allowvideo'] = 'Allow Video Recording';
 $string['cloudpoodll:allowupload'] = 'Allow Upload';

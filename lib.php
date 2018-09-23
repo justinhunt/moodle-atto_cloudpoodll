@@ -36,8 +36,8 @@ function atto_cloudpoodll_strings_for_js() {
     global $PAGE;
 
     $PAGE->requires->strings_for_js(
-        array('createaudio','createvideo','insert','cancel','audio','video','upload',
-            'audio_desc','video_desc'), constants::M_COMPONENT);
+        array('createaudio','createvideo','insert','cancel','audio','video','upload','subtitle','subtitlecheckbox',
+            'mediainsertcheckbox','subtitleinstructions','audio_desc','video_desc'), constants::M_COMPONENT);
 }
 
 /**
@@ -74,6 +74,9 @@ function atto_cloudpoodll_params_for_js($elementid, $options, $fpoptions) {
     $params['cp_audioskin'] = $config->audioskin;
     $params['cp_videoskin'] = $config->videoskin;
     $params['cp_fallback'] = $config->fallback;
+
+    //insert methdd
+    $params['insertmethod']=$config->insertmethod;
 
 
 
