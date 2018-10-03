@@ -132,27 +132,27 @@ var TEMPLATES = {
         HTML_MEDIA: {
             VIDEO: '' +
                 '&nbsp;<video ' +
-            '&nbsp;<audio ' +
-            'controls="true" ' +
+            'controls="true" crossorigin="anonymous"' +
             '>' +
             '<source src="{{url}}">' +
             "{{#if issubtitling}}" +
-            '<track src="{{subtitleurl}}" kind="caption" srclang="{{language}}" label="{{language}}" default="true">' +
+            '<track src="{{subtitleurl}}" kind="captions" srclang="{{language}}" label="{{language}}" default="true">' +
             "{{/if}}" +
                 '</video>&nbsp;',
             AUDIO: '' +
                 '&nbsp;<audio ' +
-                    'controls="true" ' +
+                    'controls="true" crossorigin="anonymous"' +
                 '>' +
                     '<source src="{{url}}">' +
             "{{#if issubtitling}}" +
-            '<track src="{{subtitleurl}}" kind="caption" srclang="{{language}}" label="{{language}}" default="true">' +
+            '<track src="{{subtitleurl}}" kind="captions" srclang="{{language}}" label="{{language}}" default="true">' +
             "{{/if}}" +
                 '</audio>&nbsp;',
             LINK: '' +
-                '&nbsp;<a href="{{url}}" ' +
             "{{#if issubtitling}}" +
-            ' data-subtitles="{{subtitleurl}}" data-language="{{language}}" ' +
+            '&nbsp;<a href="{{url}}?data-subtitles={{subtitleurl}}&data-language={{language}}"' +
+            "{{else}}" +
+            '&nbsp;<a href="{{url}}"' +
             "{{/if}}" +
                 '>{{name}}</a>&nbsp;'
          }
@@ -277,10 +277,12 @@ Y.namespace('M.atto_cloudpoodll').Button = Y.Base.create('button', Y.M.editor_at
                 if (element.get('checked')) {
                     topnode.all('.' + CSS.CP_SWAP).setAttribute('data-transcribe', '1');
                     topnode.all('.' + CSS.CP_SWAP).setAttribute('data-subtitle', '1');
+                    topnode.all('.' + CSS.CP_SWAP).setAttribute('data-alreadyparsed', 'false');
                     STATE.subtitling = true;
                 } else {
                     topnode.all('.' + CSS.CP_SWAP).setAttribute('data-transcribe', '0');
                     topnode.all('.' + CSS.CP_SWAP).setAttribute('data-subtitle', '0');
+                    topnode.all('.' + CSS.CP_SWAP).setAttribute('data-alreadyparsed', 'false');
                     STATE.subtitling = false;
                 }
                 //reload the recorders

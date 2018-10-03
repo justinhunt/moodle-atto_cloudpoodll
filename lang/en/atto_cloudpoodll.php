@@ -75,13 +75,10 @@ $string['no'] = 'no';
 
 $string['enableaudio'] = 'Enable audio recording';
 $string['enablevideo'] = 'Enable video recording';
-$string['poodll:allowaudio'] = 'Allow Audio Recording';
-$string['poodll:allowvideo'] = 'Allow Video recording';
-$string['poodll:allowupload'] = 'Allow Upload Recording';
-$string['poodll:visible'] = 'Visible';
 
-$string['privacy:metadata'] = 'The Cloud Poodll Assignment Submission plugin does store personal data.';
-$string['privacy:metadata:filepurpose'] = 'The recordings (Poodll file submissions) for this assignment submission.';
+
+$string['privacy:metadata'] = 'The Cloud Poodll Atton plugin does store personal data.';
+$string['privacy:metadata:filepurpose'] = 'Audio/video recordings and uploads for insertion into HTML text editor areas.';
 
 $string['recordertype'] = 'Recorder Type';
 $string['recorderskin'] = 'Recorder Skin';
