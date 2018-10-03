@@ -90,9 +90,9 @@ var TEMPLATES = {
                 '<div class="root tab-content">' +
                     "{{#if isvideo}}" +
                     '<div data-medium-type="{{CSS.VIDEO}}" class="tab-pane active" id="{{elementid}}_{{CSS.VIDEO}}">' +
-                        'some video content' +
+                        '' +
         '<div id="{{elementid}}_{{CSS.CP_VIDEO}}" class="{{CSS.CP_SWAP}}" data-id="{{elementid}}_{{CSS.CP_VIDEO}}" data-parent="{{CP.parent}}"' +
-    'data-media="video" data-type="{{CP.videoskin}}" data-width="450" data-height="600"' +
+    'data-media="video" data-type="{{CP.videoskin}}" data-width="450" data-height="380"' +
     'data-transcode="{{CP.transcode}}" data-transcribe="0" data-transcribelanguage="{{CP.language}}"' +
     'data-expiredays="{{CP.expiredays}}" data-region="{{CP.region}}" data-token="{{CP.token}}" data-fallback="{{CP.fallback}}"></div>' +
                     '</div>' +
