@@ -51,6 +51,13 @@ $settings->add(new admin_setting_configselect(constants::M_COMPONENT .'/insertme
 $settings->add(new admin_setting_configcheckbox(constants::M_COMPONENT .'/enablesubtitling',
     get_string('enablesubtitling', constants::M_COMPONENT), get_string('enablesubtitling_details',constants::M_COMPONENT), 1));
 
+$settings->add(new admin_setting_configcheckbox(constants::M_COMPONENT .'/subtitleaudiobydefault',
+    get_string('subtitleaudiobydefault', constants::M_COMPONENT), get_string('subtitlebydefault_details',constants::M_COMPONENT), 0));
+$settings->add(new admin_setting_configcheckbox(constants::M_COMPONENT .'/subtitlevideobydefault',
+    get_string('subtitlevideobydefault', constants::M_COMPONENT), get_string('subtitlebydefault_details',constants::M_COMPONENT), 0));
+
+
+
 $settings->add(new admin_setting_configcheckbox(constants::M_COMPONENT .'/enableaudio',
     get_string('enableaudio', constants::M_COMPONENT), '', 1));
 $settings->add(new admin_setting_configcheckbox(constants::M_COMPONENT .'/enablevideo',

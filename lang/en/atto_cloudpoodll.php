@@ -37,7 +37,18 @@ $string['apisecret']='Poodll API Secret ';
 $string['apisecret_details']='The Poodll API secret. See <a href= "https://support.poodll.com/support/solutions/articles/19000083076-cloud-poodll-api-secret">here</a> for more details';
 $string['enablesubtitling']='Enable Subtitling';
 $string['enablesubtitling_details']='Cloud Poodll can create subtitles automatically if required. English or Spanish only .. language see settings';
+
+$string['subtitleaudiobydefault']='Subtitle Audio by default';
+$string['subtitlevideobydefault']='Subtitle Video by default';
+$string['subtitlebydefault_details']='If true Cloud Poodll will check subtitling by default. It can be turned off from the options tab on the popup. Only subtitle by default if you need to.';
+
+
 $string['language']='Language';
+$string['speakerlanguage']='Speaker language';
+$string['en-us']='English(US)';
+$string['es-us']='Spanish(US)';
+
+$string['uploadinstructions']='Drag and drop, or choose a media file, to upload it.';
 
 $string['insertmethod']='Insert method';
 $string['insertmethod_details']='Insert media links or media tags. Either way a Moodle filter will show a player when the page is displayed.';
@@ -98,6 +109,8 @@ $string['subtitle'] = 'Subtitles';
 $string['subtitlecheckbox'] = 'Request subtitles for this recording';
 $string['subtitleinstructions'] = 'Requested subtitles are ready about 5 minutes after recording. You must request before recording.';
 $string['mediainsertcheckbox'] = 'Insert media player into editor. Otherwise it\'s a media link.';
+
+$string['options'] = 'Options';
 
 
 $string['cloudpoodll:allowaudiomp3'] = 'Allow Audio Recording';
