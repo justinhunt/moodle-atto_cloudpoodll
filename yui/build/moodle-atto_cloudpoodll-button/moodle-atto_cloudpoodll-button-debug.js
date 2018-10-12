@@ -37,6 +37,11 @@ var RECORDERS = {VIDEO: 'video', AUDIO: 'audio'};
 var INSERTMETHOD = {LINK: 'link', TAGS: 'tags'};
 var LANGUAGE = {ENUS: 'en-US', ESUS: 'es-US'};
 var CLOUDPOODLL = {};
+var SKIN = {PLAIN: 'standard',
+            BMR: 'bmr',
+            ONETWOTHREE: 'onetwothree',
+            FRESH: 'fresh',
+            ONCE: 'once'};
 var CSS = {
         VIDEO: 'atto_cloudpoodll_video',
         AUDIO: 'atto_cloudpoodll_audio',
@@ -66,7 +71,7 @@ var STATE ={
 
 var TEMPLATES = {
         ROOT: '' +
-            '<form class="mform atto_form atto_media atto_cloudpoodll_form" id="{{elementid}}_atto_cloudpoodll_form">' +
+            '<form class="mform atto_form atto_cloudpoodll_form" id="{{elementid}}_atto_cloudpoodll_form">' +
                 '<ul class="root nav nav-tabs" role="tablist">' +
                     "{{#if isvideo}}" +
                     '<li data-medium-type="{{CSS.VIDEO}}" class="nav-item">' +
@@ -97,14 +102,14 @@ var TEMPLATES = {
                     '<div data-medium-type="{{CSS.VIDEO}}" class="tab-pane active" id="{{elementid}}_{{CSS.VIDEO}}">' +
                         '' +
         '<div id="{{elementid}}_{{CSS.CP_VIDEO}}" class="{{CSS.CP_SWAP}}" data-id="{{elementid}}_{{CSS.CP_VIDEO}}" data-parent="{{CP.parent}}"' +
-    'data-media="video" data-type="{{CP.videoskin}}" data-width="450" data-height="380"' +
+    'data-media="video" data-type="{{CP.videoskin}}" data-width="{{CP.sizes.videowidth}}" data-height="{{CP.sizes.videoheight}}"' +
     'data-transcode="{{CP.transcode}}" data-transcribe="{{subtitlevideobydefault}}" data-transcribelanguage="{{CP.language}}"' +
     'data-expiredays="{{CP.expiredays}}" data-region="{{CP.region}}" data-token="{{CP.token}}" data-fallback="{{CP.fallback}}"></div>' +
                     '</div>' +
                      "{{else}}" +
                     '<div data-medium-type="{{CSS.AUDIO}}" class="tab-pane active" id="{{elementid}}_{{CSS.AUDIO}}">' +
         '<div id="{{elementid}}_{{CSS.CP_AUDIO}}" class="{{CSS.CP_SWAP}}" data-id="{{elementid}}_{{CSS.CP_AUDIO}}" data-parent="{{CP.parent}}"' +
-        'data-media="audio" data-type="{{CP.audioskin}}" data-width="450" data-height="350"' +
+        'data-media="audio" data-type="{{CP.audioskin}}" data-width="{{CP.sizes.audiowidth}}" data-height="{{CP.sizes.audioheight}}"' +
         'data-transcode="{{CP.transcode}}" data-transcribe="{{subtitleaudiobydefault}}" data-transcribelanguage="{{CP.language}}"' +
         'data-expiredays="{{CP.expiredays}}" data-region="{{CP.region}}" data-token="{{CP.token}}" data-fallback="{{CP.fallback}}"></div>' +
                     '</div>' +
@@ -223,6 +228,7 @@ Y.namespace('M.atto_cloudpoodll').Button = Y.Base.create('button', Y.M.editor_at
         CLOUDPOODLL.audioskin = config.cp_audioskin;
         CLOUDPOODLL.videoskin = config.cp_videoskin;
         CLOUDPOODLL.fallback = config.fallback;
+        CLOUDPOODLL.sizes = this._fetchRecorderDimensions();
     },
 
     /**
@@ -255,6 +261,34 @@ Y.namespace('M.atto_cloudpoodll').Button = Y.Base.create('button', Y.M.editor_at
         }, extra);
     },
 
+    _fetchRecorderDimensions: function() {
+        // Get return object
+        var sizes = {};
+
+        //get video sizes]
+        switch (CLOUDPOODLL.videoskin) {
+            case SKIN.ONETWOTHREE:
+                sizes.videowidth = 441; //(because the @media CSS is for <=440)
+                sizes.videoheight = 540;
+                break;
+            case SKIN.BMR:
+                sizes.videowidth = 441; //(because the @media CSS is for <=440)
+                sizes.videoheight = 500;
+                break;
+            default:
+                sizes.videowidth = 441;
+                sizes.videoheight = 450;
+
+        }
+        switch (CLOUDPOODLL.audioskin) {
+            default:
+                sizes.audiowidth = 450;
+                sizes.audioheight = 350;
+                break;
+        }
+        return sizes;
+    },
+
 
 
     /**
@@ -271,31 +305,60 @@ Y.namespace('M.atto_cloudpoodll').Button = Y.Base.create('button', Y.M.editor_at
         }
         STATE.currentrecorder = recorder;
 
-        //get title
+        //get title and sizes
         switch(recorder){
             case RECORDERS.VIDEO:
                 var title = M.util.get_string('createvideo', COMPONENTNAME);
-                var width = '500px';
-                //var height = 450;
+                switch(CLOUDPOODLL.videoskin){
+                    case SKIN.ONETWOTHREE:
+                        var width = '500';
+                        var height = "660";
+                        break;
+                    case SKIN.PLAIN:
+                        var width = '500';
+                        var height = "580";
+                        break;
+                    case SKIN.BMR:
+                        var width = '500';
+                        var height = "620";
+                        break;
+                    default:
+                        var width = '500';
+                        var height = false;
+
+                }
                 break;
             case RECORDERS.AUDIO:
             default:
                 var title = M.util.get_string('createaudio', COMPONENTNAME);
-                var width = '500px';
-                //var height = 300;
+                var width = '501';
+                var height = false;
                 break;
         }
 
         var d_conf = {};
+        d_conf.center =true;
         d_conf.headerContent =title;
         d_conf.focusAfterHide = recorder;
-        d_conf.width = width;
-        //d_conf.height=height;
+        d_conf.width = width + 'px';
+        if(height) {
+            d_conf.height = height + 'px';
+        }
 
         var dialogue = this.getDialogue(d_conf);
 
+        //if this dialog had a different size and title (it was popped up before as diff media recorder type)
+        if(dialogue.get('width') != width + 'px'){
+            dialogue.set('headerContent',title);
+            //sadly the width and height won't change .. whatever
+            dialogue.set('width',width + 'px');
+            dialogue.set('height',height + 'px');
+        }
+
+
         // Set the dialogue content, and then show the dialogue.
         dialogue.set('bodyContent', this._getDialogueContent()).show();
+
 
         //store some common elements we will refer to later
         STATE.elementid = this.get('host').get('elementid');

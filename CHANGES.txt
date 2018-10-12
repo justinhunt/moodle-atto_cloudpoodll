@@ -1,3 +1,6 @@
+Version 1.0.2 (Build 2018101002)
+-more fixes for sizes and popup attributes
+
 Version 1.0.1 (Build 2018101001)
 -Fixed sizes and CSS issues
 
