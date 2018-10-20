@@ -113,7 +113,7 @@ $string['mediainsertcheckbox'] = 'Insert media player into editor. Otherwise it\
 $string['options'] = 'Options';
 
 
-$string['cloudpoodll:allowaudiomp3'] = 'Allow Audio Recording';
+$string['cloudpoodll:allowaudio'] = 'Allow Audio Recording';
 $string['cloudpoodll:allowvideo'] = 'Allow Video Recording';
 $string['cloudpoodll:allowupload'] = 'Allow Upload';
 $string['cloudpoodll:allowsubtitling'] = 'Allow Subtitling';
