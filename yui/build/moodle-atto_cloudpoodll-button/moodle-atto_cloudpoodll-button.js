@@ -103,7 +103,7 @@ var TEMPLATES = {
                         '' +
         '<div id="{{elementid}}_{{CSS.CP_VIDEO}}" class="{{CSS.CP_SWAP}}" data-id="{{elementid}}_{{CSS.CP_VIDEO}}" data-parent="{{CP.parent}}"' +
     ' data-media="video" data-type="{{CP.videoskin}}" data-localloader="/lib/editor/atto/plugins/cloudpoodll/poodllloader.html"' +
-        ' data-width="{{CP.sizes.videowidth}}" data-height="{{CP.sizes.videoheight}}"' +
+        ' data-localloading="always" data-width="{{CP.sizes.videowidth}}" data-height="{{CP.sizes.videoheight}}"' +
     ' data-transcode="{{CP.transcode}}" data-transcribe="{{subtitlevideobydefault}}" data-transcribelanguage="{{CP.language}}"' +
     ' data-expiredays="{{CP.expiredays}}" data-region="{{CP.region}}" data-token="{{CP.token}}" data-fallback="{{CP.fallback}}"></div>' +
                     '</div>' +
@@ -111,7 +111,7 @@ var TEMPLATES = {
                     '<div data-medium-type="{{CSS.AUDIO}}" class="tab-pane active" id="{{elementid}}_{{CSS.AUDIO}}">' +
         '<div id="{{elementid}}_{{CSS.CP_AUDIO}}" class="{{CSS.CP_SWAP}}" data-id="{{elementid}}_{{CSS.CP_AUDIO}}" data-parent="{{CP.parent}}"' +
         ' data-media="audio" data-type="{{CP.audioskin}}" data-localloader="/lib/editor/atto/plugins/cloudpoodll/poodllloader.html"' +
-        ' data-width="{{CP.sizes.audiowidth}}" data-height="{{CP.sizes.audioheight}}"' +
+        ' data-localloading="always" data-width="{{CP.sizes.audiowidth}}" data-height="{{CP.sizes.audioheight}}"' +
         ' data-transcode="{{CP.transcode}}" data-transcribe="{{subtitleaudiobydefault}}" data-transcribelanguage="{{CP.language}}"' +
         ' data-expiredays="{{CP.expiredays}}" data-region="{{CP.region}}" data-token="{{CP.token}}" data-fallback="{{CP.fallback}}"></div>' +
                     '</div>' +
