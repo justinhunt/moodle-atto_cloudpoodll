@@ -31,5 +31,16 @@ Now add Cloud poodll to the menu structure near the bottom of the page
 
   e.g style1 = title, bold, italic, cloudpoodll
 
+  The Cloud Poodll icons should now appear on the Atto HTML editor toolbar.
 
-Thats all. The Cloud Poodll icons should now appear on the Atto HTML editor toolbar.
+
+5. A few notes
+============
+Cloud Poodll connects to https://cloud.poodll.com and https://maxcdn.bootstrapcdn.com and so will not work without access to the internet.
+
+
+
+Thats all.
+
+Justin Hunt
+https://poodll.com

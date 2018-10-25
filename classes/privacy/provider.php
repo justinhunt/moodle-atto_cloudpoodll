@@ -23,24 +23,67 @@
  */
 
 namespace atto_cloudpoodll\privacy;
+use core_privacy\local\metadata\collection;
+use core_privacy\local\request\contextlist;
+use core_privacy\local\request\approved_contextlist;
+
 
 defined('MOODLE_INTERNAL') || die();
 
 /**
- * Privacy Subsystem for atto_cloudpoodll implementing null_provider.
+ * Privacy Subsystem for atto_cloudpoodll
  *
  * @copyright  2018 Justin Hunt <justin@poodll.com,>
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
-class provider implements \core_privacy\local\metadata\null_provider {
+class provider implements
+    // This plugin does store personal user data.
+    \core_privacy\local\metadata\provider,
+    // The Atto editor provides data directly to core.
+    \core_privacy\local\request\plugin\provider {
+
+    use \core_privacy\local\legacy_polyfill;
+
+    public static function _get_metadata(collection $collection){
+
+        $collection->add_external_location_link('cloud.poodll.com', [
+            'userid' => 'privacy:metadata:cloudpoodllcom:userid'
+        ], 'privacy:metadata:cloudpoodllcom');
+
+        return $collection;
+    }
 
     /**
-     * Get the language string identifier with the component's language
-     * file to explain why this plugin stores no data.
+     * Get the list of contexts that contain user information for the specified user.
      *
-     * @return  string
+     * @param   int $userid The user to search.
+     * @return  contextlist   $contextlist  The contextlist containing the list of contexts used in this plugin.
      */
-    public static function get_reason() {
-        return 'privacy:metadata';
+    public static function get_contexts_for_userid($userid) {
+        return new contextlist();
+    }
+
+    /**
+     * Export all user data for the specified user, in the specified contexts.
+     *
+     * @param   approved_contextlist $contextlist The approved contexts to export information for.
+     */
+    public static function export_user_data(approved_contextlist $contextlist) {
+    }
+
+    /**
+     * Delete all data for all users in the specified context.
+     *
+     * @param   context $context The specific context to delete data for.
+     */
+    public static function delete_data_for_all_users_in_context(\context $context) {
+    }
+
+    /**
+     * Delete all user data for the specified user, in the specified contexts.
+     *
+     * @param   approved_contextlist $contextlist The approved contexts and user information to delete information for.
+     */
+    public static function delete_data_for_user(approved_contextlist $contextlist) {
     }
 }

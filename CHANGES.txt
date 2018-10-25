@@ -1,3 +1,9 @@
+Version 1.0.5 (Build 2018102501)
+-Changes requested in plugin review
+-addition of MOODLE_INTERNAL check
+-addition of is full admin tree check
+-implementation of non null provider in dataprivacy classes
+
 Version 1.0.4 (Build 2018101004)
 -fixed loading in Safari
 

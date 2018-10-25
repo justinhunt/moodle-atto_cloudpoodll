@@ -23,7 +23,8 @@
  */
 
 $string['pluginname'] = 'Cloud Poodll';
-$string['privacy:metadata'] = 'The atto_cloudpoodll plugin does not store any personal data.';
+$string['privacy:metadata:cloudpoodllcom'] = 'The atto_cloudpoodll plugin stores recordings in AWS S3 buckets via cloud.poodll.com.';
+$string['privacy:metadata:cloudpoodllcom:userid'] = 'The atto_cloudpoodll plugin includes the moodle userid in the urls of recordings.';
 
 $string['cloudpoodll'] = 'Cloud Poodll';
 $string['recorder'] = 'Recorder Type';
@@ -86,10 +87,6 @@ $string['no'] = 'no';
 
 $string['enableaudio'] = 'Enable audio recording';
 $string['enablevideo'] = 'Enable video recording';
-
-
-$string['privacy:metadata'] = 'The Cloud Poodll Atton plugin does store personal data.';
-$string['privacy:metadata:filepurpose'] = 'Audio/video recordings and uploads for insertion into HTML text editor areas.';
 
 $string['recordertype'] = 'Recorder Type';
 $string['recorderskin'] = 'Recorder Skin';
