@@ -44,24 +44,28 @@ function atto_cloudpoodll_strings_for_js() {
  * Return the js params required for this module.
  * @return array of additional params to pass to javascript init function for this module.
  */
-function atto_cloudpoodll_params_for_js($elementid, $options, $fpoptions) {
-	global $COURSE;
+function atto_cloudpoodll_params_for_js($elementid, $options, $fpoptions)
+{
+    global $COURSE;
 
-	$config = get_config('atto_cloudpoodll');
+    $config = get_config('atto_cloudpoodll');
 
-	//coursecontext
-	$coursecontext=context_course::instance($COURSE->id);
+    //coursecontext
+    $context = $options['context'];
+    if (!$context) {
+        $context = context_course::instance($COURSE->id);
+    }
 	$disabled=false;
 
     //If they don't have permission don't show it
-    if(!has_capability('atto/cloudpoodll:visible', $coursecontext) ){
+    if(!has_capability('atto/cloudpoodll:visible', $context) ){
         $disabled=true;
      }
 
      //subitling ok
      $cansubtitle = $config->awsregion != constants::REGION_TOKYO &&
             $config->enablesubtitling &&
-            has_capability('atto/cloudpoodll:allowsubtitling', $coursecontext);
+            has_capability('atto/cloudpoodll:allowsubtitling', $context);
 
      //cloudpoodll params
     $params['cp_expiredays'] = $config->expiredays;
@@ -89,7 +93,7 @@ function atto_cloudpoodll_params_for_js($elementid, $options, $fpoptions) {
     $recorders = array('audio','video');
     foreach($recorders as $recorder){
         $enablemedia = get_config('atto_cloudpoodll','enable' . $recorder);
-        if($enablemedia && has_capability('atto/cloudpoodll:allow' . $recorder, $coursecontext)){
+        if($enablemedia && has_capability('atto/cloudpoodll:allow' . $recorder, $context)){
             $params[$recorder]=true;
         }
     }

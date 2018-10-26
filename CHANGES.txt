@@ -1,3 +1,6 @@
+Version 1.0.6 (Build 2018102502)
+-=Better application of context
+
 Version 1.0.5 (Build 2018102501)
 -Changes requested in plugin review
 -addition of MOODLE_INTERNAL check
