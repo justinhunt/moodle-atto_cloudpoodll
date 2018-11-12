@@ -58,7 +58,8 @@ class utils
             "useast1" => get_string("useast1",constants::M_COMPONENT),
             "tokyo" => get_string("tokyo",constants::M_COMPONENT),
             "sydney" => get_string("sydney",constants::M_COMPONENT),
-            "dublin" => get_string("dublin",constants::M_COMPONENT)
+            "dublin" => get_string("dublin",constants::M_COMPONENT),
+            "ottawa" => get_string("ottawa",constants::M_COMPONENT),
         );
     }
 
@@ -80,7 +81,10 @@ class utils
     {
         return array(
             constants::LANG_ENUS => get_string('en-us', constants::M_COMPONENT),
-            constants::LANG_ESUS => get_string('es-us', constants::M_COMPONENT)
+            constants::LANG_ENAU => get_string('en-au', constants::M_COMPONENT),
+            constants::LANG_ENUK => get_string('en-uk', constants::M_COMPONENT),
+            constants::LANG_ESUS => get_string('es-us', constants::M_COMPONENT),
+            constants::LANG_FRCA => get_string('fr-ca', constants::M_COMPONENT)
         );
     }
 
@@ -101,9 +105,10 @@ class utils
 
         //The regions that can transcribe
         switch($instance->awsregion){
-            case "useast1":
-            case "dublin":
-            case "sydney":
+            case constants::REGION_USEAST1:
+            case constants::REGION_DUBLIN:
+            case constants::REGION_SYDNEY:
+            case constants::REGION_OTTAWA:
                 break;
             default:
                 $ret = false;

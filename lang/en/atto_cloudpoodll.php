@@ -47,7 +47,10 @@ $string['subtitlebydefault_details']='If true Cloud Poodll will check subtitling
 $string['language']='Language';
 $string['speakerlanguage']='Speaker language';
 $string['en-us']='English(US)';
+$string['en-au']='English(AU)';
+$string['en-uk']='English(UK)';
 $string['es-us']='Spanish(US)';
+$string['fr-ca']='French(CA)';
 
 $string['uploadinstructions']='Drag and drop, or choose a media file, to upload it.';
 
@@ -67,12 +70,14 @@ $string['createvideo']='Create Video';
 $string['createaudio']='Create Audio';
 
 $string['useast1']='US East';
-$string['tokyo']='Tokyo, Japan';
+$string['tokyo']='Tokyo, Japan (no subtitling)';
 $string['sydney']='Sydney, Australia';
 $string['dublin']='Dublin, Ireland';
+$string['ottawa']='Ottawa, Canada (slow)';
+$string['frankfurt']='Frankfurt, Germany (slow, no subtitling)';
+$string['london']='London, U.K (slow, no subtitling)';
+$string['saopaulo']='Sao Paulo, Brazil (slow, no subtitling)';
 $string['forever']='Never expire';
-$string['en-us']='English (US)';
-$string['es-us']='Spanish (US)';
 $string['awsregion']='AWS Region';
 $string['region']='AWS Region';
 $string['expiredays']='Days to keep file';

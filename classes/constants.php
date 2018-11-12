@@ -47,7 +47,10 @@ const SKIN_FRESH = 'fresh';
 const SKIN_ONCE = 'once';
 
 const LANG_ENUS = 'en-US';
+const LANG_ENUK = 'en-UK';
+const LANG_ENAU = 'en-AU';
 const LANG_ESUS = 'es-US';
+const LANG_FRCA = 'fr-CA';
 
 const INSERT_LINK = 'link';
 const INSERT_TAGS = 'tags';
@@ -66,5 +69,9 @@ const REGION_USEAST1 = 'useast1';
 const REGION_TOKYO = 'tokyo';
 const REGION_DUBLIN = 'dublin';
 const REGION_SYDNEY = 'sydney';
+const REGION_OTTAWA = 'ottawa';
+const REGION_SAOPAULO = 'saopaulo';
+const REGION_FRANKFURT = 'frankfurt';
+const REGION_LONDON = 'london';
 
 }

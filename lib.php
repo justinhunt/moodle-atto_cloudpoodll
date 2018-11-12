@@ -63,8 +63,7 @@ function atto_cloudpoodll_params_for_js($elementid, $options, $fpoptions)
      }
 
      //subitling ok
-     $cansubtitle = $config->awsregion != constants::REGION_TOKYO &&
-            $config->enablesubtitling &&
+     $cansubtitle = utils::can_transcribe($config) &&
             has_capability('atto/cloudpoodll:allowsubtitling', $context);
 
      //cloudpoodll params
