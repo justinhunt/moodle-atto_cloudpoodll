@@ -1,6 +1,9 @@
+Version 1.0.7 (Build 2018111400)
+-fixed issue with privacy class definitions breaking on cron in some cases
+
 Version 1.0.7 (Build 2018111200)
 -Added Sao Paulo,  Frankfurt, London regions (no subtitles)
--Add support for Ottawa region (yes subtitles)
+-Added support for Ottawa region (yes subtitles)
 -Support for accents (en-UK, en-AU) and Canadian French (fr-CA) in subtitle regions
 
 Version 1.0.6 (Build 2018102502)

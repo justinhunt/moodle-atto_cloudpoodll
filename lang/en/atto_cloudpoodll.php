@@ -44,7 +44,7 @@ $string['subtitlevideobydefault']='Subtitle Video by default';
 $string['subtitlebydefault_details']='If true Cloud Poodll will check subtitling by default. It can be turned off from the options tab on the popup. Only subtitle by default if you need to.';
 
 
-$string['language']='Language';
+$string['language']='Transcription language';
 $string['speakerlanguage']='Speaker language';
 $string['en-us']='English(US)';
 $string['en-au']='English(AU)';

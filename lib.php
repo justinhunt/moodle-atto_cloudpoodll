@@ -37,7 +37,8 @@ function atto_cloudpoodll_strings_for_js() {
 
     $PAGE->requires->strings_for_js(
         array('createaudio','createvideo','insert','cancel','audio','video','upload','subtitle','options','subtitlecheckbox',
-            'mediainsertcheckbox','subtitleinstructions','audio_desc','video_desc','en-us','es-us','speakerlanguage','uploadinstructions'), constants::M_COMPONENT);
+            'mediainsertcheckbox','subtitleinstructions','audio_desc','video_desc',
+            'en-us','en-uk','en-au','fr-ca','es-us','speakerlanguage','uploadinstructions'), constants::M_COMPONENT);
 }
 
 /**

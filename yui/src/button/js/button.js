@@ -33,7 +33,7 @@
 var COMPONENTNAME = 'atto_cloudpoodll';
 var RECORDERS = {VIDEO: 'video', AUDIO: 'audio'};
 var INSERTMETHOD = {LINK: 'link', TAGS: 'tags'};
-var LANGUAGE = {ENUS: 'en-US', ESUS: 'es-US'};
+var LANGUAGE = {ENUS: 'en-US',ENUK: 'en-UK',ENAU: 'en-AU',FRCA: 'fr-CA', ESUS: 'es-US'};
 var CLOUDPOODLL = {};
 var SKIN = {PLAIN: 'standard',
             BMR: 'bmr',
@@ -152,8 +152,11 @@ var TEMPLATES = {
                     '</label>' +
                     '<br><label>{{get_string "speakerlanguage" component}}&nbsp;' +
                     '<select id="{{elementid}}_{{CSS.LANG_SELECT}}" class="{{CSS.LANG_SELECT}}">' +
-                        '<option value="{{LANG.ENUS}}" {{#if useenglish}}selected="selected"{{/if}}>{{get_string "en-us" component}}</option>' +
-                        '<option value="{{LANG.ESUS}}" {{#if usespanish}}selected="selected"{{/if}}>{{get_string "es-us" component}}</option>' +
+                        '<option value="{{LANG.ENUS}}" {{#if useENUS}}selected="selected"{{/if}}>{{get_string "en-us" component}}</option>' +
+                        '<option value="{{LANG.ENUK}}" {{#if useENUK}}selected="selected"{{/if}}>{{get_string "es-us" component}}</option>' +
+                        '<option value="{{LANG.ENAU}}" {{#if useENAU}}selected="selected"{{/if}}>{{get_string "es-us" component}}</option>' +
+                        '<option value="{{LANG.FRCA}}" {{#if useFRCA}}selected="selected"{{/if}}>{{get_string "es-us" component}}</option>' +
+                        '<option value="{{LANG.ESUS}}" {{#if useESUS}}selected="selected"{{/if}}>{{get_string "es-us" component}}</option>' +
                     '</select>' +
                     '</label>' +
                     '<br>{{get_string "subtitleinstructions" component}}' +
@@ -253,8 +256,11 @@ Y.namespace('M.atto_cloudpoodll').Button = Y.Base.create('button', Y.M.editor_at
             subtitlevideobydefault: STATE.subtitlevideobydefault,
             letssubtitleaudio: STATE.subtitleaudiobydefault ==1,
             letssubtitlevideo: STATE.subtitlevideobydefault ==1,
-            useenglish: CLOUDPOODLL.language == LANGUAGE.ENUS,
-            usespanish: CLOUDPOODLL.language == LANGUAGE.ESUS,
+            useENUS: CLOUDPOODLL.language == LANGUAGE.ENUS,
+            useENUK: CLOUDPOODLL.language == LANGUAGE.ENUK,
+            useENAU: CLOUDPOODLL.language == LANGUAGE.ENAU,
+            useFRCA: CLOUDPOODLL.language == LANGUAGE.FRCA,
+            useESUS: CLOUDPOODLL.language == LANGUAGE.ESUS,
             CSS: CSS,
             CP: CLOUDPOODLL,
             LANG: LANGUAGE
