@@ -37,7 +37,7 @@ $string['apiuser_details']='The Poodll account username that authorises Poodll o
 $string['apisecret']='Poodll API Secret ';
 $string['apisecret_details']='The Poodll API secret. See <a href= "https://support.poodll.com/support/solutions/articles/19000083076-cloud-poodll-api-secret">here</a> for more details';
 $string['enablesubtitling']='Enable Subtitling';
-$string['enablesubtitling_details']='Cloud Poodll can create subtitles automatically if required. English or Spanish only .. language see settings';
+$string['enablesubtitling_details']='Cloud Poodll can create subtitles automatically if required. See language settings';
 
 $string['subtitleaudiobydefault']='Subtitle Audio by default';
 $string['subtitlevideobydefault']='Subtitle Video by default';

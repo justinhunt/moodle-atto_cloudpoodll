@@ -104,7 +104,7 @@ var TEMPLATES = {
         '<div id="{{elementid}}_{{CSS.CP_VIDEO}}" class="{{CSS.CP_SWAP}}" data-id="{{elementid}}_{{CSS.CP_VIDEO}}" data-parent="{{CP.parent}}"' +
     ' data-media="video" data-type="{{CP.videoskin}}" data-localloader="/lib/editor/atto/plugins/cloudpoodll/poodllloader.html"' +
         ' data-localloading="auto" data-width="{{CP.sizes.videowidth}}" data-height="{{CP.sizes.videoheight}}"' +
-    ' data-transcode="{{CP.transcode}}" data-transcribe="{{subtitlevideobydefault}}" data-transcribelanguage="{{CP.language}}"' +
+    ' data-transcode="{{CP.transcode}}" data-transcribe="{{subtitlevideobydefault}}" data-language="{{CP.language}}"' +
     ' data-expiredays="{{CP.expiredays}}" data-region="{{CP.region}}" data-token="{{CP.token}}" data-fallback="{{CP.fallback}}"></div>' +
                     '</div>' +
                      "{{else}}" +
@@ -112,7 +112,7 @@ var TEMPLATES = {
         '<div id="{{elementid}}_{{CSS.CP_AUDIO}}" class="{{CSS.CP_SWAP}}" data-id="{{elementid}}_{{CSS.CP_AUDIO}}" data-parent="{{CP.parent}}"' +
         ' data-media="audio" data-type="{{CP.audioskin}}" data-localloader="/lib/editor/atto/plugins/cloudpoodll/poodllloader.html"' +
         ' data-localloading="auto" data-width="{{CP.sizes.audiowidth}}" data-height="{{CP.sizes.audioheight}}"' +
-        ' data-transcode="{{CP.transcode}}" data-transcribe="{{subtitleaudiobydefault}}" data-transcribelanguage="{{CP.language}}"' +
+        ' data-transcode="{{CP.transcode}}" data-transcribe="{{subtitleaudiobydefault}}" data-language="{{CP.language}}"' +
         ' data-expiredays="{{CP.expiredays}}" data-region="{{CP.region}}" data-token="{{CP.token}}" data-fallback="{{CP.fallback}}"></div>' +
                     '</div>' +
                     "{{/if}}" +
@@ -126,7 +126,7 @@ var TEMPLATES = {
         "{{else}}" +
           'data-transcribe="{{subtitleaudiobydefault}}" ' +
         "{{/if}}" +
-        'data-transcribelanguage="{{CP.language}}"' +
+        'data-language="{{CP.language}}"' +
         'data-expiredays="{{CP.expiredays}}" data-region="{{CP.region}}" data-token="{{CP.token}}"></div>' +
                     '</div>' +
                     '<div data-medium-type="{{CSS.OPTIONS}}" class="tab-pane" id="{{elementid}}_{{CSS.OPTIONS}}">' +
@@ -310,6 +310,8 @@ Y.namespace('M.atto_cloudpoodll').Button = Y.Base.create('button', Y.M.editor_at
         //whats this?
         if (this.get('host').getSelection() === false) {
             return;
+        }else{
+            this._currentSelection = this.get('host').getSelection();
         }
         STATE.currentrecorder = recorder;
 
@@ -414,11 +416,10 @@ Y.namespace('M.atto_cloudpoodll').Button = Y.Base.create('button', Y.M.editor_at
         //language selectopr
         if(STATE.languageselect != null) {
             STATE.languageselect.on('change', function (e) {
-                debugger;
                 var element = e.currentTarget;
                 if(element) {
                     CLOUDPOODLL.language = element.selectedOptionValue();
-                    topnode.all('.' + CSS.CP_SWAP).setAttribute('data-transcribelanguage', CLOUDPOODLL.language);
+                    topnode.all('.' + CSS.CP_SWAP).setAttribute('data-language', CLOUDPOODLL.language);
                     topnode.all('.' + CSS.CP_SWAP).setAttribute('data-alreadyparsed', 'false');
                     //reload the recorders
                     topnode.all('.' + CSS.CP_SWAP).empty();
@@ -523,8 +524,10 @@ Y.namespace('M.atto_cloudpoodll').Button = Y.Base.create('button', Y.M.editor_at
 
         var content =
             Y.Handlebars.compile(template)(context);
-        this.editor.focus();
-        this.get('host').insertContentAtFocusPoint(content);
+        var host =this.get('host');
+        host.focus();
+        host.setSelection(this._currentSelection);
+        host.insertContentAtFocusPoint(content);
         this.markUpdated();
 
     }
