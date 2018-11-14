@@ -155,9 +155,9 @@ var TEMPLATES = {
                     '<br><label>{{get_string "speakerlanguage" component}}&nbsp;' +
                     '<select id="{{elementid}}_{{CSS.LANG_SELECT}}" class="{{CSS.LANG_SELECT}}">' +
                         '<option value="{{LANG.ENUS}}" {{#if useENUS}}selected="selected"{{/if}}>{{get_string "en-us" component}}</option>' +
-                        '<option value="{{LANG.ENUK}}" {{#if useENUK}}selected="selected"{{/if}}>{{get_string "es-us" component}}</option>' +
-                        '<option value="{{LANG.ENAU}}" {{#if useENAU}}selected="selected"{{/if}}>{{get_string "es-us" component}}</option>' +
-                        '<option value="{{LANG.FRCA}}" {{#if useFRCA}}selected="selected"{{/if}}>{{get_string "es-us" component}}</option>' +
+                        '<option value="{{LANG.ENUK}}" {{#if useENUK}}selected="selected"{{/if}}>{{get_string "en-uk" component}}</option>' +
+                        '<option value="{{LANG.ENAU}}" {{#if useENAU}}selected="selected"{{/if}}>{{get_string "en-au" component}}</option>' +
+                        '<option value="{{LANG.FRCA}}" {{#if useFRCA}}selected="selected"{{/if}}>{{get_string "fr-ca" component}}</option>' +
                         '<option value="{{LANG.ESUS}}" {{#if useESUS}}selected="selected"{{/if}}>{{get_string "es-us" component}}</option>' +
                     '</select>' +
                     '</label>' +
