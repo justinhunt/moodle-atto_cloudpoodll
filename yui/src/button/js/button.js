@@ -100,7 +100,7 @@ var TEMPLATES = {
                     '<div data-medium-type="{{CSS.VIDEO}}" class="tab-pane active" id="{{elementid}}_{{CSS.VIDEO}}">' +
                         '' +
         '<div id="{{elementid}}_{{CSS.CP_VIDEO}}" class="{{CSS.CP_SWAP}}" data-id="{{elementid}}_{{CSS.CP_VIDEO}}" data-parent="{{CP.parent}}"' +
-    ' data-media="video" data-type="{{CP.videoskin}}" data-localloader="/lib/editor/atto/plugins/cloudpoodll/poodllloader.html"' +
+    ' data-appid="{{CP.appid}}" data-media="video" data-type="{{CP.videoskin}}" data-localloader="/lib/editor/atto/plugins/cloudpoodll/poodllloader.html"' +
         ' data-localloading="auto" data-width="{{CP.sizes.videowidth}}" data-height="{{CP.sizes.videoheight}}"' +
     ' data-transcode="{{CP.transcode}}" data-transcribe="{{subtitlevideobydefault}}" data-language="{{CP.language}}"' +
     ' data-expiredays="{{CP.expiredays}}" data-region="{{CP.region}}" data-token="{{CP.token}}" data-fallback="{{CP.fallback}}"></div>' +
@@ -108,7 +108,7 @@ var TEMPLATES = {
                      "{{else}}" +
                     '<div data-medium-type="{{CSS.AUDIO}}" class="tab-pane active" id="{{elementid}}_{{CSS.AUDIO}}">' +
         '<div id="{{elementid}}_{{CSS.CP_AUDIO}}" class="{{CSS.CP_SWAP}}" data-id="{{elementid}}_{{CSS.CP_AUDIO}}" data-parent="{{CP.parent}}"' +
-        ' data-media="audio" data-type="{{CP.audioskin}}" data-localloader="/lib/editor/atto/plugins/cloudpoodll/poodllloader.html"' +
+        ' data-appid="{{CP.appid}}" data-media="audio" data-type="{{CP.audioskin}}" data-localloader="/lib/editor/atto/plugins/cloudpoodll/poodllloader.html"' +
         ' data-localloading="auto" data-width="{{CP.sizes.audiowidth}}" data-height="{{CP.sizes.audioheight}}"' +
         ' data-transcode="{{CP.transcode}}" data-transcribe="{{subtitleaudiobydefault}}" data-language="{{CP.language}}"' +
         ' data-expiredays="{{CP.expiredays}}" data-region="{{CP.region}}" data-token="{{CP.token}}" data-fallback="{{CP.fallback}}"></div>' +
@@ -117,8 +117,8 @@ var TEMPLATES = {
                     '<div data-medium-type="{{CSS.UPLOAD}}" class="tab-pane" id="{{elementid}}_{{CSS.UPLOAD}}">' +
         '<br>{{get_string "uploadinstructions" component}}' +
         '<div id="{{elementid}}_{{CSS.CP_UPLOAD}}" class="{{CSS.CP_SWAP}}" data-id="{{elementid}}_{{CSS.CP_UPLOAD}}" data-parent="{{CP.parent}}"' +
-        'data-media="{{recorder}}" data-type="upload" data-width="450" data-height="350"' +
-        'data-transcode="{{CP.transcode}}" ' +
+        ' data-appid="{{CP.appid}}" data-media="{{recorder}}" data-type="upload" data-width="450" data-height="350"' +
+        ' data-transcode="{{CP.transcode}}" ' +
         "{{#if isvideo}}" +
           'data-transcribe="{{subtitlevideobydefault}}" ' +
         "{{else}}" +
@@ -222,6 +222,7 @@ Y.namespace('M.atto_cloudpoodll').Button = Y.Base.create('button', Y.M.editor_at
 
         //set up the cloudpoodll div
         CLOUDPOODLL.parent = M.cfg.wwwroot;
+        CLOUDPOODLL.appid = 'atto_cloudpoodll';
         CLOUDPOODLL.token = config.cp_token;
         CLOUDPOODLL.region = config.cp_region;
         CLOUDPOODLL.expiredays = config.cp_expiredays;

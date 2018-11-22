@@ -25,8 +25,8 @@
 defined('MOODLE_INTERNAL') || die();
 
 
-use atto_cloudpoodll\constants;
-use atto_cloudpoodll\utils;
+use \atto_cloudpoodll\constants;
+use \atto_cloudpoodll\utils;
 
 /**
  * Initialise this plugin
@@ -65,7 +65,8 @@ function atto_cloudpoodll_params_for_js($elementid, $options, $fpoptions)
 
      //subitling ok
      $cansubtitle = utils::can_transcribe($config) &&
-            has_capability('atto/cloudpoodll:allowsubtitling', $context);
+         $config->enablesubtitling &&
+         has_capability('atto/cloudpoodll:allowsubtitling', $context);
 
      //cloudpoodll params
     $params['cp_expiredays'] = $config->expiredays;

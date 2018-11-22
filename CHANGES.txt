@@ -1,3 +1,8 @@
+Version 1.0.8
+-reinstated the respecting of $config->enablesubtitling
+-supported license info with token
+-changed appid to atto_cloudpoodll
+
 Version 1.0.7 (Build 2018111400)
 -fixed issue with privacy class definitions breaking on cron in some cases
 

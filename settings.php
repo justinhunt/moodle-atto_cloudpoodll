@@ -31,9 +31,10 @@ if ($ADMIN->fulltree) {
     $settings->add(new admin_setting_configtext(constants::M_COMPONENT . '/apiuser',
         get_string('apiuser', constants::M_COMPONENT), get_string('apiuser_details', constants::M_COMPONENT),
         '', PARAM_TEXT));
-
+    $tokeninfo =   utils::fetch_token_for_display(get_config(constants::M_COMPONENT,'apiuser'),get_config(constants::M_COMPONENT,'apisecret'));
+//get_string('apisecret_details', constants::M_COMPONENT)
     $settings->add(new admin_setting_configtext(constants::M_COMPONENT . '/apisecret',
-        get_string('apisecret', constants::M_COMPONENT), get_string('apisecret_details', constants::M_COMPONENT),
+        get_string('apisecret', constants::M_COMPONENT), $tokeninfo,
         '', PARAM_TEXT));
 
     $regions = utils::get_region_options();

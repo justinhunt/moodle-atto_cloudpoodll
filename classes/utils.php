@@ -128,8 +128,63 @@ class utils
         return $data;
     }
 
+    public static function fetch_token_for_display($apiuser,$apisecret){
+        global $CFG;
+
+        //First check that we have an API id and secret
+        //refresh token
+        $refresh = \html_writer::link($CFG->wwwroot . '/lib/editor/atto/plugins/cloudpoodll/refreshtoken.php',
+                get_string('refreshtoken',constants::M_COMPONENT)) . '<br>';
+
+
+        $message = '';
+        if(empty($apiuser)){
+            $message .= get_string('noapiuser',constants::M_COMPONENT) . '<br>';
+        }
+        if(empty($apisecret)){
+            $message .= get_string('noapisecret',constants::M_COMPONENT);
+        }
+
+        if(!empty($message)){
+            return $refresh . $message;
+        }
+
+        //Fetch from cache and process the results and display
+        $cache = \cache::make_from_params(\cache_store::MODE_APPLICATION, constants::M_COMPONENT, 'token');
+        $tokenobject = $cache->get('recentpoodlltoken');
+
+        //if we have no token object the creds were wrong ... or something
+        if(!($tokenobject)){
+            $message = get_string('credentialsinvalid',constants::M_COMPONENT);
+            //if we have an object but its no good, creds werer wrong ..or something
+        }elseif(!property_exists($tokenobject,'token') || empty($tokenobject->token)){
+            $message = get_string('credentialsinvalid',constants::M_COMPONENT);
+            //if we do not have subs, then we are on a very old token or something is wrong, just get out of here.
+        }elseif(!property_exists($tokenobject,'subs')){
+            $message = 'No subscriptions found at all';
+        }
+        if(!empty($message)){
+            return $refresh . $message;
+        }
+
+        //we have enough info to display a report. Lets go.
+        foreach ($tokenobject->subs as $sub){
+            $sub->expiredate = date('d/m/Y',$sub->expiredate);
+            $message .= get_string('displaysubs',constants::M_COMPONENT, $sub) . '<br>';
+        }
+        //Is app authorised
+        if(in_array(constants::M_COMPONENT,$tokenobject->apps)){
+            $message .= get_string('appauthorised',constants::M_COMPONENT) . '<br>';
+        }else{
+            $message .= get_string('appnotauthorised',constants::M_COMPONENT) . '<br>';
+        }
+
+        return $refresh . $message;
+
+    }
+
     //We need a Poodll token to make this happen
-    public static function fetch_token($apiuser, $apisecret)
+    public static function fetch_token($apiuser, $apisecret, $force=false)
     {
 
         $cache = \cache::make_from_params(\cache_store::MODE_APPLICATION, constants::M_COMPONENT, 'token');
@@ -138,7 +193,7 @@ class utils
 
         //if we got a token and its less than expiry time
         // use the cached one
-        if($tokenobject && $tokenuser && $tokenuser==$apiuser){
+        if($tokenobject && $tokenuser && $tokenuser==$apiuser && !$force){
             if($tokenobject->validuntil == 0 || $tokenobject->validuntil > time()){
                 return $tokenobject->token;
             }
@@ -164,6 +219,14 @@ class utils
                 $tokenobject = new \stdClass();
                 $tokenobject->token = $token;
                 $tokenobject->validuntil = $validuntil;
+                $tokenobject->subs=false;
+                $tokenobject->apps=false;
+                if(property_exists($resp_object,'subs')){
+                    $tokenobject->subs = $resp_object->subs;
+                }
+                if(property_exists($resp_object,'apps')){
+                    $tokenobject->apps = $resp_object->apps;
+                }
                 $cache->set('recentpoodlltoken', $tokenobject);
                 $cache->set('recentpoodlluser', $apiuser);
 
