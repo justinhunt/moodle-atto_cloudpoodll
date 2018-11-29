@@ -128,5 +128,6 @@ $string['credentialsinvalid'] = "The API user and secret entered could not be us
 $string['appauthorised']= $string['pluginname'] . " is authorised for this site.";
 $string['appnotauthorised']= $string['pluginname'] . " is NOT authorised for this site.";
 $string['refreshtoken']= "Refresh license information";
+$string['notokenincache']= "Refresh to see license information. Contact Poodll support if there is a problem.";
 
 
