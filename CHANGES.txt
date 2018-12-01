@@ -1,4 +1,4 @@
-Version 1.0.9 (Build 2018112600) [not released]
+Version 1.0.9 (Build 2018112600)
 - improved reliability of cron call to fetch token
 
 Version 1.0.8
