@@ -110,7 +110,7 @@ $string['fallbackwarning'] = 'Warning';
 $string['subtitle'] = 'Subtitles';
 $string['subtitlecheckbox'] = 'Request subtitles for this recording';
 $string['subtitleinstructions'] = 'Requested subtitles are ready about 5 minutes after recording. You must request before recording.';
-$string['mediainsertcheckbox'] = 'Insert media player into editor. Otherwise it\'s a media link.';
+$string['mediainsertcheckbox'] = 'Insert media player into editor. Otherwise it be a media link.';
 
 $string['options'] = 'Options';
 
@@ -125,8 +125,8 @@ $string['displaysubs'] = '{$a->subscriptionname} : expires {$a->expiredate}';
 $string['noapiuser'] = "No API user entered. Read Aloud will not work correctly.";
 $string['noapisecret'] = "No API secret entered. Read Aloud will not work correctly.";
 $string['credentialsinvalid'] = "The API user and secret entered could not be used to get access. Please check them.";
-$string['appauthorised']= $string['pluginname'] . " is authorised for this site.";
-$string['appnotauthorised']= $string['pluginname'] . " is NOT authorised for this site.";
+$string['appauthorised']= "Atto Cloud Poodll is authorised for this site.";
+$string['appnotauthorised']= "Atto Cloud Poodll  is NOT authorised for this site.";
 $string['refreshtoken']= "Refresh license information";
 $string['notokenincache']= "Refresh to see license information. Contact Poodll support if there is a problem.";
 
