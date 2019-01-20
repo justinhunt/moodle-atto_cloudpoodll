@@ -1,3 +1,8 @@
+Version 1.0.10
+- added better error handling if api creds fails
+-Added better cron calling
+-Added support for fast cloudpoodll loading in poodllloader.html (used by safari's mainly)
+
 Version 1.0.9 (Build 2018112600)
 - improved reliability of cron call to fetch token
 

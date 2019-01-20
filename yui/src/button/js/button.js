@@ -443,7 +443,6 @@ Y.namespace('M.atto_cloudpoodll').Button = Y.Base.create('button', Y.M.editor_at
         require(['atto_cloudpoodll/cloudpoodllloader'], function(loader) {
             var recorder_callback = function(evt){
                 switch(evt.type){
-
                     case 'recording':
                         if(evt.action==='started'){
                             //if user toggled subtitle checkbox any time from now, the recording would be lost
@@ -458,6 +457,9 @@ Y.namespace('M.atto_cloudpoodll').Button = Y.Base.create('button', Y.M.editor_at
                             that._doInsert(evt.mediaurl, evt.mediafilename);
                             that.uploaded = true;
                         }
+                        break;
+                    case 'error':
+                        alert('PROBLEM:' + evt.message);
                         break;
                 }
             };
