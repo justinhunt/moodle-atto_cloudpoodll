@@ -51,6 +51,9 @@ $string['en-au']='English(AU)';
 $string['en-uk']='English(UK)';
 $string['es-us']='Spanish(US)';
 $string['fr-ca']='French(CA)';
+$string['fr-fr']='French(FR)';
+$string['pt-br']='Portuguese(BR)';
+$string['it-it']='Italian(IT)';
 
 $string['uploadinstructions']='Drag and drop, or choose a media file, to upload it.';
 
@@ -113,7 +116,10 @@ $string['subtitleinstructions'] = 'Requested subtitles are ready about 5 minutes
 $string['mediainsertcheckbox'] = 'Insert media player into editor. Otherwise it be a media link.';
 
 $string['options'] = 'Options';
+$string['transcode'] = 'Transcode';
+$string['transcode_details'] = 'CloudPoodll can transcode audio to mp3 and video to mp4';
 
+$string['cannotsubtitle'] = 'Subtitling is disabled. Check transcode, subtitle and region settings. ';
 
 $string['cloudpoodll:allowaudio'] = 'Allow Audio Recording';
 $string['cloudpoodll:allowvideo'] = 'Allow Video Recording';

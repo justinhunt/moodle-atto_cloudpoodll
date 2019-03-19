@@ -33,7 +33,7 @@
 var COMPONENTNAME = 'atto_cloudpoodll';
 var RECORDERS = {VIDEO: 'video', AUDIO: 'audio'};
 var INSERTMETHOD = {LINK: 'link', TAGS: 'tags'};
-var LANGUAGE = {ENUS: 'en-US',ENUK: 'en-UK',ENAU: 'en-AU',FRCA: 'fr-CA', ESUS: 'es-US'};
+var LANGUAGE = {ENUS: 'en-US',ENUK: 'en-UK',ENAU: 'en-AU',FRCA: 'fr-CA', ESUS: 'es-US',FRFR: 'fr-FR',ITIT: 'it-IT', PTBR: 'pt-BR'};
 var CLOUDPOODLL = {};
 var SKIN = {PLAIN: 'standard',
             BMR: 'bmr',
@@ -58,6 +58,7 @@ var CSS = {
 };
 var STATE ={
     subtitling: false,
+    transcoding: false,
     started: false,
     currentrecorder: false,
     insertmethod: false,
@@ -102,7 +103,7 @@ var TEMPLATES = {
         '<div id="{{elementid}}_{{CSS.CP_VIDEO}}" class="{{CSS.CP_SWAP}}" data-id="{{elementid}}_{{CSS.CP_VIDEO}}" data-parent="{{CP.parent}}"' +
     ' data-appid="{{CP.appid}}" data-media="video" data-type="{{CP.videoskin}}" data-localloader="/lib/editor/atto/plugins/cloudpoodll/poodllloader.html"' +
         ' data-localloading="auto" data-width="{{CP.sizes.videowidth}}" data-height="{{CP.sizes.videoheight}}"' +
-    ' data-transcode="{{CP.transcode}}" data-transcribe="{{subtitlevideobydefault}}" data-language="{{CP.language}}"' +
+    ' data-transcode="{{CP.transcode}}" data-transcribe="{{subtitlevideobydefault}}" data-subtitle="{{subtitlevideobydefault}}" data-language="{{CP.language}}"' +
     ' data-expiredays="{{CP.expiredays}}" data-region="{{CP.region}}" data-token="{{CP.token}}" data-fallback="{{CP.fallback}}"></div>' +
                     '</div>' +
                      "{{else}}" +
@@ -110,7 +111,7 @@ var TEMPLATES = {
         '<div id="{{elementid}}_{{CSS.CP_AUDIO}}" class="{{CSS.CP_SWAP}}" data-id="{{elementid}}_{{CSS.CP_AUDIO}}" data-parent="{{CP.parent}}"' +
         ' data-appid="{{CP.appid}}" data-media="audio" data-type="{{CP.audioskin}}" data-localloader="/lib/editor/atto/plugins/cloudpoodll/poodllloader.html"' +
         ' data-localloading="auto" data-width="{{CP.sizes.audiowidth}}" data-height="{{CP.sizes.audioheight}}"' +
-        ' data-transcode="{{CP.transcode}}" data-transcribe="{{subtitleaudiobydefault}}" data-language="{{CP.language}}"' +
+        ' data-transcode="{{CP.transcode}}" data-transcribe="{{subtitleaudiobydefault}}" data-subtitle="{{subtitleaudiobydefault}}" data-language="{{CP.language}}"' +
         ' data-expiredays="{{CP.expiredays}}" data-region="{{CP.region}}" data-token="{{CP.token}}" data-fallback="{{CP.fallback}}"></div>' +
                     '</div>' +
                     "{{/if}}" +
@@ -121,8 +122,10 @@ var TEMPLATES = {
         ' data-transcode="{{CP.transcode}}" ' +
         "{{#if isvideo}}" +
           'data-transcribe="{{subtitlevideobydefault}}" ' +
+          'data-subtitle="{{subtitlevideobydefault}}" ' +
         "{{else}}" +
           'data-transcribe="{{subtitleaudiobydefault}}" ' +
+           'data-subtitle="{{subtitleaudiobydefault}}" ' +
         "{{/if}}" +
         'data-language="{{CP.language}}"' +
         'data-expiredays="{{CP.expiredays}}" data-region="{{CP.region}}" data-token="{{CP.token}}"></div>' +
@@ -136,30 +139,35 @@ var TEMPLATES = {
                         '/>&nbsp;{{get_string "mediainsertcheckbox" component}}' +
                     '</label>' +
                     "{{#if cansubtitle}}" +
-                    '<br><label>' +
-                    '<input type="checkbox" id="{{elementid}}_{{CSS.SUBTITLE_CHECKBOX}}" class="{{CSS.SUBTITLE_CHECKBOX}}"' +
-                    "{{#if isvideo}}" +
-                        "{{#if letssubtitlevideo}}" +
-                        ' checked="true" ' +
+                        '<br><label>' +
+                        '<input type="checkbox" id="{{elementid}}_{{CSS.SUBTITLE_CHECKBOX}}" class="{{CSS.SUBTITLE_CHECKBOX}}"' +
+                        "{{#if isvideo}}" +
+                            "{{#if letssubtitlevideo}}" +
+                            ' checked="true" ' +
+                            "{{/if}}" +
+                        "{{else}}" +
+                            "{{#if letssubtitleaudio}}" +
+                            ' checked="true" ' +
+                            "{{/if}}" +
                         "{{/if}}" +
+                        '/>' +
+                        '&nbsp;{{get_string "subtitlecheckbox" component}}' +
+                        '</label>' +
+                        '<br><label>{{get_string "speakerlanguage" component}}&nbsp;' +
+                        '<select id="{{elementid}}_{{CSS.LANG_SELECT}}" class="{{CSS.LANG_SELECT}}">' +
+                            '<option value="{{LANG.ENUS}}" {{#if useENUS}}selected="selected"{{/if}}>{{get_string "en-us" component}}</option>' +
+                            '<option value="{{LANG.ENUK}}" {{#if useENUK}}selected="selected"{{/if}}>{{get_string "en-uk" component}}</option>' +
+                            '<option value="{{LANG.ENAU}}" {{#if useENAU}}selected="selected"{{/if}}>{{get_string "en-au" component}}</option>' +
+                            '<option value="{{LANG.FRCA}}" {{#if useFRCA}}selected="selected"{{/if}}>{{get_string "fr-ca" component}}</option>' +
+                            '<option value="{{LANG.ESUS}}" {{#if useESUS}}selected="selected"{{/if}}>{{get_string "es-us" component}}</option>' +
+                            '<option value="{{LANG.FRFR}}" {{#if useFRFR}}selected="selected"{{/if}}>{{get_string "fr-fr" component}}</option>' +
+                            '<option value="{{LANG.ITIT}}" {{#if useITIT}}selected="selected"{{/if}}>{{get_string "it-it" component}}</option>' +
+                            '<option value="{{LANG.PTBR}}" {{#if usePTBR}}selected="selected"{{/if}}>{{get_string "pt-br" component}}</option>' +
+                        '</select>' +
+                        '</label>' +
+                        '<br>{{get_string "subtitleinstructions" component}}' +
                     "{{else}}" +
-                        "{{#if letssubtitleaudio}}" +
-                        ' checked="true" ' +
-                        "{{/if}}" +
-                    "{{/if}}" +
-                    '/>' +
-                    '&nbsp;{{get_string "subtitlecheckbox" component}}' +
-                    '</label>' +
-                    '<br><label>{{get_string "speakerlanguage" component}}&nbsp;' +
-                    '<select id="{{elementid}}_{{CSS.LANG_SELECT}}" class="{{CSS.LANG_SELECT}}">' +
-                        '<option value="{{LANG.ENUS}}" {{#if useENUS}}selected="selected"{{/if}}>{{get_string "en-us" component}}</option>' +
-                        '<option value="{{LANG.ENUK}}" {{#if useENUK}}selected="selected"{{/if}}>{{get_string "en-uk" component}}</option>' +
-                        '<option value="{{LANG.ENAU}}" {{#if useENAU}}selected="selected"{{/if}}>{{get_string "en-au" component}}</option>' +
-                        '<option value="{{LANG.FRCA}}" {{#if useFRCA}}selected="selected"{{/if}}>{{get_string "fr-ca" component}}</option>' +
-                        '<option value="{{LANG.ESUS}}" {{#if useESUS}}selected="selected"{{/if}}>{{get_string "es-us" component}}</option>' +
-                    '</select>' +
-                    '</label>' +
-                    '<br>{{get_string "subtitleinstructions" component}}' +
+                        "{{get_string 'cannotsubtitle' component}}"+
                     "{{/if}}" +
                     '</div>' +
                 '</div>' +
@@ -169,7 +177,10 @@ var TEMPLATES = {
                 '&nbsp;<video ' +
             'controls="true" crossorigin="anonymous"' +
             '>' +
-            '<source src="{{url}}">' +
+            "{{#if includesourcetrack}}" +
+            '<source src="{{sourceurl}}" type="{{sourcemimetype}}">'+
+            "{{/if}}" +
+            '<source src="{{url}}" type="{{urlmimetype}}">' +
             "{{#if issubtitling}}" +
             '<track src="{{subtitleurl}}" kind="captions" srclang="{{CP.language}}" label="{{CP.language}}" default="true">' +
             "{{/if}}" +
@@ -178,7 +189,10 @@ var TEMPLATES = {
                 '&nbsp;<audio ' +
                     'controls="true" crossorigin="anonymous"' +
                 '>' +
-                    '<source src="{{url}}">' +
+            "{{#if includesourcetrack}}" +
+            '<source src="{{sourceurl}}" type="{{sourcemimetype}}">'+
+            "{{/if}}" +
+            '<source src="{{url}}" type="{{urlmimetype}}">' +
             "{{#if issubtitling}}" +
             '<track src="{{subtitleurl}}" kind="captions" srclang="{{CP.language}}" label="{{CP.language}}" default="true">' +
             "{{/if}}" +
@@ -219,6 +233,9 @@ Y.namespace('M.atto_cloudpoodll').Button = Y.Base.create('button', Y.M.editor_at
         //subtitle by default
         STATE.subtitleaudiobydefault = config.subtitleaudiobydefault;
         STATE.subtitlevideobydefault = config.subtitlevideobydefault;
+
+        //transcoding flag
+        STATE.transcoding = config.cp_transcode =='1';
 
         //set up the cloudpoodll div
         CLOUDPOODLL.parent = M.cfg.wwwroot;
@@ -262,6 +279,9 @@ Y.namespace('M.atto_cloudpoodll').Button = Y.Base.create('button', Y.M.editor_at
             useENAU: CLOUDPOODLL.language == LANGUAGE.ENAU,
             useFRCA: CLOUDPOODLL.language == LANGUAGE.FRCA,
             useESUS: CLOUDPOODLL.language == LANGUAGE.ESUS,
+            useFRFR: CLOUDPOODLL.language == LANGUAGE.FRFR,
+            useITIT: CLOUDPOODLL.language == LANGUAGE.ITIT,
+            usePTBR: CLOUDPOODLL.language == LANGUAGE.PTBR,
             CSS: CSS,
             CP: CLOUDPOODLL,
             LANG: LANGUAGE
@@ -345,6 +365,15 @@ Y.namespace('M.atto_cloudpoodll').Button = Y.Base.create('button', Y.M.editor_at
                 break;
         }
 
+        //set default subtitling flag
+        if(CLOUDPOODLL.cansubtitle) {
+            if (STATE.currentrecorder == RECORDERS.VIDEO) {
+                STATE.subtitling = STATE.subtitlevideobydefault;
+            } else {
+                STATE.subtitling = STATE.subtitleaudiobydefault;
+            }
+        }
+
         var d_conf = {};
         d_conf.center =true;
         d_conf.headerContent =title;
@@ -379,24 +408,29 @@ Y.namespace('M.atto_cloudpoodll').Button = Y.Base.create('button', Y.M.editor_at
 
         //subtitle checkbox click event.. reload recorders
         if(STATE.subtitlecheckbox != null) {
-            STATE.subtitlecheckbox.on('click', function (e) {
-                var element = e.currentTarget;
-                //update recorder subtitle setting
-                if (element.get('checked')) {
-                    topnode.all('.' + CSS.CP_SWAP).setAttribute('data-transcribe', '1');
-                    topnode.all('.' + CSS.CP_SWAP).setAttribute('data-subtitle', '1');
-                    topnode.all('.' + CSS.CP_SWAP).setAttribute('data-alreadyparsed', 'false');
-                    STATE.subtitling = true;
-                } else {
-                    topnode.all('.' + CSS.CP_SWAP).setAttribute('data-transcribe', '0');
-                    topnode.all('.' + CSS.CP_SWAP).setAttribute('data-subtitle', '0');
-                    topnode.all('.' + CSS.CP_SWAP).setAttribute('data-alreadyparsed', 'false');
-                    STATE.subtitling = false;
-                }
-                //reload the recorders
-                topnode.all('.' + CSS.CP_SWAP).empty();
-                that._loadRecorders();
-            });
+            //if we can subtitle, handle events, otherwise disable it
+            if(CLOUDPOODLL.cansubtitle) {
+                STATE.subtitlecheckbox.on('click', function (e) {
+                    var element = e.currentTarget;
+                    //update recorder subtitle setting
+                    if (element.get('checked')) {
+                        topnode.all('.' + CSS.CP_SWAP).setAttribute('data-transcribe', '1');
+                        topnode.all('.' + CSS.CP_SWAP).setAttribute('data-subtitle', '1');
+                        topnode.all('.' + CSS.CP_SWAP).setAttribute('data-alreadyparsed', 'false');
+                        STATE.subtitling = true;
+                    } else {
+                        topnode.all('.' + CSS.CP_SWAP).setAttribute('data-transcribe', '0');
+                        topnode.all('.' + CSS.CP_SWAP).setAttribute('data-subtitle', '0');
+                        topnode.all('.' + CSS.CP_SWAP).setAttribute('data-alreadyparsed', 'false');
+                        STATE.subtitling = false;
+                    }
+                    //reload the recorders
+                    topnode.all('.' + CSS.CP_SWAP).empty();
+                    that._loadRecorders();
+                });
+            }else{
+                this._disableSubtitleCheckbox();
+            }
         }
 
         //insert method checkbox;
@@ -431,6 +465,14 @@ Y.namespace('M.atto_cloudpoodll').Button = Y.Base.create('button', Y.M.editor_at
         this._loadRecorders();
     },
 
+    _disableSubtitleCheckbox: function(){
+        //this function is never called, because if not transcribable, not shown
+        STATE.subtitlecheckbox.setAttribute('disabled',true);
+        var topnode = Y.one('#' + STATE.elementid + '_' + CSS.ATTO_CLOUDPOODLL_FORM);
+        topnode.all('.' + CSS.CP_SWAP).setAttribute('data-transcribe', '0');
+        topnode.all('.' + CSS.CP_SWAP).setAttribute('data-subtitle', '0');
+    },
+
     /**
      * Loads or reloads the recorders
      *
@@ -440,6 +482,7 @@ Y.namespace('M.atto_cloudpoodll').Button = Y.Base.create('button', Y.M.editor_at
     _loadRecorders: function(){
         var that = this;
         that.uploaded=false;
+        that.ap_count=0;
         require(['atto_cloudpoodll/cloudpoodllloader'], function(loader) {
             var recorder_callback = function(evt){
                 switch(evt.type){
@@ -453,10 +496,19 @@ Y.namespace('M.atto_cloudpoodll').Button = Y.Base.create('button', Y.M.editor_at
                         }
                         break;
                     case 'awaitingprocessing':
+                        //we delay  a second to allow the sourcefile to be copied to correct location
                         if(!that.uploaded) {
-                            that._doInsert(evt.mediaurl, evt.mediafilename);
+                            setTimeout(function(){
+                                var sourceurl = evt.s3root + evt.sourcefilename;
+                                that._doInsert(evt.mediaurl, evt.mediafilename,sourceurl,evt.sourcemimetype);
+                            },4000);
                             that.uploaded = true;
                         }
+                        break;
+                    case 'filesubmitted':
+                        //we will probably never get here because awaiting processing will fire first
+                        //we do not use this event, but it arrives when the final file is ready. (much earlier in case of non-transcode)
+
                         break;
                     case 'error':
                         alert('PROBLEM:' + evt.message);
@@ -488,7 +540,7 @@ Y.namespace('M.atto_cloudpoodll').Button = Y.Base.create('button', Y.M.editor_at
      * @method _doInsert
      * @private
      */
-    _doInsert : function(mediaurl, mediafilename){
+    _doInsert : function(mediaurl, mediafilename, sourceurl, sourcemimetype){
         this.getDialogue({
             focusAfterHide: null
         }).hide();
@@ -498,8 +550,11 @@ Y.namespace('M.atto_cloudpoodll').Button = Y.Base.create('button', Y.M.editor_at
         context.url = mediaurl;
         context.name = mediafilename;
         context.issubtitling = STATE.subtitling;
+        context.includesourcetrack = STATE.transcoding && (mediaurl != sourceurl);
         context.CP = CLOUDPOODLL;
         context.subtitleurl = mediaurl + '.vtt';
+        context.sourceurl = sourceurl;
+        context.sourcemimetype = sourcemimetype;
         var template = TEMPLATES.HTML_MEDIA.LINK;
 
         switch(STATE.insertmethod){
@@ -509,11 +564,21 @@ Y.namespace('M.atto_cloudpoodll').Button = Y.Base.create('button', Y.M.editor_at
                     context.width = false;
                     context.height = false;
                     context.poster = false;
+                    if(STATE.transcoding) {
+                        context.urlmimetype = 'video/mp4';
+                    }else{
+                        context.urlmimetype = sourcemimetype;
+                    }
                     template = TEMPLATES.HTML_MEDIA.VIDEO;
                 }else {
                     context.width = false;
                     context.height = false;
                     context.poster = false;
+                    if(STATE.transcoding) {
+                        context.urlmimetype = 'audio/mp3';
+                    }else{
+                        context.urlmimetype = sourcemimetype;
+                    }
                     template = TEMPLATES.HTML_MEDIA.AUDIO;
                 }
                 break;

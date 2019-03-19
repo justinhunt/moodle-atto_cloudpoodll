@@ -84,7 +84,10 @@ class utils
             constants::LANG_ENAU => get_string('en-au', constants::M_COMPONENT),
             constants::LANG_ENUK => get_string('en-uk', constants::M_COMPONENT),
             constants::LANG_ESUS => get_string('es-us', constants::M_COMPONENT),
-            constants::LANG_FRCA => get_string('fr-ca', constants::M_COMPONENT)
+            constants::LANG_FRCA => get_string('fr-ca', constants::M_COMPONENT),
+            constants::LANG_FRFR => get_string('fr-fr', constants::M_COMPONENT),
+            constants::LANG_ITIT => get_string('it-it', constants::M_COMPONENT),
+            constants::LANG_PTBR => get_string('pt-br', constants::M_COMPONENT)
         );
     }
 
@@ -112,6 +115,10 @@ class utils
                 break;
             default:
                 $ret = false;
+        }
+        //we need to be able to transcode to subtitle
+        if(!$instance->transcode){
+            $ret=false;
         }
         return $ret;
     }

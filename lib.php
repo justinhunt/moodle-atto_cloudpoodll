@@ -38,7 +38,7 @@ function atto_cloudpoodll_strings_for_js() {
     $PAGE->requires->strings_for_js(
         array('createaudio','createvideo','insert','cancel','audio','video','upload','subtitle','options','subtitlecheckbox',
             'mediainsertcheckbox','subtitleinstructions','audio_desc','video_desc',
-            'en-us','en-uk','en-au','fr-ca','es-us','speakerlanguage','uploadinstructions'), constants::M_COMPONENT);
+            'en-us','en-uk','en-au','fr-ca','es-us','fr-fr','it-it','pt-br','speakerlanguage','uploadinstructions','cannotsubtitle'), constants::M_COMPONENT);
 }
 
 /**
@@ -75,7 +75,7 @@ function atto_cloudpoodll_params_for_js($elementid, $options, $fpoptions)
     $params['cp_region'] = $config->awsregion;
     $params['cp_language'] = $config->language;
     $params['cp_expiredays'] = $config->expiredays;
-    $params['cp_transcode'] = "1";
+    $params['cp_transcode'] =  $config->transcode;
     $params['cp_audioskin'] = $config->audioskin;
     $params['cp_videoskin'] = $config->videoskin;
     $params['cp_fallback'] = $config->fallback;

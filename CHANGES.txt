@@ -1,3 +1,6 @@
+Version 1.0.11 (Build 2019031901)
+-fixes for sourcemimetype and added it-IT, fr-FR and pt-BR languages for subtitles
+
 Version 1.0.10
 - added better error handling if api creds fails
 -Added better cron calling

@@ -58,6 +58,10 @@ if ($ADMIN->fulltree) {
         get_string('subtitlevideobydefault', constants::M_COMPONENT), get_string('subtitlebydefault_details', constants::M_COMPONENT), 0));
 
 
+    $settings->add(new admin_setting_configcheckbox(constants::M_COMPONENT . '/transcode',
+        get_string('transcode', constants::M_COMPONENT),
+        get_string('transcode_details', constants::M_COMPONENT), 1));
+
     $settings->add(new admin_setting_configcheckbox(constants::M_COMPONENT . '/enableaudio',
         get_string('enableaudio', constants::M_COMPONENT), '', 1));
     $settings->add(new admin_setting_configcheckbox(constants::M_COMPONENT . '/enablevideo',
