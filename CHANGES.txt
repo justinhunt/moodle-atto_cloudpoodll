@@ -1,3 +1,7 @@
+Version 1.0.12 (Build 2019053100)
+-fixes for audio track when .wav in player
+-Added support for languages Korean (ko-kr), German (de-de) , English(India) (en-in) and Hindi (hi-in)
+
 Version 1.0.11 (Build 2019031901)
 -fixes for sourcemimetype and added it-IT, fr-FR and pt-BR languages for subtitles
 

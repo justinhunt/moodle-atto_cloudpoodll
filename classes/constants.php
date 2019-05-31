@@ -54,6 +54,11 @@ const LANG_FRCA = 'fr-CA';
 const LANG_FRFR = 'fr-FR';
 const LANG_ITIT = 'it-IT';
 const LANG_PTBR = 'pt-BR';
+const LANG_KOKR = 'ko-KR';
+const LANG_DEDE = 'de-DE';
+const LANG_HIIN = 'hi-IN';
+const LANG_ENIN = 'en-IN';
+const LANG_ESES = 'es-ES';
 
 const INSERT_LINK = 'link';
 const INSERT_TAGS = 'tags';

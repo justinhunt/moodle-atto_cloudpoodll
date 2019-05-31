@@ -33,7 +33,7 @@
 var COMPONENTNAME = 'atto_cloudpoodll';
 var RECORDERS = {VIDEO: 'video', AUDIO: 'audio'};
 var INSERTMETHOD = {LINK: 'link', TAGS: 'tags'};
-var LANGUAGE = {ENUS: 'en-US',ENUK: 'en-UK',ENAU: 'en-AU',FRCA: 'fr-CA', ESUS: 'es-US',FRFR: 'fr-FR',ITIT: 'it-IT', PTBR: 'pt-BR'};
+var LANGUAGE = {ENUS: 'en-US',ENUK: 'en-UK',ENAU: 'en-AU',ENIN: 'en-IN',FRCA: 'fr-CA',FRFR: 'fr-FR', ESUS: 'es-US', ESES: 'es-ES',ITIT: 'it-IT', PTBR: 'pt-BR', DEDE: 'de-DE', KOKR: 'ko-KR', HIIN: 'hi-IN'};
 var CLOUDPOODLL = {};
 var SKIN = {PLAIN: 'standard',
             BMR: 'bmr',
@@ -158,11 +158,16 @@ var TEMPLATES = {
                             '<option value="{{LANG.ENUS}}" {{#if useENUS}}selected="selected"{{/if}}>{{get_string "en-us" component}}</option>' +
                             '<option value="{{LANG.ENUK}}" {{#if useENUK}}selected="selected"{{/if}}>{{get_string "en-uk" component}}</option>' +
                             '<option value="{{LANG.ENAU}}" {{#if useENAU}}selected="selected"{{/if}}>{{get_string "en-au" component}}</option>' +
-                            '<option value="{{LANG.FRCA}}" {{#if useFRCA}}selected="selected"{{/if}}>{{get_string "fr-ca" component}}</option>' +
+                            '<option value="{{LANG.ENIN}}" {{#if useENIN}}selected="selected"{{/if}}>{{get_string "en-in" component}}</option>' +
                             '<option value="{{LANG.ESUS}}" {{#if useESUS}}selected="selected"{{/if}}>{{get_string "es-us" component}}</option>' +
+                            '<option value="{{LANG.ESES}}" {{#if useESES}}selected="selected"{{/if}}>{{get_string "es-es" component}}</option>' +
                             '<option value="{{LANG.FRFR}}" {{#if useFRFR}}selected="selected"{{/if}}>{{get_string "fr-fr" component}}</option>' +
+                            '<option value="{{LANG.FRCA}}" {{#if useFRCA}}selected="selected"{{/if}}>{{get_string "fr-ca" component}}</option>' +
                             '<option value="{{LANG.ITIT}}" {{#if useITIT}}selected="selected"{{/if}}>{{get_string "it-it" component}}</option>' +
                             '<option value="{{LANG.PTBR}}" {{#if usePTBR}}selected="selected"{{/if}}>{{get_string "pt-br" component}}</option>' +
+                            '<option value="{{LANG.KOKR}}" {{#if useKOKR}}selected="selected"{{/if}}>{{get_string "ko-kr" component}}</option>' +
+                            '<option value="{{LANG.DEDE}}" {{#if useDEDE}}selected="selected"{{/if}}>{{get_string "de-de" component}}</option>' +
+                            '<option value="{{LANG.HIIN}}" {{#if useHIIN}}selected="selected"{{/if}}>{{get_string "hi-in" component}}</option>' +
                         '</select>' +
                         '</label>' +
                         '<br>{{get_string "subtitleinstructions" component}}' +
@@ -277,11 +282,16 @@ Y.namespace('M.atto_cloudpoodll').Button = Y.Base.create('button', Y.M.editor_at
             useENUS: CLOUDPOODLL.language == LANGUAGE.ENUS,
             useENUK: CLOUDPOODLL.language == LANGUAGE.ENUK,
             useENAU: CLOUDPOODLL.language == LANGUAGE.ENAU,
+            useENIN: CLOUDPOODLL.language == LANGUAGE.ENIN,
             useFRCA: CLOUDPOODLL.language == LANGUAGE.FRCA,
-            useESUS: CLOUDPOODLL.language == LANGUAGE.ESUS,
             useFRFR: CLOUDPOODLL.language == LANGUAGE.FRFR,
+            useESUS: CLOUDPOODLL.language == LANGUAGE.ESUS,
+            useESES: CLOUDPOODLL.language == LANGUAGE.ESES,
             useITIT: CLOUDPOODLL.language == LANGUAGE.ITIT,
             usePTBR: CLOUDPOODLL.language == LANGUAGE.PTBR,
+            useDEDE: CLOUDPOODLL.language == LANGUAGE.DEDE,
+            useKOKR: CLOUDPOODLL.language == LANGUAGE.KOKR,
+            useHIIN: CLOUDPOODLL.language == LANGUAGE.HIIN,
             CSS: CSS,
             CP: CLOUDPOODLL,
             LANG: LANGUAGE
@@ -550,7 +560,7 @@ Y.namespace('M.atto_cloudpoodll').Button = Y.Base.create('button', Y.M.editor_at
         context.url = mediaurl;
         context.name = mediafilename;
         context.issubtitling = STATE.subtitling;
-        context.includesourcetrack = STATE.transcoding && (mediaurl != sourceurl);
+        context.includesourcetrack = STATE.transcoding && (mediaurl !== sourceurl) && (sourceurl.slice(-3) !== 'wav');
         context.CP = CLOUDPOODLL;
         context.subtitleurl = mediaurl + '.vtt';
         context.sourceurl = sourceurl;
@@ -560,7 +570,7 @@ Y.namespace('M.atto_cloudpoodll').Button = Y.Base.create('button', Y.M.editor_at
         switch(STATE.insertmethod){
 
             case INSERTMETHOD.TAGS:
-                if(STATE.currentrecorder == RECORDERS.VIDEO){
+                if(STATE.currentrecorder === RECORDERS.VIDEO){
                     context.width = false;
                     context.height = false;
                     context.poster = false;
