@@ -22,63 +22,59 @@
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
-
 namespace atto_cloudpoodll;
 
 defined('MOODLE_INTERNAL') || die;
 
+class utils {
 
-class utils
-{
-
-    public static function fetch_options_recorders(){
-        $rec_options = array( constants::REC_AUDIO => get_string("recorderaudio", constants::M_COMPONENT),
-            constants::REC_VIDEO  => get_string("recordervideo", constants::M_COMPONENT));
+    public static function fetch_options_recorders() {
+        $rec_options = array(constants::REC_AUDIO => get_string("recorderaudio", constants::M_COMPONENT),
+                constants::REC_VIDEO => get_string("recordervideo", constants::M_COMPONENT));
         return $rec_options;
     }
 
-    public static function fetch_options_fallback(){
-        $options = array( constants::FALLBACK_UPLOAD => get_string("fallbackupload", constants::M_COMPONENT),
-            constants::FALLBACK_IOSUPLOAD  => get_string("fallbackiosupload", constants::M_COMPONENT),
-            constants::FALLBACK_WARNING  => get_string("fallbackwarning", constants::M_COMPONENT));
+    public static function fetch_options_fallback() {
+        $options = array(constants::FALLBACK_UPLOAD => get_string("fallbackupload", constants::M_COMPONENT),
+                constants::FALLBACK_IOSUPLOAD => get_string("fallbackiosupload", constants::M_COMPONENT),
+                constants::FALLBACK_WARNING => get_string("fallbackwarning", constants::M_COMPONENT));
         return $options;
     }
 
-    public static function fetch_options_skins(){
-        $rec_options = array( constants::SKIN_PLAIN => get_string("skinplain", constants::M_COMPONENT),
-            constants::SKIN_BMR => get_string("skinbmr", constants::M_COMPONENT),
-            constants::SKIN_123 => get_string("skin123", constants::M_COMPONENT),
-            constants::SKIN_FRESH => get_string("skinfresh", constants::M_COMPONENT),
-            constants::SKIN_ONCE => get_string("skinonce", constants::M_COMPONENT));
+    public static function fetch_options_skins() {
+        $rec_options = array(constants::SKIN_PLAIN => get_string("skinplain", constants::M_COMPONENT),
+                constants::SKIN_BMR => get_string("skinbmr", constants::M_COMPONENT),
+                constants::SKIN_123 => get_string("skin123", constants::M_COMPONENT),
+                constants::SKIN_FRESH => get_string("skinfresh", constants::M_COMPONENT),
+                constants::SKIN_ONCE => get_string("skinonce", constants::M_COMPONENT));
         return $rec_options;
     }
 
-    public static function get_region_options(){
+    public static function get_region_options() {
         return array(
-            "useast1" => get_string("useast1",constants::M_COMPONENT),
-            "tokyo" => get_string("tokyo",constants::M_COMPONENT),
-            "sydney" => get_string("sydney",constants::M_COMPONENT),
-            "dublin" => get_string("dublin",constants::M_COMPONENT),
-            "ottawa" => get_string("ottawa",constants::M_COMPONENT),
+                "useast1" => get_string("useast1", constants::M_COMPONENT),
+                "tokyo" => get_string("tokyo", constants::M_COMPONENT),
+                "sydney" => get_string("sydney", constants::M_COMPONENT),
+                "dublin" => get_string("dublin", constants::M_COMPONENT),
+                "ottawa" => get_string("ottawa", constants::M_COMPONENT),
         );
     }
 
-    public static function get_expiredays_options(){
+    public static function get_expiredays_options() {
         return array(
-            "1"=>"1",
-            "3"=>"3",
-            "7"=>"7",
-            "30"=>"30",
-            "90"=>"90",
-            "180"=>"180",
-            "365"=>"365",
-            "730"=>"730",
-            "9999"=>get_string('forever',constants::M_COMPONENT)
+                "1" => "1",
+                "3" => "3",
+                "7" => "7",
+                "30" => "30",
+                "90" => "90",
+                "180" => "180",
+                "365" => "365",
+                "730" => "730",
+                "9999" => get_string('forever', constants::M_COMPONENT)
         );
     }
 
-    public static function get_lang_options()
-    {
+    public static function get_lang_options() {
         return array(
                 constants::LANG_ENUS => get_string('en-us', constants::M_COMPONENT),
                 constants::LANG_ENAU => get_string('en-au', constants::M_COMPONENT),
@@ -96,23 +92,21 @@ class utils
         );
     }
 
-    public static function get_insert_options()
-    {
+    public static function get_insert_options() {
         return array(
-            constants::INSERT_LINK => get_string('insertlinks', constants::M_COMPONENT),
-            constants::INSERT_TAGS => get_string('inserttags', constants::M_COMPONENT)
+                constants::INSERT_LINK => get_string('insertlinks', constants::M_COMPONENT),
+                constants::INSERT_TAGS => get_string('inserttags', constants::M_COMPONENT)
         );
     }
 
     //are we willing and able to transcribe submissions?
-    public static function can_transcribe($instance)
-    {
+    public static function can_transcribe($instance) {
         //we default to true
         //but it only takes one no ....
         $ret = true;
 
         //The regions that can transcribe
-        switch($instance->awsregion){
+        switch ($instance->awsregion) {
             case constants::REGION_USEAST1:
             case constants::REGION_DUBLIN:
             case constants::REGION_SYDNEY:
@@ -122,19 +116,18 @@ class utils
                 $ret = false;
         }
         //we need to be able to transcode to subtitle
-        if(!$instance->transcode){
-            $ret=false;
+        if (!$instance->transcode) {
+            $ret = false;
         }
         return $ret;
     }
 
     //we use curl to fetch transcripts from AWS and Tokens from cloudpoodll
     //this is our helper
-    public static function curl_fetch($url,$postdata=false)
-    {
+    public static function curl_fetch($url, $postdata = false) {
         global $CFG;
 
-        require_once($CFG->libdir.'/filelib.php');
+        require_once($CFG->libdir . '/filelib.php');
         $curl = new \curl();
 
         $result = $curl->get($url, $postdata);
@@ -144,26 +137,25 @@ class utils
     //This is called from the settings page and we do not want to make calls out to cloud.poodll.com on settings
     //page load, for performance and stability issues. So if the cache is empty and/or no token, we just show a
     //"refresh token" links
-    public static function fetch_token_for_display($apiuser,$apisecret){
+    public static function fetch_token_for_display($apiuser, $apisecret) {
         global $CFG;
 
         //First check that we have an API id and secret
         //refresh token
         $refresh = \html_writer::link($CFG->wwwroot . '/lib/editor/atto/plugins/cloudpoodll/refreshtoken.php',
-                get_string('refreshtoken',constants::M_COMPONENT)) . '<br>';
-
+                        get_string('refreshtoken', constants::M_COMPONENT)) . '<br>';
 
         $message = '';
         $apiuser = trim($apiuser);
         $apisecret = trim($apisecret);
-        if(empty($apiuser)){
-            $message .= get_string('noapiuser',constants::M_COMPONENT) . '<br>';
+        if (empty($apiuser)) {
+            $message .= get_string('noapiuser', constants::M_COMPONENT) . '<br>';
         }
-        if(empty($apisecret)){
-            $message .= get_string('noapisecret',constants::M_COMPONENT);
+        if (empty($apisecret)) {
+            $message .= get_string('noapisecret', constants::M_COMPONENT);
         }
 
-        if(!empty($message)){
+        if (!empty($message)) {
             return $refresh . $message;
         }
 
@@ -172,29 +164,29 @@ class utils
         $tokenobject = $cache->get('recentpoodlltoken');
 
         //if we have no token object the creds were wrong ... or something
-        if(!($tokenobject)){
-            $message = get_string('notokenincache',constants::M_COMPONENT);
+        if (!($tokenobject)) {
+            $message = get_string('notokenincache', constants::M_COMPONENT);
             //if we have an object but its no good, creds werer wrong ..or something
-        }elseif(!property_exists($tokenobject,'token') || empty($tokenobject->token)){
-            $message = get_string('credentialsinvalid',constants::M_COMPONENT);
+        } else if (!property_exists($tokenobject, 'token') || empty($tokenobject->token)) {
+            $message = get_string('credentialsinvalid', constants::M_COMPONENT);
             //if we do not have subs, then we are on a very old token or something is wrong, just get out of here.
-        }elseif(!property_exists($tokenobject,'subs')){
+        } else if (!property_exists($tokenobject, 'subs')) {
             $message = 'No subscriptions found at all';
         }
-        if(!empty($message)){
+        if (!empty($message)) {
             return $refresh . $message;
         }
 
         //we have enough info to display a report. Lets go.
-        foreach ($tokenobject->subs as $sub){
-            $sub->expiredate = date('d/m/Y',$sub->expiredate);
-            $message .= get_string('displaysubs',constants::M_COMPONENT, $sub) . '<br>';
+        foreach ($tokenobject->subs as $sub) {
+            $sub->expiredate = date('d/m/Y', $sub->expiredate);
+            $message .= get_string('displaysubs', constants::M_COMPONENT, $sub) . '<br>';
         }
         //Is app authorised
-        if(in_array(constants::M_COMPONENT,$tokenobject->apps)){
-            $message .= get_string('appauthorised',constants::M_COMPONENT) . '<br>';
-        }else{
-            $message .= get_string('appnotauthorised',constants::M_COMPONENT) . '<br>';
+        if (in_array(constants::M_COMPONENT, $tokenobject->apps)) {
+            $message .= get_string('appauthorised', constants::M_COMPONENT) . '<br>';
+        } else {
+            $message .= get_string('appnotauthorised', constants::M_COMPONENT) . '<br>';
         }
 
         return $refresh . $message;
@@ -202,8 +194,7 @@ class utils
     }
 
     //We need a Poodll token to make this happen
-    public static function fetch_token($apiuser, $apisecret, $force=false)
-    {
+    public static function fetch_token($apiuser, $apisecret, $force = false) {
 
         $cache = \cache::make_from_params(\cache_store::MODE_APPLICATION, constants::M_COMPONENT, 'token');
         $tokenobject = $cache->get('recentpoodlltoken');
@@ -213,30 +204,30 @@ class utils
 
         //if we got a token and its less than expiry time
         // use the cached one
-        if($tokenobject && $tokenuser && $tokenuser==$apiuser && !$force){
-            if($tokenobject->validuntil == 0 || $tokenobject->validuntil > time()){
+        if ($tokenobject && $tokenuser && $tokenuser == $apiuser && !$force) {
+            if ($tokenobject->validuntil == 0 || $tokenobject->validuntil > time()) {
                 return $tokenobject->token;
             }
         }
 
         // Send the request & save response to $resp
-        $token_url ="https://cloud.poodll.com/local/cpapi/poodlltoken.php";
+        $token_url = "https://cloud.poodll.com/local/cpapi/poodlltoken.php";
         $postdata = array(
-            'username' => $apiuser,
-            'password' => $apisecret,
-            'service'=>'cloud_poodll'
+                'username' => $apiuser,
+                'password' => $apisecret,
+                'service' => 'cloud_poodll'
         );
-        $token_response = self::curl_fetch($token_url,$postdata);
+        $token_response = self::curl_fetch($token_url, $postdata);
         if ($token_response) {
             $resp_object = json_decode($token_response);
-            if($resp_object && property_exists($resp_object,'token')) {
+            if ($resp_object && property_exists($resp_object, 'token')) {
                 $token = $resp_object->token;
                 //store the expiry timestamp and adjust it for diffs between our server times
-                if($resp_object->validuntil) {
+                if ($resp_object->validuntil) {
                     $validuntil = $resp_object->validuntil - ($resp_object->poodlltime - time());
                     //we refresh one hour out, to prevent any overlap
                     $validuntil = $validuntil - (1 * HOURSECS);
-                }else{
+                } else {
                     $validuntil = 0;
                 }
 
@@ -244,29 +235,29 @@ class utils
                 $tokenobject = new \stdClass();
                 $tokenobject->token = $token;
                 $tokenobject->validuntil = $validuntil;
-                $tokenobject->subs=false;
-                $tokenobject->apps=false;
-                $tokenobject->sites=false;
-                if(property_exists($resp_object,'subs')){
+                $tokenobject->subs = false;
+                $tokenobject->apps = false;
+                $tokenobject->sites = false;
+                if (property_exists($resp_object, 'subs')) {
                     $tokenobject->subs = $resp_object->subs;
                 }
-                if(property_exists($resp_object,'apps')){
+                if (property_exists($resp_object, 'apps')) {
                     $tokenobject->apps = $resp_object->apps;
                 }
-                if(property_exists($resp_object,'sites')){
+                if (property_exists($resp_object, 'sites')) {
                     $tokenobject->sites = $resp_object->sites;
                 }
                 $cache->set('recentpoodlltoken', $tokenobject);
                 $cache->set('recentpoodlluser', $apiuser);
 
-            }else{
+            } else {
                 $token = '';
-                if($resp_object && property_exists($resp_object,'error')) {
+                if ($resp_object && property_exists($resp_object, 'error')) {
                     //ERROR = $resp_object->error
                 }
             }
-        }else{
-            $token='';
+        } else {
+            $token = '';
         }
         return $token;
     }

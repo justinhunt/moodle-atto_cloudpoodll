@@ -1,3 +1,7 @@
+Version 1.0.13 (Build 2019071300)
+-Fixed default permission for authenticated user
+
+
 Version 1.0.12 (Build 2019053100)
 -fixes for audio track when .wav in player
 -Added support for languages Korean (ko-kr), German (de-de) , English(India) (en-in) and Hindi (hi-in)

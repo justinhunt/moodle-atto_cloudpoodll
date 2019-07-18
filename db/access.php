@@ -26,61 +26,66 @@ defined('MOODLE_INTERNAL') || die();
 
 $capabilities = array(
 
-    'atto/cloudpoodll:visible' => array(
-        'captype' => 'write',
-        'contextlevel' => CONTEXT_COURSE,
-        'archetypes' => array(
-			'coursecreator' => CAP_ALLOW,
-			'teacher' => CAP_ALLOW,
-            'editingteacher' => CAP_ALLOW,
-			'student' => CAP_ALLOW,
-            'manager' => CAP_ALLOW
-        )
-    ),
-    'atto/cloudpoodll:allowaudio' => array(
-        'captype' => 'write',
-        'contextlevel' => CONTEXT_COURSE,
-        'archetypes' => array(
-			'coursecreator' => CAP_ALLOW,
-			'teacher' => CAP_ALLOW,
-            'editingteacher' => CAP_ALLOW,
-			'student' => CAP_ALLOW,
-            'manager' => CAP_ALLOW
-        )
-    ),
+        'atto/cloudpoodll:visible' => array(
+                'captype' => 'write',
+                'contextlevel' => CONTEXT_MODULE,
+                'archetypes' => array(
+                        'coursecreator' => CAP_ALLOW,
+                        'teacher' => CAP_ALLOW,
+                        'editingteacher' => CAP_ALLOW,
+                        'student' => CAP_ALLOW,
+                        'manager' => CAP_ALLOW,
+                        'user' => CAP_ALLOW
+                )
+        ),
+        'atto/cloudpoodll:allowaudio' => array(
+                'captype' => 'write',
+                'contextlevel' => CONTEXT_MODULE,
+                'archetypes' => array(
+                        'coursecreator' => CAP_ALLOW,
+                        'teacher' => CAP_ALLOW,
+                        'editingteacher' => CAP_ALLOW,
+                        'student' => CAP_ALLOW,
+                        'manager' => CAP_ALLOW,
+                        'user' => CAP_ALLOW
+                )
+        ),
 
-    'atto/cloudpoodll:allowvideo' => array(
-        'captype' => 'write',
-        'contextlevel' => CONTEXT_COURSE,
-        'archetypes' => array(
-			'coursecreator' => CAP_ALLOW,
-			'teacher' => CAP_ALLOW,
-            'editingteacher' => CAP_ALLOW,
-			'student' => CAP_ALLOW,
-            'manager' => CAP_ALLOW
+        'atto/cloudpoodll:allowvideo' => array(
+                'captype' => 'write',
+                'contextlevel' => CONTEXT_MODULE,
+                'archetypes' => array(
+                        'coursecreator' => CAP_ALLOW,
+                        'teacher' => CAP_ALLOW,
+                        'editingteacher' => CAP_ALLOW,
+                        'student' => CAP_ALLOW,
+                        'manager' => CAP_ALLOW,
+                        'user' => CAP_ALLOW
+                )
+        ),
+        'atto/cloudpoodll:allowupload' => array(
+                'captype' => 'write',
+                'contextlevel' => CONTEXT_MODULE,
+                'archetypes' => array(
+                        'coursecreator' => CAP_ALLOW,
+                        'teacher' => CAP_ALLOW,
+                        'editingteacher' => CAP_ALLOW,
+                        'student' => CAP_ALLOW,
+                        'manager' => CAP_ALLOW,
+                        'user' => CAP_ALLOW
+                )
+        ),
+        'atto/cloudpoodll:allowsubtitling' => array(
+                'captype' => 'write',
+                'contextlevel' => CONTEXT_MODULE,
+                'archetypes' => array(
+                        'coursecreator' => CAP_ALLOW,
+                        'teacher' => CAP_ALLOW,
+                        'editingteacher' => CAP_ALLOW,
+                        'student' => CAP_ALLOW,
+                        'manager' => CAP_ALLOW,
+                        'user' => CAP_ALLOW
+                )
         )
-    ),
-    'atto/cloudpoodll:allowupload' => array(
-        'captype' => 'write',
-        'contextlevel' => CONTEXT_COURSE,
-        'archetypes' => array(
-			'coursecreator' => CAP_ALLOW,
-			'teacher' => CAP_ALLOW,
-            'editingteacher' => CAP_ALLOW,
-			'student' => CAP_ALLOW,
-            'manager' => CAP_ALLOW
-        )
-    ),
-    'atto/cloudpoodll:allowsubtitling' => array(
-        'captype' => 'write',
-        'contextlevel' => CONTEXT_COURSE,
-        'archetypes' => array(
-			'coursecreator' => CAP_ALLOW,
-			'teacher' => CAP_ALLOW,
-            'editingteacher' => CAP_ALLOW,
-			'student' => CAP_ALLOW,
-            'manager' => CAP_ALLOW
-        )
-    )
 );
 

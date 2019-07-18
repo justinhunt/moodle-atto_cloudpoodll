@@ -1,5 +1,9 @@
 {
-    "moodle-atto_cloudpoodll-button": {
-        "requires": ["node"]
+    "moodle-atto_cloudpoodll-button"
+:
+    {
+        "requires"
+    :
+        ["node"]
     }
 }
