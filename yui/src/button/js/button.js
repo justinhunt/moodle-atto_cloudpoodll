@@ -557,9 +557,13 @@ Y.namespace('M.atto_cloudpoodll').Button = Y.Base.create('button', Y.M.editor_at
      * @private
      */
     _getDialogueContent: function (selection) {
-        var content = Y.Node.create(
-            Y.Handlebars.compile(TEMPLATES.ROOT)(this._getContext())
-        );
+        var output = '';
+        if(CLOUDPOODLL.token ==''){
+            output= M.util.get_string('notoken', COMPONENTNAME);
+        }else{
+            output = Y.Handlebars.compile(TEMPLATES.ROOT)(this._getContext());
+        }
+        var content = Y.Node.create(output);
         return content;
     },
 
