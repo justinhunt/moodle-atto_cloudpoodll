@@ -44,7 +44,7 @@ class constants {
     const SKIN_ONCE = 'once';
 
     const LANG_ENUS = 'en-US';
-    const LANG_ENUK = 'en-UK';
+    const LANG_ENUK = 'en-GB';
     const LANG_ENAU = 'en-AU';
     const LANG_ESUS = 'es-US';
     const LANG_FRCA = 'fr-CA';

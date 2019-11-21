@@ -35,7 +35,7 @@ var RECORDERS = {VIDEO: 'video', AUDIO: 'audio'};
 var INSERTMETHOD = {LINK: 'link', TAGS: 'tags'};
 var LANGUAGE = {
     ENUS: 'en-US',
-    ENUK: 'en-UK',
+    ENUK: 'en-GB',
     ENAU: 'en-AU',
     ENIN: 'en-IN',
     FRCA: 'fr-CA',
