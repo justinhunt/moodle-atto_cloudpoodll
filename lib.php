@@ -34,14 +34,16 @@ use \atto_cloudpoodll\utils;
  */
 function atto_cloudpoodll_strings_for_js() {
     global $PAGE;
+    $langstrings=[];
+    foreach(utils::get_lang_options() as $key=>$value){
+        $langstrings[]= strtolower($key);
 
-    $PAGE->requires->strings_for_js(
-            array('createaudio', 'createvideo', 'insert', 'cancel', 'audio', 'video', 'upload', 'subtitle', 'options',
-                    'subtitlecheckbox',
-                    'mediainsertcheckbox', 'subtitleinstructions', 'audio_desc', 'video_desc',
-                    'en-us', 'en-uk', 'en-au', 'en-in', 'fr-ca', 'fr-fr', 'es-us', 'es-es', 'it-it', 'pt-br', 'de-de', 'ko-kr',
-                    'hi-in',
-                    'speakerlanguage', 'uploadinstructions', 'cannotsubtitle','notoken'), constants::M_COMPONENT);
+    };
+    $otherstrings = array('createaudio', 'createvideo', 'insert', 'cancel', 'audio', 'video', 'upload', 'subtitle', 'options',
+            'subtitlecheckbox', 'mediainsertcheckbox', 'subtitleinstructions', 'audio_desc', 'video_desc',
+            'speakerlanguage', 'uploadinstructions', 'cannotsubtitle','notoken');
+    $strings = array_merge($langstrings ,$otherstrings);
+    $PAGE->requires->strings_for_js( $strings, constants::M_COMPONENT);
 }
 
 /**
@@ -50,7 +52,7 @@ function atto_cloudpoodll_strings_for_js() {
  * @return array of additional params to pass to javascript init function for this module.
  */
 function atto_cloudpoodll_params_for_js($elementid, $options, $fpoptions) {
-    global $COURSE;
+    global $COURSE, $USER;
 
     $config = get_config('atto_cloudpoodll');
 
@@ -82,6 +84,7 @@ function atto_cloudpoodll_params_for_js($elementid, $options, $fpoptions) {
     $params['cp_audioskin'] = $config->audioskin;
     $params['cp_videoskin'] = $config->videoskin;
     $params['cp_fallback'] = $config->fallback;
+    $params['cp_owner'] = hash('md5',$USER->username);
 
     //insert method
     $params['insertmethod'] = $config->insertmethod;

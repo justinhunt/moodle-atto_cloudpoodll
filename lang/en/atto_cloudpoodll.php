@@ -46,21 +46,51 @@ $string['subtitlevideobydefault'] = 'Subtitle Video by default';
 $string['subtitlebydefault_details'] =
         'If true Cloud Poodll will check subtitling by default. It can be turned off from the options tab on the popup. Only subtitle by default if you need to.';
 
+$string['useast1'] = 'US East';
+$string['tokyo'] = 'Tokyo, Japan';
+$string['sydney'] = 'Sydney, Australia';
+$string['dublin'] = 'Dublin, Ireland';
+$string['ottawa'] = 'Ottawa, Canada';
+$string['frankfurt'] = 'Frankfurt, Germany';
+$string['london'] = 'London, U.K (slow)';
+$string['saopaulo'] = 'Sao Paulo, Brazil';
+$string['singapore']='Singapore';
+$string['mumbai']='Mumbai, India';
+
 $string['language'] = 'Transcription language';
 $string['speakerlanguage'] = 'Speaker language';
 $string['en-us'] = 'English (US)';
-$string['en-uk'] = 'English (UK)';
+$string['en-gb'] = 'English (GB)';
 $string['en-au'] = 'English (AU)';
 $string['en-in'] = 'English (IN)';
 $string['es-es'] = 'Spanish (ES)';
 $string['es-us'] = 'Spanish (US)';
 $string['fr-fr'] = 'French (FR.)';
 $string['fr-ca'] = 'French (CA)';
-$string['ko-kr'] = 'Korean(KR)';
+$string['ko-kr'] = 'Korean';
 $string['pt-br'] = 'Portuguese(BR)';
-$string['it-it'] = 'Italian(IT)';
-$string['de-de'] = 'German(DE)';
-$string['hi-in'] = 'Hindi(IN)';
+$string['it-it'] = 'Italian';
+$string['de-de'] = 'German (DE)';
+$string['hi-in'] = 'Hindi';
+
+$string['ar-ae'] = 'Arabic (Gulf)';
+$string['ar-sa'] = 'Arabic (Modern Standard)';
+$string['zh-cn'] = 'Chinese (Mandarin-Mainland)';
+$string['nl-nl'] = 'Dutch';
+$string['en-ie'] = 'English (Ireland)';
+$string['en-wl'] = 'English (Wales)';
+$string['en-ab'] = 'English (Scotland)';
+$string['fa-ir'] = 'Farsi';
+$string['de-ch'] = 'German (Swiss)';
+$string['he-il'] = 'Hebrew';
+$string['id-id'] = 'Indonesian';
+$string['ja-jp'] = 'Japanese';
+$string['ms-my'] = 'Malay';
+$string['pt-pt'] = 'Portuguese (PT)';
+$string['ru-ru'] = 'Russian';
+$string['ta-in'] = 'Tamil';
+$string['te-in'] = 'Telegu';
+$string['tr-tr'] = 'Turkish';
 
 $string['uploadinstructions'] = 'Drag and drop, or choose a media file, to upload it.';
 
@@ -80,14 +110,8 @@ $string['cancel'] = 'Cancel';
 $string['createvideo'] = 'Create Video';
 $string['createaudio'] = 'Create Audio';
 
-$string['useast1'] = 'US East';
-$string['tokyo'] = 'Tokyo, Japan (no subtitling)';
-$string['sydney'] = 'Sydney, Australia';
-$string['dublin'] = 'Dublin, Ireland';
-$string['ottawa'] = 'Ottawa, Canada (slow)';
-$string['frankfurt'] = 'Frankfurt, Germany (slow, no subtitling)';
-$string['london'] = 'London, U.K (slow)';
-$string['saopaulo'] = 'Sao Paulo, Brazil (slow, no subtitling)';
+
+
 $string['forever'] = 'Never expire';
 $string['awsregion'] = 'AWS Region';
 $string['region'] = 'AWS Region';
