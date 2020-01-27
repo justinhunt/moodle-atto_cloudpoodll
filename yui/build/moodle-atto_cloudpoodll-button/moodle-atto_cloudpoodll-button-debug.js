@@ -64,6 +64,7 @@ var CSS = {
     UPLOAD: 'atto_cloudpoodll_upload',
     SUBTITLE: 'atto_cloudpoodll_subtitle',
     OPTIONS: 'atto_cloudpoodll_options',
+    HISTORY: 'atto_cloudpoodll_history',
     LANG_SELECT: 'atto_cloudpoodll_languageselect',
     SUBTITLE_CHECKBOX: 'atto_cloudpoodll_subtitle_checkbox',
     MEDIAINSERT_CHECKBOX: 'atto_cloudpoodll_mediainsert_checkbox',
@@ -111,6 +112,11 @@ var TEMPLATES = {
     '<li data-medium-type="{{CSS.OPTIONS}}" class="nav-item">' +
     '<a class="nav-link" href="#{{elementid}}_{{CSS.OPTIONS}}" role="tab" data-toggle="tab">' +
     '{{get_string "options" component}}' +
+    '</a>' +
+    '</li>' +
+    '<li data-medium-type="{{CSS.HISTORY}}" class="nav-item" data-content="history" >' +
+    '<a class="nav-link" href="#{{elementid}}_{{CSS.HISTORY}}" role="tab" data-toggle="tab">' +
+    '{{get_string "history" component}}' +
     '</a>' +
     '</li>' +
     '</ul>' +
@@ -193,6 +199,7 @@ var TEMPLATES = {
     "{{get_string 'cannotsubtitle' component}}" +
     "{{/if}}" +
     '</div>' +
+    '<div data-medium-type="{{CSS.HISTORY}}" class="tab-pane" id="{{elementid}}_{{CSS.HISTORY}}"></div>' +
     '</div>' +
     '</form>',
     HTML_MEDIA: {
@@ -502,6 +509,42 @@ Y.namespace('M.atto_cloudpoodll').Button = Y.Base.create('button', Y.M.editor_at
         var topnode = Y.one('#' + STATE.elementid + '_' + CSS.ATTO_CLOUDPOODLL_FORM);
         topnode.all('.' + CSS.CP_SWAP).setAttribute('data-transcribe', '0');
         topnode.all('.' + CSS.CP_SWAP).setAttribute('data-subtitle', '0');
+    },
+
+    /**
+     * Loads the history tab html.
+     *
+     * @method _loadHistory
+     */
+    loadHistory: function () {
+        require(['core/templates'], function(templates) {
+            var context = { data: this};
+            templates.render('atto_cloudpoodll/history', context)
+                .then(function(html, js) {
+                    templates.replaceNodeContents('#id_introeditor_atto_cloudpoodll_history', html, js);
+                }).fail(function(ex) {
+                // Deal with this exception (I recommend core/notify exception function for this).
+            });
+        });
+    },
+
+    /**
+     * Loads the history video preview tab html.
+     *
+     * @method _loadHistoryPreview
+     * @param historyItem History item from list.
+     */
+    loadHistoryPreview: function (historyItem) {
+        require(['core/templates'], function(templates) {
+            // pass url?
+            var context = { data: historyItem, isVideo : STATE.currentrecorder === RECORDERS.VIDEO};
+            templates.render('atto_cloudpoodll/historypreview', context)
+                .then(function(html, js) {
+                    templates.replaceNodeContents('#id_introeditor_atto_cloudpoodll_history', html, js);
+                }).fail(function(ex) {
+                // Deal with this exception (I recommend core/notify exception function for this).
+            });
+        });
     },
 
     /**

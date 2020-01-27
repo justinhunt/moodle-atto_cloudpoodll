@@ -125,6 +125,7 @@ $string['subtitleinstructions'] =
 $string['mediainsertcheckbox'] = 'Insert media player into editor. Otherwise it be a media link.';
 
 $string['options'] = 'Options';
+$string['history'] = 'History';
 $string['transcode'] = 'Transcode';
 $string['transcode_details'] = 'CloudPoodll can transcode audio to mp3 and video to mp4';
 

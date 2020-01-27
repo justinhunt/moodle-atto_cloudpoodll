@@ -9,6 +9,11 @@ define(['jquery', 'core/log',
                 $("iframe").on("load", function () {
                     $(".assignsubmission_cloudpoodll_recording_cont").css('background-image', 'none');
                 });
+
+                // Load the history template for the history tab; this will call the history mustache template.
+                $('.atto_cloudpoodll_form li[data-content="history"]').on("click", function () {
+                    Y.namespace('M.atto_cloudpoodll').Button.prototype.loadHistory();
+                });
             }
         };
     });
