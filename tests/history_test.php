@@ -86,7 +86,7 @@ class atto_cloudpoodll_history_testcase extends advanced_testcase {
 
         $result = $this->history->get_item($createdid);
 
-        $this->assertIsArray($result);
+        $this->assertIsObject($result);
     }
 
     public function test_update() {
