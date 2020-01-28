@@ -1,0 +1,58 @@
+<link rel="stylesheet" type="text/css" href="//cdn.datatables.net/1.10.19/css/jquery.dataTables.min.css"/>
+<table cellpadding="0" cellspacing="0" width="100%" class="table" id="atto_cloud_history_table">
+    <thead>
+    <tr>
+        <th>Title</th>
+        <th>Date</th>
+        <th>Actions</th>
+        <th>Insert</th>
+    </tr>
+    </thead>
+    <tfoot>
+    <tr>
+        <th>Title</th>
+        <th>Date</th>
+        <th>Actions</th>
+        <th>Insert</th>
+    </tr>
+    </tfoot>
+    <tbody>
+    <tr>
+        <td>file name {{# pix }} t/editstring, core{{/ pix }}</td>
+        <td>01/22/2020</td>
+        <td>
+            <a href="#" class="" data-historyid="1">{{# pix }} t/preview, core{{/ pix }}</a>
+            <a href="#" class="" data-historyid="1">{{# pix }} t/delete, core{{/ pix }}</a>
+        </td>
+        <td><a href="#" class="" data-historyid="1">Insert</a></td>
+    </tr>
+    <tr>
+        <td>file name {{# pix }} t/editstring, core{{/ pix }}</td>
+        <td>01/22/2020</td>
+        <td>{{# pix }} t/preview, core{{/ pix }} {{# pix }} t/delete, core{{/ pix }}</td>
+        <td>Insert</td>
+    </tr>
+    <tr>
+        <td>file name {{# pix }} t/editstring, core{{/ pix }}</td>
+        <td>01/22/2020</td>
+        <td>{{# pix }} t/preview, core{{/ pix }} {{# pix }} t/delete, core{{/ pix }}</td>
+        <td>Insert</td>
+    </tr>
+    </tbody>
+
+</table>
+
+{{#js}}
+    require(['//cdnjs.cloudflare.com/ajax/libs/datatables/1.9.4/jquery.dataTables.min.js', 'jquery'], function(datatable, jQuery) {
+        jQuery(document).ready(function() {
+                jQuery('#atto_cloud_history_table').DataTable();
+                jQuery('#atto_cloud_history_table a[data-historyid]').on('click', function(){
+                Y.namespace('M.atto_cloudpoodll').Button.prototype.loadHistoryPreview(this);
+            });
+        } );
+    });
+{{/js}}
+
+{{# css_files }}
+    <link rel="stylesheet" type="text/css" href="//cdn.datatables.net/1.10.19/css/jquery.dataTables.min.css"/>
+{{/ css_files }}
