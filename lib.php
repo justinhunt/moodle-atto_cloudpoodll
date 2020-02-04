@@ -24,8 +24,9 @@
 
 defined('MOODLE_INTERNAL') || die();
 
-use \atto_cloudpoodll\constants;
-use \atto_cloudpoodll\utils;
+use atto_cloudpoodll\constants;
+use atto_cloudpoodll\utils;
+use core\output\inplace_editable;
 
 /**
  * Initialise this plugin
@@ -102,4 +103,35 @@ function atto_cloudpoodll_params_for_js($elementid, $options, $fpoptions) {
     }
 
     return $params;
+}
+
+function atto_cloudpoodll_inplace_editable($itemtype, $itemid, $newvalue) {
+    if ($itemtype === 'filetitle') {
+        global $DB, $USER;
+        $record = $DB->get_record('cloudpoodll_history', array('id' => $itemid), '*', MUST_EXIST);
+        external_api::validate_context(context_system::instance());
+        require_capability('atto/cloudpoodll:visible', context_system::instance());
+        $newvalue = clean_param($newvalue, PARAM_TEXT);
+
+        $updateditem = new stdClass();
+        $updateditem->id = $itemid;
+        $updateditem->filetitle = $newvalue;
+        $updateditem->dateofchange = time();
+        $updateditem->userofchange = $USER->id;
+
+        $history = new atto_cloudpoodll\history();
+        $history->update($updateditem);
+
+        $record->name = $newvalue;
+        return new inplace_editable('atto_cloudpoodll',
+            'filetitle',
+            $itemid,
+            true,
+            shorten_text(format_string($newvalue), 10),
+            $newvalue,
+            'Edit file DISPLAY title',
+            'New value for ' . format_string($newvalue)
+        );
+    }
+    return true;
 }

@@ -1,30 +1,47 @@
+{{#data}}
 <br/>
-<div class="view">
+<div id="atto_cloudpoodle_history_preview_div" style="display: none;">
     <div class="mask gradient-card align-items-center">
         <div class="container d-flex justify-content-center">
             <div class="card">
                 <div class="card-body text-center">
+                    <h2 class="bg-info">{{filetitle}}</h2>
                     {{^isVideo}}
                         <audio controls="true" crossorigin="anonymous" >
-                            <source src="http://netprojectfiles.wigi.org.uk/audio/test1.OGG" type="audio/ogg">
-                            <source src="http://netprojectfiles.wigi.org.uk/audio/test1.MP3" type="audio/mpeg">
-                            <source src="http://netprojectfiles.wigi.org.uk/audio/test1.WAV" type="audio/x-wav">
-                            Your browser does not support the audio element.
+                            <source src="{{mediaurl}}" type="audio/mpeg">
                         </audio>
                     {{/isVideo}}
                     {{#isVideo}}
                         <video controls="true" crossorigin="anonymous">
-                            <source src="http://netprojectfiles.wigi.org.uk/video/XodoWM.MP4" type="video/mp4">
-                            <source src="http://netprojectfiles.wigi.org.uk/video/XodoWM.OGV" type="video/ogg">
-                            <source src="http://netprojectfiles.wigi.org.uk/video/XodoWM.WEBM" type="video/webm">
-                            Your browser does not support the video element.
+                            <source src="{{mediaurl}}" type="video/mp4">
                         </video>
                     {{/isVideo}}
                     <br/>
                     <br/>
-                    <a href="#">&laquo; Back to history</a>
+                    <a href="#" class="btn btn-info" data-content="history" role="button">&laquo; {{# str }} historyback, atto_cloudpoodll {{/ str }}</a>
                 </div>
             </div>
         </div>
     </div>
 </div>
+{{/data}}
+
+{{#js}}
+    require(['jquery'], function(jQuery) {
+        jQuery(document).ready(function() {
+               jQuery('#atto_cloudpoodle_history_preview_div').slideDown('slow');
+
+                 $('.atto_cloudpoodll_form a[data-content="history"]').on("click", function () {
+                       const loadingHtml = "<br /><div class=\"d-flex justify-content-center\">\n" +
+                           "  <div class=\"spinner-border\" role=\"status\">\n" +
+                           "    <span class=\"sr-only\">{{# str }} loading, atto_cloudpoodll {{/ str }}</span>\n" +
+                           "  </div>\n" +
+                           "</div><br />";
+
+                       $('#id_introeditor_atto_cloudpoodll_history').html(loadingHtml);
+
+                       Y.namespace('M.atto_cloudpoodll').Button.prototype.loadHistory();
+                   });
+            });
+        } );
+{{/js}}

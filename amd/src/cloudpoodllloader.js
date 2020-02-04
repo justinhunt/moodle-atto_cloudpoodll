@@ -1,6 +1,7 @@
 define(['jquery', 'core/log',
-        'https://cdn.jsdelivr.net/gh/justinhunt/cloudpoodll@latest/amd/build/cloudpoodll.min.js'],
-    function ($, log, CloudPoodll) {
+        'https://cdn.jsdelivr.net/gh/justinhunt/cloudpoodll@latest/amd/build/cloudpoodll.min.js',
+        'core/str'],
+    function ($, log, CloudPoodll, str) {
         return {
             init: function (recorderclass, thecallback) {
                 CloudPoodll.autoCreateRecorders(recorderclass);
@@ -11,9 +12,19 @@ define(['jquery', 'core/log',
                 });
 
                 // Load the history template for the history tab; this will call the history mustache template.
-                $('.atto_cloudpoodll_form li[data-content="history"]').on("click", function () {
-                    Y.namespace('M.atto_cloudpoodll').Button.prototype.loadHistory();
-                });
+                $('.atto_cloudpoodll_form li[data-content="history"]')
+                    .on("click", function () {
+                        const loadingStr = str.get_string('loading', 'atto_cloudpoodll');
+                        const loadingHtml = "<br /><div class=\"d-flex justify-content-center\">\n" +
+                            "  <div class=\"spinner-border\" role=\"status\">\n" +
+                            "    <span class=\"sr-only\">" + loadingStr + "</span>\n" +
+                            "  </div>\n" +
+                            "</div><br />";
+
+                        $('#id_introeditor_atto_cloudpoodll_history').html(loadingHtml);
+
+                        Y.namespace('M.atto_cloudpoodll').Button.prototype.loadHistory();
+                    });
             }
         };
     });

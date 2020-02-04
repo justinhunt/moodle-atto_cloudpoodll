@@ -28,7 +28,7 @@ defined('MOODLE_INTERNAL') || die();
 global $CFG;
 
 /**
- * Unit tests for cloud poodll history.
+ * Unit tests for cloud poodlnodl history.
  */
 class atto_cloudpoodll_history_testcase extends advanced_testcase {
     /** @var user object */
@@ -59,7 +59,6 @@ class atto_cloudpoodll_history_testcase extends advanced_testcase {
         $item->recordertype = "audio";
         $item->mediafilename = $item->filetitle;
         $item->mediaurl = "https://example.org";
-        $item->s3root = "https://example.org";
         $item->sourcefilename = "test.pdf";
         $item->sourcemimetype = "pdf";
         $item->subtitling = "0";
@@ -86,7 +85,7 @@ class atto_cloudpoodll_history_testcase extends advanced_testcase {
 
         $result = $this->history->get_item($createdid);
 
-        $this->assertIsObject($result);
+        $this->assertIsArray($result);
     }
 
     public function test_update() {
@@ -101,7 +100,7 @@ class atto_cloudpoodll_history_testcase extends advanced_testcase {
         $resultitem = $this->history->get_item($itemid, $this->user);
 
 
-        $this->assertEquals($updateditem->filetitle, $resultitem->filetitle);
+        $this->assertEquals($updateditem->filetitle, $resultitem['responses'][0]['filetitle']);
 
     }
 

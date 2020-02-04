@@ -24,10 +24,13 @@
 
 namespace atto_cloudpoodll;
 
+use context_user;
+use core\output\inplace_editable;
 use dml_exception;
 use stdClass;
 
 defined('MOODLE_INTERNAL') || die;
+global $CFG;
 
 /**
  * CRUD management for history.
@@ -69,11 +72,32 @@ class history {
      * @throws dml_exception
      */
     public function get() {
-        return $this->db->get_records(
+        global $USER, $OUTPUT;
+
+        $items = [];
+        $records = $this->db->get_records(
             self::CLOUDPOODLL_HISTORY_TABLE,
             ['userid' => $this->user->id, 'archived' => "0"],
             'dateofentry DESC'
         );
+
+        $items['responses'] = $records;
+        $context = context_user::instance($USER->id);
+
+        foreach ($items['responses'] as $item) {
+            $tmpl = new inplace_editable(
+                'atto_cloudpoodll',
+                'filetitle',
+                $item->id,
+                has_capability('atto/cloudpoodll:visible', $context),
+                shorten_text(format_string($item->filetitle), 10),
+                $item->filetitle,
+                'Edit file display title',
+                'New value for ' . format_string($item->filetitle));
+            $item->editabletitle = $OUTPUT->render($tmpl);
+        }
+
+        return $items;
     }
 
     /**
@@ -82,10 +106,15 @@ class history {
      * @throws dml_exception
      */
     public function get_item($itemid) {
-        return $this->db->get_record(
+        $data = (array) $this->db->get_record(
             self::CLOUDPOODLL_HISTORY_TABLE,
             ['id' => $itemid, 'userid' => $this->user->id, 'archived' => "0"]
         );
+
+        $items = [];
+
+        $items['responses'][0] = $data;
+        return $items;
     }
 
     /**
@@ -128,10 +157,10 @@ class history {
     public function archive($itemid) {
         $updated = false;
         if (
-            $this->db->record_exists(
-                '' . self::CLOUDPOODLL_HISTORY_TABLE . '',
-                ['id' => $itemid, 'userid' => $this->user->id]
-            )
+        $this->db->record_exists(
+            '' . self::CLOUDPOODLL_HISTORY_TABLE . '',
+            ['id' => $itemid, 'userid' => $this->user->id]
+        )
         ) {
             $updateditem = new stdClass();
             $updateditem->id = $itemid;
