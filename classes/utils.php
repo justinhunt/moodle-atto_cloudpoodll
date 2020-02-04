@@ -111,7 +111,7 @@ class utils {
                 constants::LANG_HEIL => get_string('he-il', constants::M_COMPONENT),
                 constants::LANG_IDID => get_string('id-id', constants::M_COMPONENT),
                 constants::LANG_MSMY => get_string('ms-my', constants::M_COMPONENT),
-                constants::LANG_TRTR => get_string('tr-tr', constants::M_COMPONENT),
+                constants::LANG_TRTR => get_string('tr-tr', constants::M_COMPONENT)
         );
     }
 
