@@ -58,7 +58,6 @@ function xmldb_atto_cloudpoodll_upgrade($oldversion) {
         $table->add_key('userofchange', XMLDB_KEY_FOREIGN, ['userofchange'], 'user', ['id']);
 
         // Adding indexes to table cloudpoodll_history.
-        $table->add_index('mdl_cloudpoodll_history_mdl_user__userofentry_fk', XMLDB_INDEX_NOTUNIQUE, ['userofchange']);
         $table->add_index('mdl_cloudpoodll_history__userid_index', XMLDB_INDEX_NOTUNIQUE, ['userid']);
 
         // Conditionally launch create table for cloudpoodll_history.
