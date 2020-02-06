@@ -711,6 +711,23 @@ YUI.add('moodle-atto_cloudpoodll-button', function (Y, NAME) {
             //default context values(link) for template
             var {context, template} = this.createMediaLink(mediaurl, mediafilename, sourceurl, sourcemimetype);
 
+            function saveToHistory() {
+                require(['core/ajax'], function (ajax) {
+                    ajax.call([{
+                        methodname: 'atto_cloudpoodll_history_create',
+                        args: {
+                            recordertype: STATE.currentrecorder,
+                            mediafilename: mediafilename,
+                            sourceurl: sourceurl,
+                            mediaurl: mediaurl,
+                            sourcemimetype: sourcemimetype,
+                            subtitling: STATE.subtitling,
+                            subtitleurl: STATE.subtitleurl
+                        },
+                    }]);
+                });
+            }
+
             switch (STATE.insertmethod) {
 
                 case INSERTMETHOD.TAGS:
@@ -738,24 +755,11 @@ YUI.add('moodle-atto_cloudpoodll-button', function (Y, NAME) {
                     break;
 
                 case INSERTMETHOD.LINK:
-                    require(['core/ajax'], function (ajax) {
-                        ajax.call([{
-                            methodname: 'atto_cloudpoodll_history_create',
-                            args: {
-                                recordertype : STATE.currentrecorder,
-                                mediafilename : mediafilename,
-                                sourceurl : sourceurl,
-                                mediaurl : mediaurl,
-                                sourcemimetype : sourcemimetype,
-                                subtitling : STATE.subtitling,
-                                subtitleurl : STATE.subtitleurl
-                            },
-                        }]);
-                    });
                     break;
                 default:
                 //do nothing special actually.
             }
+            saveToHistory();
             this.insertIntoEditor(template, context);
         }
     }, {
