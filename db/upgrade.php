@@ -28,7 +28,7 @@ function xmldb_atto_cloudpoodll_upgrade($oldversion) {
     global $DB;
     $dbman = $DB->get_manager();
 
-    if ($oldversion < 2020012600) {
+    if ($oldversion < 2020020700) {
         // Define table cloudpoodll_history to be created.
         $table = new xmldb_table('cloudpoodll_history');
 
@@ -58,7 +58,7 @@ function xmldb_atto_cloudpoodll_upgrade($oldversion) {
         $table->add_key('userofchange', XMLDB_KEY_FOREIGN, ['userofchange'], 'user', ['id']);
 
         // Adding indexes to table cloudpoodll_history.
-        $table->add_index('mdl_cloudpoodll_history__userid_index', XMLDB_INDEX_NOTUNIQUE, ['userid']);
+        $table->add_index('mdl_cloudpoodll_history__userid_index', XMLDB_INDEX_NOTUNIQUE, ['userid','userofentry']);
 
         // Conditionally launch create table for cloudpoodll_history.
         if (!$dbman->table_exists($table)) {
@@ -66,7 +66,7 @@ function xmldb_atto_cloudpoodll_upgrade($oldversion) {
         }
 
         // Cloudpoodll savepoint reached.
-        upgrade_plugin_savepoint(true, 2020012600, 'atto', 'cloudpoodll');
+        upgrade_plugin_savepoint(true, 2020020700, 'atto', 'cloudpoodll');
     }
 
     return true;

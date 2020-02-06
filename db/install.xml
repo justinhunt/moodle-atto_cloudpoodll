@@ -31,7 +31,7 @@
         <KEY NAME="userofchange" TYPE="foreign" FIELDS="userofchange" REFTABLE="user" REFFIELDS="id"/>
       </KEYS>
       <INDEXES>
-        <INDEX NAME="mdl_cloudpoodll_history__userid_index" UNIQUE="false" FIELDS="userid"/>
+        <INDEX NAME="mdl_cloudpoodll_history__userid_index" UNIQUE="false" FIELDS="userid,userofentry"/>
       </INDEXES>
     </TABLE>
   </TABLES>
