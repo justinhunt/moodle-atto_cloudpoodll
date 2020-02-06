@@ -1,0 +1,124 @@
+
+<link rel="stylesheet" type="text/css" href="//cdn.datatables.net/1.10.19/css/jquery.dataTables.min.css"/>
+<table cellpadding="0" cellspacing="0" width="100%" class="table" id="atto_cloud_history_table">
+    <thead>
+    <tr>
+        <th>&nbsp;</th>
+        <th>{{# str }} title, atto_cloudpoodll {{/ str }}</th>
+        <th>{{# str }} date, atto_cloudpoodll {{/ str }}</th>
+    </tr>
+    </thead>
+    <tfoot>
+    <tr>
+        <th>&nbsp;</th>
+        <th>{{# str }} title, atto_cloudpoodll {{/ str }}</th>
+        <th>{{# str }} date, atto_cloudpoodll {{/ str }}</th>
+    </tr>
+    </tfoot>
+    <tbody id="history-table-body">
+    {{#data}}
+    <tr data-history-id="{{id}}" class="history-row">
+        <td class="details-control">
+                {{# pix }} t/collapsed, core{{/ pix }}
+        </td>
+        <td>{{{editabletitle}}}</td>
+        <td>{{displaydateofentry}}</td>
+    </tr>
+    {{/data}}
+    </tbody>
+</table>
+
+{{#js}}
+    function format (name, value) {
+           return '<table cellpadding="5" cellspacing="0" border="0" style="padding-left:50px; width: 100%;">'+
+               '<tr>'+
+                   '<td><em>{{# str }} actions, atto_cloudpoodll {{/ str }}</em></td>'+
+                   '<td><a href="#"  data-action-type="preview" data-history-id="' +
+                   value +
+                   '">{{# pix }} t/preview, core{{/ pix }}</a> | <a href="#" data-action-type="delete" data-history-id="' +
+                   value +
+                   '">{{# pix }} t/delete, core{{/ pix }}</a> | <a href="#" data-action-type="add" data-history-id="' +
+                   value +
+                   '">{{# pix }} t/add, core{{/ pix }}</a> </td>'+
+               '</tr>'+
+           '</table>';
+    }
+
+    require(
+    [
+        '//cdn.datatables.net/1.10.20/js/jquery.dataTables.min.js',
+        'jquery',
+        'core/inplace_editable',
+        'core/modal_factory',
+        'core/modal_events',
+        'core/ajax'
+    ], function(datatable, jQuery, inplace, ModalFactory, ModalEvents, ajax) {
+        jQuery(document).ready(function() {
+                // Handle the delete.
+                jQuery('#atto_cloud_history_table').on('click', 'a[data-action-type="delete"]', function() {
+                        var clickedLink = $(this);
+                         ModalFactory.create({
+                            type: ModalFactory.types.SAVE_CANCEL,
+                            title: '{{# str }} deleteitem, atto_cloudpoodll {{/ str }}',
+                            body: '{{# str }} confirmdelete, atto_cloudpoodll {{/ str }}',
+                          }, clickedLink    )
+                          .then(function(modal) {
+                              modal.setSaveButtonText('Delete');
+                              var root = modal.getRoot();
+                                root.on(ModalEvents.save, function() {
+                                    let historyRow = clickedLink.parents('table').parents('tr').first().prev('.history-row');
+                                    let historyItemId = historyRow.data('history-id');
+                                    let childHistoryRow = clickedLink.parents('table').parents('tr').first();
+
+                                   ajax.call([{
+                                       methodname: 'atto_cloudpoodll_history_archive',
+                                       args: {'id': historyItemId},
+                                       done: function () {
+                                            childHistoryRow.fadeOut(300, function(){ $(this).remove();});
+                                            historyRow.fadeOut(300, function(){ $(this).remove();});
+                                       }
+                                   }]);
+                                });
+                            modal.show();
+                          });
+                });
+
+                // Handle the insert.
+                jQuery('#atto_cloud_history_table').on('click', 'a[data-action-type="add"]', function() {
+                    Y.namespace('M.atto_cloudpoodll').Button.prototype.insertHistoryItem(this);
+                });
+
+                // Handle the preview.
+                jQuery('#atto_cloud_history_table').on('click', 'a[data-action-type="preview"]', function() {
+                    const loadingHtml = "<br /><div class=\"d-flex justify-content-center\">\n" +
+                                        "  <div class=\"spinner-border\" role=\"status\">\n" +
+                                        "    <span class=\"sr-only\">{{# str }} loading, atto_cloudpoodll {{/ str }}</span>\n" +
+                                        "  </div>\n" +
+                                        "</div><br />";
+
+                    $('#id_introeditor_atto_cloudpoodll_history').html(loadingHtml);
+                    Y.namespace('M.atto_cloudpoodll').Button.prototype.loadHistoryPreview(this);
+                });
+
+                let table = jQuery('#atto_cloud_history_table').dataTable({
+                    "columnDefs": [
+                        { "orderable": false, "targets": 0 }
+                    ]
+                });
+
+                jQuery('#atto_cloud_history_table tbody').on('click', 'td.details-control', function () {
+                    let tr = jQuery(this).closest('tr');
+                    let row = table.api().row( tr );
+
+                    if ( row.child.isShown() ) {
+                        row.child.hide();
+                        tr.removeClass('shown');
+                    }
+                    else {
+                        row.child(format('id', tr.data('history-id'))).show();
+                        tr.addClass('shown');
+                    }
+                } );
+        } );
+    });
+{{/js}}

@@ -149,6 +149,7 @@ $string['subtitleinstructions'] =
 $string['mediainsertcheckbox'] = 'Insert media player into editor. Otherwise it be a media link.';
 
 $string['options'] = 'Options';
+$string['history'] = 'History';
 $string['transcode'] = 'Transcode';
 $string['transcode_details'] = 'CloudPoodll can transcode audio to mp3 and video to mp4';
 
@@ -171,4 +172,12 @@ $string['notokenincache'] = "Refresh to see license information. Contact Poodll 
 //shown in popup
 $string['notoken'] = 'API user and secret were rejected and could not gain access. Please check the Atto Cloud Poodll plugin settings page.';
 
+//shown in history tabs
+$string['historyback'] = 'Back to history';
+$string['deleteitem'] = 'Delete item';
+$string['loading'] = 'Loading...';
+$string['title'] = 'Title';
+$string['actions'] = 'Actions';
+$string['date'] = 'Date';
+$string['confirmdelete'] = 'Do you really want to delete? Deleting only removes the item from history, not from the server.';
 

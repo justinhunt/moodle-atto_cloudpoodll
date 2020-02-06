@@ -1,3 +1,5 @@
+YUI.add('moodle-atto_cloudpoodll-button', function (Y, NAME) {
+
 // This file is part of Moodle - http://moodle.org/
 //
 // Moodle is free software: you can redistribute it and/or modify
@@ -80,6 +82,7 @@ var CSS = {
     UPLOAD: 'atto_cloudpoodll_upload',
     SUBTITLE: 'atto_cloudpoodll_subtitle',
     OPTIONS: 'atto_cloudpoodll_options',
+    HISTORY: 'atto_cloudpoodll_history',
     LANG_SELECT: 'atto_cloudpoodll_languageselect',
     SUBTITLE_CHECKBOX: 'atto_cloudpoodll_subtitle_checkbox',
     MEDIAINSERT_CHECKBOX: 'atto_cloudpoodll_mediainsert_checkbox',
@@ -127,6 +130,11 @@ var TEMPLATES = {
     '<li data-medium-type="{{CSS.OPTIONS}}" class="nav-item">' +
     '<a class="nav-link" href="#{{elementid}}_{{CSS.OPTIONS}}" role="tab" data-toggle="tab">' +
     '{{get_string "options" component}}' +
+    '</a>' +
+    '</li>' +
+    '<li data-medium-type="{{CSS.HISTORY}}" class="nav-item" data-content="history" >' +
+    '<a class="nav-link" href="#{{elementid}}_{{CSS.HISTORY}}" role="tab" data-toggle="tab">' +
+    '{{get_string "history" component}}' +
     '</a>' +
     '</li>' +
     '</ul>' +
@@ -227,6 +235,8 @@ var TEMPLATES = {
     "{{/if}}" +
     '</div>' +
     '</div>' +
+    '<div data-medium-type="{{CSS.HISTORY}}" class="tab-pane" id="{{elementid}}_{{CSS.HISTORY}}"></div>' +
+    '</div>' +
     '</form>',
     HTML_MEDIA: {
         VIDEO: '' +
@@ -313,13 +323,13 @@ Y.namespace('M.atto_cloudpoodll').Button = Y.Base.create('button', Y.M.editor_at
         CLOUDPOODLL.sizes = this._fetchRecorderDimensions();
     },
 
+
     /**
-     * Gets the root context for all templates, with extra supplied context.
+     * Atto text editor cloudpoodll plugin.
      *
-     * @method _getContext
-     * @param  {Object} extra The extra context to add
-     * @return {Object}
-     * @private
+     * @namespace M.atto_cloudpoodll
+     * @class button
+     * @extends M.editor_atto.EditorPlugin
      */
     _getContext:
         function (extra) {
@@ -372,322 +382,448 @@ Y.namespace('M.atto_cloudpoodll').Button = Y.Base.create('button', Y.M.editor_at
             }, extra);
         },
 
-    _fetchRecorderDimensions: function () {
-        // Get return object
-        var sizes = {};
+        _fetchRecorderDimensions: function () {
+            // Get return object
+            var sizes = {};
 
-        //get video sizes]
-        switch (CLOUDPOODLL.videoskin) {
-            case SKIN.ONETWOTHREE:
-                sizes.videowidth = 441; //(because the @media CSS is for <=440)
-                sizes.videoheight = 540;
-                break;
-            case SKIN.BMR:
-                sizes.videowidth = 441; //(because the @media CSS is for <=440)
-                sizes.videoheight = 500;
-                break;
-            default:
-                sizes.videowidth = 441;
-                sizes.videoheight = 450;
+            //get video sizes]
+            switch (CLOUDPOODLL.videoskin) {
+                case SKIN.ONETWOTHREE:
+                    sizes.videowidth = 441; //(because the @media CSS is for <=440)
+                    sizes.videoheight = 540;
+                    break;
+                case SKIN.BMR:
+                    sizes.videowidth = 441; //(because the @media CSS is for <=440)
+                    sizes.videoheight = 500;
+                    break;
+                default:
+                    sizes.videowidth = 441;
+                    sizes.videoheight = 450;
 
-        }
-        switch (CLOUDPOODLL.audioskin) {
-            default:
-                sizes.audiowidth = 450;
-                sizes.audioheight = 350;
-                break;
-        }
-        return sizes;
-    },
-
-
-    /**
-     * Display the media editing tool.
-     *
-     * @method _displayDialogue
-     * @private
-     */
-    _displayDialogue: function (e, recorder) {
-
-        //whats this?
-        if (this.get('host').getSelection() === false) {
-            return;
-        } else {
-            this._currentSelection = this.get('host').getSelection();
-        }
-        STATE.currentrecorder = recorder;
-
-        //get title and sizes
-        switch (recorder) {
-            case RECORDERS.VIDEO:
-                var title = M.util.get_string('createvideo', COMPONENTNAME);
-                switch (CLOUDPOODLL.videoskin) {
-                    case SKIN.ONETWOTHREE:
-                        var width = '500';
-                        var height = "660";
-                        break;
-                    case SKIN.PLAIN:
-                        var width = '500';
-                        var height = "580";
-                        break;
-                    case SKIN.BMR:
-                        var width = '500';
-                        var height = "620";
-                        break;
-                    default:
-                        var width = '500';
-                        var height = false;
-
-                }
-                break;
-            case RECORDERS.AUDIO:
-            default:
-                var title = M.util.get_string('createaudio', COMPONENTNAME);
-                var width = '501';
-                var height = false;
-                break;
-        }
-
-        //set default subtitling flag
-        if (CLOUDPOODLL.cansubtitle) {
-            if (STATE.currentrecorder == RECORDERS.VIDEO) {
-                STATE.subtitling = STATE.subtitlevideobydefault;
-            } else {
-                STATE.subtitling = STATE.subtitleaudiobydefault;
             }
-        }
-
-        var d_conf = {};
-        d_conf.center = true;
-        d_conf.headerContent = title;
-        d_conf.focusAfterHide = recorder;
-        d_conf.width = width + 'px';
-        if (height) {
-            d_conf.height = height + 'px';
-        }
-
-        var dialogue = this.getDialogue(d_conf);
-
-        //if this dialog had a different size and title (it was popped up before as diff media recorder type)
-        if (dialogue.get('width') != width + 'px') {
-            dialogue.set('headerContent', title);
-            //sadly the width and height won't change .. whatever
-            dialogue.set('width', width + 'px');
-            dialogue.set('height', height + 'px');
-        }
+            switch (CLOUDPOODLL.audioskin) {
+                default:
+                    sizes.audiowidth = 450;
+                    sizes.audioheight = 350;
+                    break;
+            }
+            return sizes;
+        },
 
 
-        // Set the dialogue content, and then show the dialogue.
-        dialogue.set('bodyContent', this._getDialogueContent()).show();
+        /**
+         * Display the media editing tool.
+         *
+         * @method _displayDialogue
+         * @private
+         */
+        _displayDialogue: function (e, recorder) {
 
+            //whats this?
+            if (this.get('host').getSelection() === false) {
+                return;
+            } else {
+                this._currentSelection = this.get('host').getSelection();
+            }
+            STATE.currentrecorder = recorder;
 
-        //store some common elements we will refer to later
-        STATE.elementid = this.get('host').get('elementid');
-        STATE.subtitlecheckbox = Y.one('#' + STATE.elementid + '_' + CSS.SUBTITLE_CHECKBOX);
-        STATE.mediainsertcheckbox = Y.one('#' + STATE.elementid + '_' + CSS.MEDIAINSERT_CHECKBOX);
-        STATE.languageselect = Y.one('#' + STATE.elementid + '_' + CSS.LANG_SELECT);
-        var topnode = Y.one('#' + STATE.elementid + '_' + CSS.ATTO_CLOUDPOODLL_FORM);
-        var that = this;
+            //get title and sizes
+            switch (recorder) {
+                case RECORDERS.VIDEO:
+                    var title = M.util.get_string('createvideo', COMPONENTNAME);
+                    switch (CLOUDPOODLL.videoskin) {
+                        case SKIN.ONETWOTHREE:
+                            var width = '500';
+                            var height = "660";
+                            break;
+                        case SKIN.PLAIN:
+                            var width = '500';
+                            var height = "580";
+                            break;
+                        case SKIN.BMR:
+                            var width = '500';
+                            var height = "620";
+                            break;
+                        default:
+                            var width = '500';
+                            var height = false;
 
-        //subtitle checkbox click event.. reload recorders
-        if (STATE.subtitlecheckbox != null) {
-            //if we can subtitle, handle events, otherwise disable it
+                    }
+                    break;
+                case RECORDERS.AUDIO:
+                default:
+                    var title = M.util.get_string('createaudio', COMPONENTNAME);
+                    var width = '501';
+                    var height = false;
+                    break;
+            }
+
+            //set default subtitling flag
             if (CLOUDPOODLL.cansubtitle) {
-                STATE.subtitlecheckbox.on('click', function (e) {
+                if (STATE.currentrecorder == RECORDERS.VIDEO) {
+                    STATE.subtitling = STATE.subtitlevideobydefault;
+                } else {
+                    STATE.subtitling = STATE.subtitleaudiobydefault;
+                }
+            }
+
+            var d_conf = {};
+            d_conf.center = true;
+            d_conf.headerContent = title;
+            d_conf.focusAfterHide = recorder;
+            d_conf.width = width + 'px';
+            if (height) {
+                d_conf.height = height + 'px';
+            }
+
+            var dialogue = this.getDialogue(d_conf);
+
+            //if this dialog had a different size and title (it was popped up before as diff media recorder type)
+            if (dialogue.get('width') != width + 'px') {
+                dialogue.set('headerContent', title);
+                //sadly the width and height won't change .. whatever
+                dialogue.set('width', width + 'px');
+                dialogue.set('height', height + 'px');
+            }
+
+
+            // Set the dialogue content, and then show the dialogue.
+            dialogue.set('bodyContent', this._getDialogueContent()).show();
+
+
+            //store some common elements we will refer to later
+            STATE.elementid = this.get('host').get('elementid');
+            STATE.subtitlecheckbox = Y.one('#' + STATE.elementid + '_' + CSS.SUBTITLE_CHECKBOX);
+            STATE.mediainsertcheckbox = Y.one('#' + STATE.elementid + '_' + CSS.MEDIAINSERT_CHECKBOX);
+            STATE.languageselect = Y.one('#' + STATE.elementid + '_' + CSS.LANG_SELECT);
+            var topnode = Y.one('#' + STATE.elementid + '_' + CSS.ATTO_CLOUDPOODLL_FORM);
+            var that = this;
+
+            //subtitle checkbox click event.. reload recorders
+            if (STATE.subtitlecheckbox != null) {
+                //if we can subtitle, handle events, otherwise disable it
+                if (CLOUDPOODLL.cansubtitle) {
+                    STATE.subtitlecheckbox.on('click', function (e) {
+                        var element = e.currentTarget;
+                        //update recorder subtitle setting
+                        if (element.get('checked')) {
+                            topnode.all('.' + CSS.CP_SWAP).setAttribute('data-transcribe', '1');
+                            topnode.all('.' + CSS.CP_SWAP).setAttribute('data-subtitle', '1');
+                            topnode.all('.' + CSS.CP_SWAP).setAttribute('data-alreadyparsed', 'false');
+                            STATE.subtitling = true;
+                        } else {
+                            topnode.all('.' + CSS.CP_SWAP).setAttribute('data-transcribe', '0');
+                            topnode.all('.' + CSS.CP_SWAP).setAttribute('data-subtitle', '0');
+                            topnode.all('.' + CSS.CP_SWAP).setAttribute('data-alreadyparsed', 'false');
+                            STATE.subtitling = false;
+                        }
+                        //reload the recorders
+                        topnode.all('.' + CSS.CP_SWAP).empty();
+                        that._loadRecorders();
+                    });
+                } else {
+                    this._disableSubtitleCheckbox();
+                }
+            }
+
+            //insert method checkbox;
+            if (STATE.mediainsertcheckbox != null) {
+                STATE.mediainsertcheckbox.on('click', function (e) {
                     var element = e.currentTarget;
                     //update recorder subtitle setting
                     if (element.get('checked')) {
-                        topnode.all('.' + CSS.CP_SWAP).setAttribute('data-transcribe', '1');
-                        topnode.all('.' + CSS.CP_SWAP).setAttribute('data-subtitle', '1');
-                        topnode.all('.' + CSS.CP_SWAP).setAttribute('data-alreadyparsed', 'false');
-                        STATE.subtitling = true;
+                        STATE.insertmethod = INSERTMETHOD.TAGS;
                     } else {
-                        topnode.all('.' + CSS.CP_SWAP).setAttribute('data-transcribe', '0');
-                        topnode.all('.' + CSS.CP_SWAP).setAttribute('data-subtitle', '0');
-                        topnode.all('.' + CSS.CP_SWAP).setAttribute('data-alreadyparsed', 'false');
-                        STATE.subtitling = false;
+                        STATE.insertmethod = INSERTMETHOD.LINK;
                     }
-                    //reload the recorders
-                    topnode.all('.' + CSS.CP_SWAP).empty();
-                    that._loadRecorders();
                 });
-            } else {
-                this._disableSubtitleCheckbox();
             }
-        }
 
-        //insert method checkbox;
-        if (STATE.mediainsertcheckbox != null) {
-            STATE.mediainsertcheckbox.on('click', function (e) {
-                var element = e.currentTarget;
-                //update recorder subtitle setting
-                if (element.get('checked')) {
-                    STATE.insertmethod = INSERTMETHOD.TAGS;
-                } else {
-                    STATE.insertmethod = INSERTMETHOD.LINK;
-                }
-            });
-        }
+            //language selectopr
+            if (STATE.languageselect != null) {
+                STATE.languageselect.on('change', function (e) {
+                    var element = e.currentTarget;
+                    if (element) {
+                        CLOUDPOODLL.language = element.selectedOptionValue();
+                        topnode.all('.' + CSS.CP_SWAP).setAttribute('data-language', CLOUDPOODLL.language);
+                        topnode.all('.' + CSS.CP_SWAP).setAttribute('data-alreadyparsed', 'false');
+                        //reload the recorders
+                        topnode.all('.' + CSS.CP_SWAP).empty();
+                        that._loadRecorders();
+                    }
+                });
+            }
 
-        //language selectopr
-        if (STATE.languageselect != null) {
-            STATE.languageselect.on('change', function (e) {
-                var element = e.currentTarget;
-                if (element) {
-                    CLOUDPOODLL.language = element.selectedOptionValue();
-                    topnode.all('.' + CSS.CP_SWAP).setAttribute('data-language', CLOUDPOODLL.language);
-                    topnode.all('.' + CSS.CP_SWAP).setAttribute('data-alreadyparsed', 'false');
-                    //reload the recorders
-                    topnode.all('.' + CSS.CP_SWAP).empty();
-                    that._loadRecorders();
-                }
-            });
-        }
+            //so finally load those recorders
+            this._loadRecorders();
+        },
 
-        //so finally load those recorders
-        this._loadRecorders();
-    },
+        _disableSubtitleCheckbox: function () {
+            //this function is never called, because if not transcribable, not shown
+            STATE.subtitlecheckbox.setAttribute('disabled', true);
+            var topnode = Y.one('#' + STATE.elementid + '_' + CSS.ATTO_CLOUDPOODLL_FORM);
+            topnode.all('.' + CSS.CP_SWAP).setAttribute('data-transcribe', '0');
+            topnode.all('.' + CSS.CP_SWAP).setAttribute('data-subtitle', '0');
+        },
 
-    _disableSubtitleCheckbox: function () {
-        //this function is never called, because if not transcribable, not shown
-        STATE.subtitlecheckbox.setAttribute('disabled', true);
-        var topnode = Y.one('#' + STATE.elementid + '_' + CSS.ATTO_CLOUDPOODLL_FORM);
-        topnode.all('.' + CSS.CP_SWAP).setAttribute('data-transcribe', '0');
-        topnode.all('.' + CSS.CP_SWAP).setAttribute('data-subtitle', '0');
-    },
+        /**
+         * Loads the history tab html.
+         *
+         * @method _loadHistory
+         */
+        loadHistory: function () {
+            require(['core/templates'], function (templates) {
+                require(['core/ajax'], function (ajax) {
+                    ajax.call([{
+                        methodname: 'atto_cloudpoodll_history_get_items',
+                        args: {},
+                        done: function (historyitems) {
+                            /**
+                             * Takes a mysql unix timestamp (in seconds) and converts to a display date.
+                             *
+                             * @method _formatUnixDate
+                             * @param dateToFormat Date to format
+                             */
+                            function _formatUnixDate(dateToFormat) {
+                                var dateObj = new Date(dateToFormat * 1000);
 
-    /**
-     * Loads or reloads the recorders
-     *
-     * @method _loadRecorders
-     * @private
-     */
-    _loadRecorders: function () {
-        var that = this;
-        that.uploaded = false;
-        that.ap_count = 0;
-        require(['atto_cloudpoodll/cloudpoodllloader'], function (loader) {
-            var recorder_callback = function (evt) {
-                switch (evt.type) {
-                    case 'recording':
-                        if (evt.action === 'started') {
-                            //if user toggled subtitle checkbox any time from now, the recording would be lost
-                            if (STATE.subtitlecheckbox != null) {
-                                STATE.subtitlecheckbox.set('disabled', true);
+                                var month = dateObj.getUTCMonth() + 1;
+                                var day = dateObj.getUTCDate();
+                                var year = dateObj.getUTCFullYear();
+
+                                return month + "/" + day + "/" + year;
                             }
 
+                            if (Array.isArray(historyitems.responses)) {
+                                historyitems.responses.forEach(function(item){
+                                    item.displaydateofentry = _formatUnixDate(item.dateofentry);
+                                    item.displayfiletitle = item.filetitle.substring(0, 10) + '...';
+                                });
+                                historyitems.responses.formatted = JSON.stringify(historyitems.responses);
+                            }
+
+                            var context = {data: historyitems.responses};
+
+                            templates.render('atto_cloudpoodll/history', context)
+                                .then(function (html, js) {
+                                    templates.replaceNodeContents('#id_introeditor_atto_cloudpoodll_history', html, js);
+                                }).fail(function (ex) {
+                            });
                         }
-                        break;
-                    case 'awaitingprocessing':
-                        //we delay  a second to allow the sourcefile to be copied to correct location
-                        if (!that.uploaded) {
-                            setTimeout(function () {
-                                var sourceurl = evt.s3root + evt.sourcefilename;
-                                that._doInsert(evt.mediaurl, evt.mediafilename, sourceurl, evt.sourcemimetype);
-                            }, 4000);
-                            that.uploaded = true;
+                    }]);
+                });
+
+            });
+        },
+
+        /**
+         * Loads the history video preview tab html.
+         *
+         * @method _loadHistoryPreview
+         * @param historyItem History item ID from list.
+         */
+        loadHistoryPreview: function (historyItem) {
+            require(['core/templates','core/ajax'], function (templates,ajax) {
+                ajax.call([{
+                    methodname: 'atto_cloudpoodll_history_get_item',
+                    args: {'id': historyItem.dataset.historyId},
+                    done: function (historyItemData) {
+                        var context = {data: historyItemData.responses, isVideo: STATE.currentrecorder === RECORDERS.VIDEO};
+                        templates.render('atto_cloudpoodll/historypreview', context)
+                            .then(function (html, js) {
+                                templates.replaceNodeContents('#id_introeditor_atto_cloudpoodll_history', html, js);
+                            }).fail(function (ex) {
+                        });
+                    }
+                }]);
+            });
+        },
+
+        /**
+         * Loads or reloads the recorders
+         *
+         * @method _loadRecorders
+         * @private
+         */
+        _loadRecorders: function () {
+            var that = this;
+            that.uploaded = false;
+            that.ap_count = 0;
+            require(['atto_cloudpoodll/cloudpoodllloader'], function (loader) {
+                var recorder_callback = function (evt) {
+                    switch (evt.type) {
+                        case 'recording':
+                            if (evt.action === 'started') {
+                                //if user toggled subtitle checkbox any time from now, the recording would be lost
+                                if (STATE.subtitlecheckbox != null) {
+                                    STATE.subtitlecheckbox.set('disabled', true);
+                                }
+
+                            }
+                            break;
+                        case 'awaitingprocessing':
+                            //we delay  a second to allow the sourcefile to be copied to correct location
+                            if (!that.uploaded) {
+                                setTimeout(function () {
+                                    var sourceurl = evt.s3root + evt.sourcefilename;
+                                    that._doInsert(evt.mediaurl, evt.mediafilename, sourceurl, evt.sourcemimetype);
+                                }, 4000);
+                                that.uploaded = true;
+                            }
+                            break;
+                        case 'filesubmitted':
+                            //we will probably never get here because awaiting processing will fire first
+                            //we do not use this event, but it arrives when the final file is ready. (much earlier in case of non-transcode)
+
+                            break;
+                        case 'error':
+                            alert('PROBLEM:' + evt.message);
+                            break;
+                    }
+                };
+                loader.init(CSS.CP_SWAP, recorder_callback);
+            });
+        },
+
+        /**
+         * Returns the dialogue content for the tool.
+         *
+         * @method _getDialogueContent
+         * @param  {WrappedRange[]} selection Current editor selection
+         * @return {Y.Node}
+         * @private
+         */
+        _getDialogueContent: function (selection) {
+            var output = '';
+            if (CLOUDPOODLL.token == '') {
+                output = M.util.get_string('notoken', COMPONENTNAME);
+            } else {
+                output = Y.Handlebars.compile(TEMPLATES.ROOT)(this._getContext());
+            }
+            var content = Y.Node.create(output);
+            return content;
+        },
+
+        insertHistoryItem: function(historyItem) {
+            let obj = this;
+            let cpinstance = CLOUDPOODLL;
+            cpinstance.focusAfterHide = null;
+            Y.namespace('M.atto_cloudpoodll').Button.prototype.getDialogue(cpinstance).hide();
+
+            require(['core/ajax'], function (ajax) {
+                ajax.call([{
+                    methodname: 'atto_cloudpoodll_history_get_item',
+                    args: {'id': historyItem.dataset.historyId},
+                    done: function (historyItemData) {
+                        const [first] = historyItemData.responses;
+                        let item = first;
+                        let {context, template} = obj.createMediaLink(
+                            item.mediaurl,
+                            item.mediafilename,
+                            item.filetitle,
+                            item.sourcemimetype
+                        );
+                        obj.insertIntoEditor(template, context);
+                    }
+                }]);
+            });
+
+        },
+
+        createMediaLink: function (mediaurl, mediafilename, sourceurl, sourcemimetype) {
+            var context = {};
+            context.url = mediaurl;
+            context.name = mediafilename;
+            context.issubtitling = STATE.subtitling;
+            context.includesourcetrack = STATE.transcoding && (mediaurl !== sourceurl) && (sourceurl.slice(-3) !== 'wav');
+            context.CP = CLOUDPOODLL;
+            context.subtitleurl = mediaurl + '.vtt';
+            context.sourceurl = sourceurl;
+            context.sourcemimetype = sourcemimetype;
+            var template = TEMPLATES.HTML_MEDIA.LINK;
+            return {context: context, template: template};
+        },
+
+        insertIntoEditor: function (template, context) {
+            var content =
+                Y.Handlebars.compile(template)(context);
+            var host = this.get('host');
+            host.focus();
+            host.setSelection(this._currentSelection);
+            host.insertContentAtFocusPoint(content);
+            this.markUpdated();
+        },
+
+        /**
+         * Inserts the link or media element onto the page
+         * @method _doInsert
+         * @private
+         */
+        _doInsert: function (mediaurl, mediafilename, sourceurl, sourcemimetype) {
+            this.getDialogue({
+                focusAfterHide: null
+            }).hide();
+
+            //default context values(link) for template
+            var {context, template} = this.createMediaLink(mediaurl, mediafilename, sourceurl, sourcemimetype);
+
+            function saveToHistory() {
+                require(['core/ajax'], function (ajax) {
+                    ajax.call([{
+                        methodname: 'atto_cloudpoodll_history_create',
+                        args: {
+                            recordertype: STATE.currentrecorder,
+                            mediafilename: mediafilename,
+                            sourceurl: sourceurl,
+                            mediaurl: mediaurl,
+                            sourcemimetype: sourcemimetype,
+                            subtitling: STATE.subtitling,
+                            subtitleurl: STATE.subtitleurl
+                        },
+                    }]);
+                });
+            }
+
+            switch (STATE.insertmethod) {
+
+                case INSERTMETHOD.TAGS:
+                    if (STATE.currentrecorder === RECORDERS.VIDEO) {
+                        context.width = false;
+                        context.height = false;
+                        context.poster = false;
+                        if (STATE.transcoding) {
+                            context.urlmimetype = 'video/mp4';
+                        } else {
+                            context.urlmimetype = sourcemimetype;
                         }
-                        break;
-                    case 'filesubmitted':
-                        //we will probably never get here because awaiting processing will fire first
-                        //we do not use this event, but it arrives when the final file is ready. (much earlier in case of non-transcode)
-
-                        break;
-                    case 'error':
-                        alert('PROBLEM:' + evt.message);
-                        break;
-                }
-            };
-            loader.init(CSS.CP_SWAP, recorder_callback);
-        });
-    },
-
-    /**
-     * Returns the dialogue content for the tool.
-     *
-     * @method _getDialogueContent
-     * @param  {WrappedRange[]} selection Current editor selection
-     * @return {Y.Node}
-     * @private
-     */
-    _getDialogueContent: function (selection) {
-        var output = '';
-        if(CLOUDPOODLL.token ==''){
-            output= M.util.get_string('notoken', COMPONENTNAME);
-        }else{
-            output = Y.Handlebars.compile(TEMPLATES.ROOT)(this._getContext());
-        }
-        var content = Y.Node.create(output);
-        return content;
-    },
-
-
-    /**
-     * Inserts the link or media element onto the page
-     * @method _doInsert
-     * @private
-     */
-    _doInsert: function (mediaurl, mediafilename, sourceurl, sourcemimetype) {
-        this.getDialogue({
-            focusAfterHide: null
-        }).hide();
-
-        //default context values(link) for template
-        var context = {};
-        context.url = mediaurl;
-        context.name = mediafilename;
-        context.issubtitling = STATE.subtitling;
-        context.includesourcetrack = STATE.transcoding && (mediaurl !== sourceurl) && (sourceurl.slice(-3) !== 'wav');
-        context.CP = CLOUDPOODLL;
-        context.subtitleurl = mediaurl + '.vtt';
-        context.sourceurl = sourceurl;
-        context.sourcemimetype = sourcemimetype;
-        var template = TEMPLATES.HTML_MEDIA.LINK;
-
-        switch (STATE.insertmethod) {
-
-            case INSERTMETHOD.TAGS:
-                if (STATE.currentrecorder === RECORDERS.VIDEO) {
-                    context.width = false;
-                    context.height = false;
-                    context.poster = false;
-                    if (STATE.transcoding) {
-                        context.urlmimetype = 'video/mp4';
+                        template = TEMPLATES.HTML_MEDIA.VIDEO;
                     } else {
-                        context.urlmimetype = sourcemimetype;
+                        context.width = false;
+                        context.height = false;
+                        context.poster = false;
+                        if (STATE.transcoding) {
+                            context.urlmimetype = 'audio/mp3';
+                        } else {
+                            context.urlmimetype = sourcemimetype;
+                        }
+                        template = TEMPLATES.HTML_MEDIA.AUDIO;
                     }
-                    template = TEMPLATES.HTML_MEDIA.VIDEO;
-                } else {
-                    context.width = false;
-                    context.height = false;
-                    context.poster = false;
-                    if (STATE.transcoding) {
-                        context.urlmimetype = 'audio/mp3';
-                    } else {
-                        context.urlmimetype = sourcemimetype;
-                    }
-                    template = TEMPLATES.HTML_MEDIA.AUDIO;
-                }
-                break;
+                    break;
 
-            case INSERTMETHOD.LINK:
-            default:
-            //do nothing special actually.
+                case INSERTMETHOD.LINK:
+                    break;
+                default:
+                //do nothing special actually.
+            }
+            saveToHistory();
+            this.insertIntoEditor(template, context);
         }
-
-        var content =
-            Y.Handlebars.compile(template)(context);
-        var host = this.get('host');
-        host.focus();
-        host.setSelection(this._currentSelection);
-        host.insertContentAtFocusPoint(content);
-        this.markUpdated();
-
-    }
-}, {
-    ATTRS: {
-        disabled: {
-            value: false
+    }, {
+        ATTRS: {
+            disabled: {
+                value: false
+            }
         }
-    }
-});
+    });
+
+}, '@VERSION@');
