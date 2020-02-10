@@ -15,15 +15,314 @@ YUI.add('moodle-atto_cloudpoodll-button', function (Y, NAME) {
 // You should have received a copy of the GNU General Public License
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
-    /*
-     * @package    atto_cloudpoodll
-     * @copyright  2018 Justin Hunt <justin@poodll.com,>
-     * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
-     */
+/*
+ * @package    atto_cloudpoodll
+ * @copyright  2018 Justin Hunt <justin@poodll.com,>
+ * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ */
 
-    /**
-     * @module moodle-atto_align-button
-     */
+/**
+ * @module moodle-atto_align-button
+ */
+
+/**
+ * Atto text editor cloudpoodll plugin.
+ *
+ * @namespace M.atto_cloudpoodll
+ * @class button
+ * @extends M.editor_atto.EditorPlugin
+ */
+var COMPONENTNAME = 'atto_cloudpoodll';
+var RECORDERS = {VIDEO: 'video', AUDIO: 'audio'};
+var INSERTMETHOD = {LINK: 'link', TAGS: 'tags'};
+var LANGUAGE = {
+    ENUS: 'en-US',
+    ENGB: 'en-GB',
+    ENAU: 'en-AU',
+    ENIN: 'en-IN',
+    FRCA: 'fr-CA',
+    FRFR: 'fr-FR',
+    ESUS: 'es-US',
+    ESES: 'es-ES',
+    ITIT: 'it-IT',
+    PTBR: 'pt-BR',
+    DEDE: 'de-DE',
+    KOKR: 'ko-KR',
+    HIIN: 'hi-IN',
+    ARAE: 'ar-AE',
+    ARSA: 'ar-SA',
+    ZHCN: 'zh-CN',
+    NLNL: 'nl-NL',
+    ENIE: 'en-IE',
+    ENWL: 'en-WL',
+    ENAB: 'en-AB',
+    FAIR: 'fa-IR',
+    DECH: 'de-CH',
+    HEIL: 'he-IL',
+    IDID: 'id-ID',
+    JAJP: 'ja-JP',
+    MSMY: 'ms-MY',
+    PTPT: 'pt-PT',
+    RURU: 'ru-RU',
+    TAIN: 'ta-IN',
+    TEIN: 'te-IN',
+    TRTR: 'tr-TR'
+};
+var CLOUDPOODLL = {};
+var SKIN = {
+    PLAIN: 'standard',
+    BMR: 'bmr',
+    ONETWOTHREE: 'onetwothree',
+    FRESH: 'fresh',
+    ONCE: 'once'
+};
+var CSS = {
+    VIDEO: 'atto_cloudpoodll_video',
+    AUDIO: 'atto_cloudpoodll_audio',
+    UPLOAD: 'atto_cloudpoodll_upload',
+    SUBTITLE: 'atto_cloudpoodll_subtitle',
+    OPTIONS: 'atto_cloudpoodll_options',
+    HISTORY: 'atto_cloudpoodll_history',
+    LANG_SELECT: 'atto_cloudpoodll_languageselect',
+    SUBTITLE_CHECKBOX: 'atto_cloudpoodll_subtitle_checkbox',
+    MEDIAINSERT_CHECKBOX: 'atto_cloudpoodll_mediainsert_checkbox',
+    ATTO_CLOUDPOODLL_FORM: 'atto_cloudpoodll_form',
+    CP_VIDEO: 'atto_cloudpoodll_video_cont',
+    CP_AUDIO: 'atto_cloudpoodll_audio_cont',
+    CP_UPLOAD: 'atto_cloudpoodll_upload_cont',
+    CP_SWAP: 'atto_cloudpoodll_swapmeout'
+
+};
+var STATE = {
+    subtitling: false,
+    transcoding: false,
+    started: false,
+    currentrecorder: false,
+    insertmethod: false,
+    subitleaudiobydefault: 0,
+    subitlevideobydefault: 0,
+    elementid: false,
+    subtitlecheckbox: false,
+}
+
+var TEMPLATES = {
+    ROOT: '' +
+    '<form class="mform atto_form atto_cloudpoodll_form" id="{{elementid}}_atto_cloudpoodll_form">' +
+    '<ul class="root nav nav-tabs" role="tablist">' +
+    "{{#if isvideo}}" +
+    '<li data-medium-type="{{CSS.VIDEO}}" class="nav-item">' +
+    '<a class="nav-link active" href="#{{elementid}}_{{CSS.VIDEO}}" role="tab" data-toggle="tab">' +
+    '{{get_string "video" component}}' +
+    '</a>' +
+    '</li>' +
+    "{{else}}" +
+    '<li data-medium-type="{{CSS.AUDIO}}" class="nav-item">' +
+    '<a class="nav-link active" href="#{{elementid}}_{{CSS.AUDIO}}" role="tab" data-toggle="tab">' +
+    '{{get_string "audio" component}}' +
+    '</a>' +
+    '</li>' +
+    "{{/if}}" +
+    '<li data-medium-type="{{CSS.UPLOAD}}" class="nav-item">' +
+    '<a class="nav-link" href="#{{elementid}}_{{CSS.UPLOAD}}" role="tab" data-toggle="tab">' +
+    '{{get_string "upload" component}}' +
+    '</a>' +
+    '</li>' +
+    '<li data-medium-type="{{CSS.OPTIONS}}" class="nav-item">' +
+    '<a class="nav-link" href="#{{elementid}}_{{CSS.OPTIONS}}" role="tab" data-toggle="tab">' +
+    '{{get_string "options" component}}' +
+    '</a>' +
+    '</li>' +
+    '<li data-medium-type="{{CSS.HISTORY}}" class="nav-item" data-content="history" >' +
+    '<a class="nav-link" href="#{{elementid}}_{{CSS.HISTORY}}" role="tab" data-toggle="tab">' +
+    '{{get_string "history" component}}' +
+    '</a>' +
+    '</li>' +
+    '</ul>' +
+    '<div class="root tab-content">' +
+    "{{#if isvideo}}" +
+    '<div data-medium-type="{{CSS.VIDEO}}" class="tab-pane active" id="{{elementid}}_{{CSS.VIDEO}}">' +
+    '' +
+    '<div id="{{elementid}}_{{CSS.CP_VIDEO}}" class="{{CSS.CP_SWAP}}" data-id="{{elementid}}_{{CSS.CP_VIDEO}}" data-parent="{{CP.parent}}"' +
+    ' data-appid="{{CP.appid}}" data-media="video" data-type="{{CP.videoskin}}" data-localloader="/lib/editor/atto/plugins/cloudpoodll/poodllloader.html"' +
+    ' data-localloading="auto" data-width="{{CP.sizes.videowidth}}" data-height="{{CP.sizes.videoheight}}"' +
+    ' data-transcode="{{CP.transcode}}" data-transcribe="{{subtitlevideobydefault}}" data-subtitle="{{subtitlevideobydefault}}" data-language="{{CP.language}}"' +
+    ' data-expiredays="{{CP.expiredays}}" data-region="{{CP.region}}" data-owner="{{CP.owner}}" data-token="{{CP.token}}" data-fallback="{{CP.fallback}}"></div>' +
+    '</div>' +
+    "{{else}}" +
+    '<div data-medium-type="{{CSS.AUDIO}}" class="tab-pane active" id="{{elementid}}_{{CSS.AUDIO}}">' +
+    '<div id="{{elementid}}_{{CSS.CP_AUDIO}}" class="{{CSS.CP_SWAP}}" data-id="{{elementid}}_{{CSS.CP_AUDIO}}" data-parent="{{CP.parent}}"' +
+    ' data-appid="{{CP.appid}}" data-media="audio" data-type="{{CP.audioskin}}" data-localloader="/lib/editor/atto/plugins/cloudpoodll/poodllloader.html"' +
+    ' data-localloading="auto" data-width="{{CP.sizes.audiowidth}}" data-height="{{CP.sizes.audioheight}}"' +
+    ' data-transcode="{{CP.transcode}}" data-transcribe="{{subtitleaudiobydefault}}" data-subtitle="{{subtitleaudiobydefault}}" data-language="{{CP.language}}"' +
+    ' data-expiredays="{{CP.expiredays}}" data-region="{{CP.region}}" data-owner="{{CP.owner}}" data-token="{{CP.token}}" data-fallback="{{CP.fallback}}"></div>' +
+    '</div>' +
+    "{{/if}}" +
+    '<div data-medium-type="{{CSS.UPLOAD}}" class="tab-pane" id="{{elementid}}_{{CSS.UPLOAD}}">' +
+    '<br>{{get_string "uploadinstructions" component}}' +
+    '<div id="{{elementid}}_{{CSS.CP_UPLOAD}}" class="{{CSS.CP_SWAP}}" data-id="{{elementid}}_{{CSS.CP_UPLOAD}}" data-parent="{{CP.parent}}"' +
+    ' data-appid="{{CP.appid}}" data-media="{{recorder}}" data-type="upload" data-width="450" data-height="350"' +
+    ' data-transcode="{{CP.transcode}}" ' +
+    "{{#if isvideo}}" +
+    'data-transcribe="{{subtitlevideobydefault}}" ' +
+    'data-subtitle="{{subtitlevideobydefault}}" ' +
+    "{{else}}" +
+    'data-transcribe="{{subtitleaudiobydefault}}" ' +
+    'data-subtitle="{{subtitleaudiobydefault}}" ' +
+    "{{/if}}" +
+    'data-language="{{CP.language}}"' +
+    'data-expiredays="{{CP.expiredays}}" data-region="{{CP.region}}" data-owner="{{CP.owner}}" data-token="{{CP.token}}"></div>' +
+    '</div>' +
+    '<div data-medium-type="{{CSS.OPTIONS}}" class="tab-pane" id="{{elementid}}_{{CSS.OPTIONS}}">' +
+    '<br><label>' +
+    '<input type="checkbox" id="{{elementid}}_{{CSS.MEDIAINSERT_CHECKBOX}}" class="{{CSS.MEDIAINSERT_CHECKBOX}}"' +
+    "{{#if mediataginsert}}" +
+    ' checked="true" ' +
+    "{{/if}}" +
+    '/>&nbsp;{{get_string "mediainsertcheckbox" component}}' +
+    '</label>' +
+    "{{#if cansubtitle}}" +
+    '<br><label>' +
+    '<input type="checkbox" id="{{elementid}}_{{CSS.SUBTITLE_CHECKBOX}}" class="{{CSS.SUBTITLE_CHECKBOX}}"' +
+    "{{#if isvideo}}" +
+    "{{#if letssubtitlevideo}}" +
+    ' checked="true" ' +
+    "{{/if}}" +
+    "{{else}}" +
+    "{{#if letssubtitleaudio}}" +
+    ' checked="true" ' +
+    "{{/if}}" +
+    "{{/if}}" +
+    '/>' +
+    '&nbsp;{{get_string "subtitlecheckbox" component}}' +
+    '</label>' +
+    '<br><label>{{get_string "speakerlanguage" component}}&nbsp;' +
+    '<select id="{{elementid}}_{{CSS.LANG_SELECT}}" class="{{CSS.LANG_SELECT}}">' +
+    '<option value="{{LANG.ARAE}}" {{#if useARAE}}selected="selected"{{/if}}>{{get_string "ar-ae" component}}</option>' +
+    '<option value="{{LANG.ARSA}}" {{#if useARSA}}selected="selected"{{/if}}>{{get_string "ar-sa" component}}</option>' +
+    '<option value="{{LANG.DEDE}}" {{#if useDEDE}}selected="selected"{{/if}}>{{get_string "de-de" component}}</option>' +
+    '<option value="{{LANG.DECH}}" {{#if useDECH}}selected="selected"{{/if}}>{{get_string "de-ch" component}}</option>' +
+    '<option value="{{LANG.ENUS}}" {{#if useENUS}}selected="selected"{{/if}}>{{get_string "en-us" component}}</option>' +
+    '<option value="{{LANG.ENGB}}" {{#if useENGB}}selected="selected"{{/if}}>{{get_string "en-gb" component}}</option>' +
+    '<option value="{{LANG.ENAU}}" {{#if useENAU}}selected="selected"{{/if}}>{{get_string "en-au" component}}</option>' +
+    '<option value="{{LANG.ENIN}}" {{#if useENIN}}selected="selected"{{/if}}>{{get_string "en-in" component}}</option>' +
+    '<option value="{{LANG.ENIE}}" {{#if useENIE}}selected="selected"{{/if}}>{{get_string "en-ie" component}}</option>' +
+    '<option value="{{LANG.ENWL}}" {{#if useENWL}}selected="selected"{{/if}}>{{get_string "en-wl" component}}</option>' +
+    '<option value="{{LANG.ENAB}}" {{#if useENAB}}selected="selected"{{/if}}>{{get_string "en-ab" component}}</option>' +
+    '<option value="{{LANG.ESUS}}" {{#if useESUS}}selected="selected"{{/if}}>{{get_string "es-us" component}}</option>' +
+    '<option value="{{LANG.ESES}}" {{#if useESES}}selected="selected"{{/if}}>{{get_string "es-es" component}}</option>' +
+    '<option value="{{LANG.FAIR}}" {{#if useFAIR}}selected="selected"{{/if}}>{{get_string "fa-ir" component}}</option>' +
+    '<option value="{{LANG.FRFR}}" {{#if useFRFR}}selected="selected"{{/if}}>{{get_string "fr-fr" component}}</option>' +
+    '<option value="{{LANG.FRCA}}" {{#if useFRCA}}selected="selected"{{/if}}>{{get_string "fr-ca" component}}</option>' +
+    '<option value="{{LANG.HEIL}}" {{#if useHEIL}}selected="selected"{{/if}}>{{get_string "he-il" component}}</option>' +
+    '<option value="{{LANG.HIIN}}" {{#if useHIIN}}selected="selected"{{/if}}>{{get_string "hi-in" component}}</option>' +
+    '<option value="{{LANG.ITIT}}" {{#if useITIT}}selected="selected"{{/if}}>{{get_string "it-it" component}}</option>' +
+    '<option value="{{LANG.JAJP}}" {{#if useJAJP}}selected="selected"{{/if}}>{{get_string "ja-jp" component}}</option>' +
+    '<option value="{{LANG.KOKR}}" {{#if useKOKR}}selected="selected"{{/if}}>{{get_string "ko-kr" component}}</option>' +
+    '<option value="{{LANG.MSMY}}" {{#if useMSMY}}selected="selected"{{/if}}>{{get_string "ms-my" component}}</option>' +
+    '<option value="{{LANG.NLNL}}" {{#if useNLNL}}selected="selected"{{/if}}>{{get_string "nl-nl" component}}</option>' +
+    '<option value="{{LANG.PTPT}}" {{#if usePTPT}}selected="selected"{{/if}}>{{get_string "pt-pt" component}}</option>' +
+    '<option value="{{LANG.PTBR}}" {{#if usePTBR}}selected="selected"{{/if}}>{{get_string "pt-br" component}}</option>' +
+    '<option value="{{LANG.RURU}}" {{#if useRURU}}selected="selected"{{/if}}>{{get_string "ru-ru" component}}</option>' +
+    '<option value="{{LANG.TAIN}}" {{#if useTAIN}}selected="selected"{{/if}}>{{get_string "ta-in" component}}</option>' +
+    '<option value="{{LANG.TEIN}}" {{#if useTEIN}}selected="selected"{{/if}}>{{get_string "te-in" component}}</option>' +
+    '<option value="{{LANG.TRTR}}" {{#if useTRTR}}selected="selected"{{/if}}>{{get_string "tr-tr" component}}</option>' +
+    '<option value="{{LANG.ZHCN}}" {{#if useZHCN}}selected="selected"{{/if}}>{{get_string "zh-cn" component}}</option>' +
+    '</select>' +
+    '</label>' +
+    '<br>{{get_string "subtitleinstructions" component}}' +
+    "{{else}}" +
+    "{{get_string 'cannotsubtitle' component}}" +
+    "{{/if}}" +
+    '</div>' +
+    '</div>' +
+    '<div data-medium-type="{{CSS.HISTORY}}" class="tab-pane" id="{{elementid}}_{{CSS.HISTORY}}"></div>' +
+    '</div>' +
+    '</form>',
+    HTML_MEDIA: {
+        VIDEO: '' +
+        '&nbsp;<video ' +
+        'controls="true" crossorigin="anonymous"' +
+        '>' +
+        "{{#if includesourcetrack}}" +
+        '<source src="{{sourceurl}}" type="{{sourcemimetype}}">' +
+        "{{/if}}" +
+        '<source src="{{url}}" type="{{urlmimetype}}">' +
+        "{{#if issubtitling}}" +
+        '<track src="{{subtitleurl}}" kind="captions" srclang="{{CP.language}}" label="{{CP.language}}" default="true">' +
+        "{{/if}}" +
+        '</video>&nbsp;',
+        AUDIO: '' +
+        '&nbsp;<audio ' +
+        'controls="true" crossorigin="anonymous"' +
+        '>' +
+        "{{#if includesourcetrack}}" +
+        '<source src="{{sourceurl}}" type="{{sourcemimetype}}">' +
+        "{{/if}}" +
+        '<source src="{{url}}" type="{{urlmimetype}}">' +
+        "{{#if issubtitling}}" +
+        '<track src="{{subtitleurl}}" kind="captions" srclang="{{CP.language}}" label="{{CP.language}}" default="true">' +
+        "{{/if}}" +
+        '</audio>&nbsp;',
+        LINK: '' +
+        "{{#if issubtitling}}" +
+        '&nbsp;<a href="{{url}}?data-subtitles={{subtitleurl}}&data-language={{CP.language}}"' +
+        "{{else}}" +
+        '&nbsp;<a href="{{url}}"' +
+        "{{/if}}" +
+        '>{{name}}</a>&nbsp;'
+    }
+};
+
+
+Y.namespace('M.atto_cloudpoodll').Button = Y.Base.create('button', Y.M.editor_atto.EditorPlugin, [], {
+    initializer: function (config) {
+
+        //if we don't have the capability
+        if (config.disabled) {
+            return;
+        }
+
+        var recorders = new Array('audio', 'video');
+        for (var therecorder = 0; therecorder < recorders.length; therecorder++) {
+            // Add the poodll button first (if we are supposed to)
+            if (config.hasOwnProperty(recorders[therecorder])) {
+                this.addButton({
+                    icon: recorders[therecorder],
+                    iconComponent: 'atto_cloudpoodll',
+                    title: recorders[therecorder] + '_desc',
+                    buttonName: recorders[therecorder],
+                    callback: this._displayDialogue,
+                    callbackArgs: recorders[therecorder]
+                });
+            }
+        }
+
+        //insert method
+        STATE.insertmethod = config.insertmethod;
+
+        //subtitle by default
+        STATE.subtitleaudiobydefault = config.subtitleaudiobydefault;
+        STATE.subtitlevideobydefault = config.subtitlevideobydefault;
+
+        //transcoding flag
+        STATE.transcoding = config.cp_transcode == '1';
+
+        //set up the cloudpoodll div
+        CLOUDPOODLL.parent = M.cfg.wwwroot;
+        CLOUDPOODLL.appid = 'atto_cloudpoodll';
+        CLOUDPOODLL.token = config.cp_token;
+        CLOUDPOODLL.region = config.cp_region;
+        CLOUDPOODLL.owner = config.cp_owner;
+        CLOUDPOODLL.expiredays = config.cp_expiredays;
+        CLOUDPOODLL.cansubtitle = config.cp_cansubtitle;
+        CLOUDPOODLL.language = config.cp_language;
+        CLOUDPOODLL.transcode = config.cp_transcode;
+        CLOUDPOODLL.audioskin = config.cp_audioskin;
+        CLOUDPOODLL.videoskin = config.cp_videoskin;
+        CLOUDPOODLL.fallback = config.fallback;
+        CLOUDPOODLL.sizes = this._fetchRecorderDimensions();
+    },
+
 
     /**
      * Atto text editor cloudpoodll plugin.
@@ -32,299 +331,56 @@ YUI.add('moodle-atto_cloudpoodll-button', function (Y, NAME) {
      * @class button
      * @extends M.editor_atto.EditorPlugin
      */
-    var COMPONENTNAME = 'atto_cloudpoodll';
-    var RECORDERS = {VIDEO: 'video', AUDIO: 'audio'};
-    var INSERTMETHOD = {LINK: 'link', TAGS: 'tags'};
-    var LANGUAGE = {
-        ENUS: 'en-US',
-        ENUK: 'en-GB',
-        ENAU: 'en-AU',
-        ENIN: 'en-IN',
-        FRCA: 'fr-CA',
-        FRFR: 'fr-FR',
-        ESUS: 'es-US',
-        ESES: 'es-ES',
-        ITIT: 'it-IT',
-        PTBR: 'pt-BR',
-        DEDE: 'de-DE',
-        KOKR: 'ko-KR',
-        HIIN: 'hi-IN'
-    };
-    var CLOUDPOODLL = {};
-    var SKIN = {
-        PLAIN: 'standard',
-        BMR: 'bmr',
-        ONETWOTHREE: 'onetwothree',
-        FRESH: 'fresh',
-        ONCE: 'once'
-    };
-    var CSS = {
-        VIDEO: 'atto_cloudpoodll_video',
-        AUDIO: 'atto_cloudpoodll_audio',
-        UPLOAD: 'atto_cloudpoodll_upload',
-        SUBTITLE: 'atto_cloudpoodll_subtitle',
-        OPTIONS: 'atto_cloudpoodll_options',
-        HISTORY: 'atto_cloudpoodll_history',
-        LANG_SELECT: 'atto_cloudpoodll_languageselect',
-        SUBTITLE_CHECKBOX: 'atto_cloudpoodll_subtitle_checkbox',
-        MEDIAINSERT_CHECKBOX: 'atto_cloudpoodll_mediainsert_checkbox',
-        ATTO_CLOUDPOODLL_FORM: 'atto_cloudpoodll_form',
-        CP_VIDEO: 'atto_cloudpoodll_video_cont',
-        CP_AUDIO: 'atto_cloudpoodll_audio_cont',
-        CP_UPLOAD: 'atto_cloudpoodll_upload_cont',
-        CP_SWAP: 'atto_cloudpoodll_swapmeout'
-
-    };
-    var STATE = {
-        subtitling: false,
-        transcoding: false,
-        started: false,
-        currentrecorder: false,
-        insertmethod: false,
-        subitleaudiobydefault: 0,
-        subitlevideobydefault: 0,
-        elementid: false,
-        subtitlecheckbox: false,
-    };
-
-    var TEMPLATES = {
-        ROOT: '' +
-            '<form class="mform atto_form atto_cloudpoodll_form" id="{{elementid}}_atto_cloudpoodll_form">' +
-            '<ul class="root nav nav-tabs" role="tablist">' +
-            "{{#if isvideo}}" +
-            '<li data-medium-type="{{CSS.VIDEO}}" class="nav-item">' +
-            '<a class="nav-link active" href="#{{elementid}}_{{CSS.VIDEO}}" role="tab" data-toggle="tab">' +
-            '{{get_string "video" component}}' +
-            '</a>' +
-            '</li>' +
-            "{{else}}" +
-            '<li data-medium-type="{{CSS.AUDIO}}" class="nav-item">' +
-            '<a class="nav-link active" href="#{{elementid}}_{{CSS.AUDIO}}" role="tab" data-toggle="tab">' +
-            '{{get_string "audio" component}}' +
-            '</a>' +
-            '</li>' +
-            "{{/if}}" +
-            '<li data-medium-type="{{CSS.UPLOAD}}" class="nav-item">' +
-            '<a class="nav-link" href="#{{elementid}}_{{CSS.UPLOAD}}" role="tab" data-toggle="tab">' +
-            '{{get_string "upload" component}}' +
-            '</a>' +
-            '</li>' +
-            '<li data-medium-type="{{CSS.OPTIONS}}" class="nav-item">' +
-            '<a class="nav-link" href="#{{elementid}}_{{CSS.OPTIONS}}" role="tab" data-toggle="tab">' +
-            '{{get_string "options" component}}' +
-            '</a>' +
-            '</li>' +
-            '<li data-medium-type="{{CSS.HISTORY}}" class="nav-item" data-content="history" >' +
-            '<a class="nav-link" href="#{{elementid}}_{{CSS.HISTORY}}" role="tab" data-toggle="tab">' +
-            '{{get_string "history" component}}' +
-            '</a>' +
-            '</li>' +
-            '</ul>' +
-            '<div class="root tab-content">' +
-            "{{#if isvideo}}" +
-            '<div data-medium-type="{{CSS.VIDEO}}" class="tab-pane active" id="{{elementid}}_{{CSS.VIDEO}}">' +
-            '' +
-            '<div id="{{elementid}}_{{CSS.CP_VIDEO}}" class="{{CSS.CP_SWAP}}" data-id="{{elementid}}_{{CSS.CP_VIDEO}}" data-parent="{{CP.parent}}"' +
-            ' data-appid="{{CP.appid}}" data-media="video" data-type="{{CP.videoskin}}" data-localloader="/lib/editor/atto/plugins/cloudpoodll/poodllloader.html"' +
-            ' data-localloading="auto" data-width="{{CP.sizes.videowidth}}" data-height="{{CP.sizes.videoheight}}"' +
-            ' data-transcode="{{CP.transcode}}" data-transcribe="{{subtitlevideobydefault}}" data-subtitle="{{subtitlevideobydefault}}" data-language="{{CP.language}}"' +
-            ' data-expiredays="{{CP.expiredays}}" data-region="{{CP.region}}" data-token="{{CP.token}}" data-fallback="{{CP.fallback}}"></div>' +
-            '</div>' +
-            "{{else}}" +
-            '<div data-medium-type="{{CSS.AUDIO}}" class="tab-pane active" id="{{elementid}}_{{CSS.AUDIO}}">' +
-            '<div id="{{elementid}}_{{CSS.CP_AUDIO}}" class="{{CSS.CP_SWAP}}" data-id="{{elementid}}_{{CSS.CP_AUDIO}}" data-parent="{{CP.parent}}"' +
-            ' data-appid="{{CP.appid}}" data-media="audio" data-type="{{CP.audioskin}}" data-localloader="/lib/editor/atto/plugins/cloudpoodll/poodllloader.html"' +
-            ' data-localloading="auto" data-width="{{CP.sizes.audiowidth}}" data-height="{{CP.sizes.audioheight}}"' +
-            ' data-transcode="{{CP.transcode}}" data-transcribe="{{subtitleaudiobydefault}}" data-subtitle="{{subtitleaudiobydefault}}" data-language="{{CP.language}}"' +
-            ' data-expiredays="{{CP.expiredays}}" data-region="{{CP.region}}" data-token="{{CP.token}}" data-fallback="{{CP.fallback}}"></div>' +
-            '</div>' +
-            "{{/if}}" +
-            '<div data-medium-type="{{CSS.UPLOAD}}" class="tab-pane" id="{{elementid}}_{{CSS.UPLOAD}}">' +
-            '<br>{{get_string "uploadinstructions" component}}' +
-            '<div id="{{elementid}}_{{CSS.CP_UPLOAD}}" class="{{CSS.CP_SWAP}}" data-id="{{elementid}}_{{CSS.CP_UPLOAD}}" data-parent="{{CP.parent}}"' +
-            ' data-appid="{{CP.appid}}" data-media="{{recorder}}" data-type="upload" data-width="450" data-height="350"' +
-            ' data-transcode="{{CP.transcode}}" ' +
-            "{{#if isvideo}}" +
-            'data-transcribe="{{subtitlevideobydefault}}" ' +
-            'data-subtitle="{{subtitlevideobydefault}}" ' +
-            "{{else}}" +
-            'data-transcribe="{{subtitleaudiobydefault}}" ' +
-            'data-subtitle="{{subtitleaudiobydefault}}" ' +
-            "{{/if}}" +
-            'data-language="{{CP.language}}"' +
-            'data-expiredays="{{CP.expiredays}}" data-region="{{CP.region}}" data-token="{{CP.token}}"></div>' +
-            '</div>' +
-            '<div data-medium-type="{{CSS.OPTIONS}}" class="tab-pane" id="{{elementid}}_{{CSS.OPTIONS}}">' +
-            '<br><label>' +
-            '<input type="checkbox" id="{{elementid}}_{{CSS.MEDIAINSERT_CHECKBOX}}" class="{{CSS.MEDIAINSERT_CHECKBOX}}"' +
-            "{{#if mediataginsert}}" +
-            ' checked="true" ' +
-            "{{/if}}" +
-            '/>&nbsp;{{get_string "mediainsertcheckbox" component}}' +
-            '</label>' +
-            "{{#if cansubtitle}}" +
-            '<br><label>' +
-            '<input type="checkbox" id="{{elementid}}_{{CSS.SUBTITLE_CHECKBOX}}" class="{{CSS.SUBTITLE_CHECKBOX}}"' +
-            "{{#if isvideo}}" +
-            "{{#if letssubtitlevideo}}" +
-            ' checked="true" ' +
-            "{{/if}}" +
-            "{{else}}" +
-            "{{#if letssubtitleaudio}}" +
-            ' checked="true" ' +
-            "{{/if}}" +
-            "{{/if}}" +
-            '/>' +
-            '&nbsp;{{get_string "subtitlecheckbox" component}}' +
-            '</label>' +
-            '<br><label>{{get_string "speakerlanguage" component}}&nbsp;' +
-            '<select id="{{elementid}}_{{CSS.LANG_SELECT}}" class="{{CSS.LANG_SELECT}}">' +
-            '<option value="{{LANG.ENUS}}" {{#if useENUS}}selected="selected"{{/if}}>{{get_string "en-us" component}}</option>' +
-            '<option value="{{LANG.ENUK}}" {{#if useENUK}}selected="selected"{{/if}}>{{get_string "en-uk" component}}</option>' +
-            '<option value="{{LANG.ENAU}}" {{#if useENAU}}selected="selected"{{/if}}>{{get_string "en-au" component}}</option>' +
-            '<option value="{{LANG.ENIN}}" {{#if useENIN}}selected="selected"{{/if}}>{{get_string "en-in" component}}</option>' +
-            '<option value="{{LANG.ESUS}}" {{#if useESUS}}selected="selected"{{/if}}>{{get_string "es-us" component}}</option>' +
-            '<option value="{{LANG.ESES}}" {{#if useESES}}selected="selected"{{/if}}>{{get_string "es-es" component}}</option>' +
-            '<option value="{{LANG.FRFR}}" {{#if useFRFR}}selected="selected"{{/if}}>{{get_string "fr-fr" component}}</option>' +
-            '<option value="{{LANG.FRCA}}" {{#if useFRCA}}selected="selected"{{/if}}>{{get_string "fr-ca" component}}</option>' +
-            '<option value="{{LANG.ITIT}}" {{#if useITIT}}selected="selected"{{/if}}>{{get_string "it-it" component}}</option>' +
-            '<option value="{{LANG.PTBR}}" {{#if usePTBR}}selected="selected"{{/if}}>{{get_string "pt-br" component}}</option>' +
-            '<option value="{{LANG.KOKR}}" {{#if useKOKR}}selected="selected"{{/if}}>{{get_string "ko-kr" component}}</option>' +
-            '<option value="{{LANG.DEDE}}" {{#if useDEDE}}selected="selected"{{/if}}>{{get_string "de-de" component}}</option>' +
-            '<option value="{{LANG.HIIN}}" {{#if useHIIN}}selected="selected"{{/if}}>{{get_string "hi-in" component}}</option>' +
-            '</select>' +
-            '</label>' +
-            '<br>{{get_string "subtitleinstructions" component}}' +
-            "{{else}}" +
-            "{{get_string 'cannotsubtitle' component}}" +
-            "{{/if}}" +
-            '</div>' +
-            '<div data-medium-type="{{CSS.HISTORY}}" class="tab-pane" id="{{elementid}}_{{CSS.HISTORY}}"></div>' +
-            '</div>' +
-            '</form>',
-        HTML_MEDIA: {
-            VIDEO: '' +
-                '&nbsp;<video ' +
-                'controls="true" crossorigin="anonymous"' +
-                '>' +
-                "{{#if includesourcetrack}}" +
-                '<source src="{{sourceurl}}" type="{{sourcemimetype}}">' +
-                "{{/if}}" +
-                '<source src="{{url}}" type="{{urlmimetype}}">' +
-                "{{#if issubtitling}}" +
-                '<track src="{{subtitleurl}}" kind="captions" srclang="{{CP.language}}" label="{{CP.language}}" default="true">' +
-                "{{/if}}" +
-                '</video>&nbsp;',
-            AUDIO: '' +
-                '&nbsp;<audio ' +
-                'controls="true" crossorigin="anonymous"' +
-                '>' +
-                "{{#if includesourcetrack}}" +
-                '<source src="{{sourceurl}}" type="{{sourcemimetype}}">' +
-                "{{/if}}" +
-                '<source src="{{url}}" type="{{urlmimetype}}">' +
-                "{{#if issubtitling}}" +
-                '<track src="{{subtitleurl}}" kind="captions" srclang="{{CP.language}}" label="{{CP.language}}" default="true">' +
-                "{{/if}}" +
-                '</audio>&nbsp;',
-            LINK: '' +
-                "{{#if issubtitling}}" +
-                '&nbsp;<a href="{{url}}?data-subtitles={{subtitleurl}}&data-language={{CP.language}}"' +
-                "{{else}}" +
-                '&nbsp;<a href="{{url}}"' +
-                "{{/if}}" +
-                '>{{name}}</a>&nbsp;'
-        }
-    };
-
-
-    Y.namespace('M.atto_cloudpoodll').Button = Y.Base.create('button', Y.M.editor_atto.EditorPlugin, [], {
-        initializer: function (config) {
-            //if we don't have the capability
-            if (config.disabled) {
-                return;
-            }
-
-            var recorders = ['audio', 'video'];
-            for (var therecorder = 0; therecorder < recorders.length; therecorder++) {
-                // Add the poodll button first (if we are supposed to)
-                if (config.hasOwnProperty(recorders[therecorder])) {
-                    this.addButton({
-                        icon: recorders[therecorder],
-                        iconComponent: 'atto_cloudpoodll',
-                        title: recorders[therecorder] + '_desc',
-                        buttonName: recorders[therecorder],
-                        callback: this._displayDialogue,
-                        callbackArgs: recorders[therecorder]
-                    });
-                }
-            }
-
-            //insert method
-            STATE.insertmethod = config.insertmethod;
-
-            //subtitle by default
-            STATE.subtitleaudiobydefault = config.subtitleaudiobydefault;
-            STATE.subtitlevideobydefault = config.subtitlevideobydefault;
-
-            //transcoding flag
-            STATE.transcoding = config.cp_transcode == '1';
-
-            //set up the cloudpoodll div
-            CLOUDPOODLL.parent = M.cfg.wwwroot;
-            CLOUDPOODLL.appid = 'atto_cloudpoodll';
-            CLOUDPOODLL.token = config.cp_token;
-            CLOUDPOODLL.region = config.cp_region;
-            CLOUDPOODLL.expiredays = config.cp_expiredays;
-            CLOUDPOODLL.cansubtitle = config.cp_cansubtitle;
-            CLOUDPOODLL.language = config.cp_language;
-            CLOUDPOODLL.transcode = config.cp_transcode;
-            CLOUDPOODLL.audioskin = config.cp_audioskin;
-            CLOUDPOODLL.videoskin = config.cp_videoskin;
-            CLOUDPOODLL.fallback = config.fallback;
-            CLOUDPOODLL.sizes = this._fetchRecorderDimensions();
+    _getContext:
+        function (extra) {
+            return Y.merge({
+                elementid: this.get('host').get('elementid'),
+                component: COMPONENTNAME,
+                helpStrings: this.get('help'),
+                isvideo: STATE.currentrecorder == RECORDERS.VIDEO,
+                cansubtitle: CLOUDPOODLL.cansubtitle,
+                recorder: STATE.currentrecorder,
+                mediataginsert: STATE.insertmethod == INSERTMETHOD.TAGS,
+                subtitleaudiobydefault: STATE.subtitleaudiobydefault,
+                subtitlevideobydefault: STATE.subtitlevideobydefault,
+                letssubtitleaudio: STATE.subtitleaudiobydefault == 1,
+                letssubtitlevideo: STATE.subtitlevideobydefault == 1,
+                useENUS: CLOUDPOODLL.language === LANGUAGE.ENUS,
+                useENGB: CLOUDPOODLL.language === LANGUAGE.ENGB,
+                useENAU: CLOUDPOODLL.language === LANGUAGE.ENAU,
+                useENIN: CLOUDPOODLL.language === LANGUAGE.ENIN,
+                useFRCA: CLOUDPOODLL.language === LANGUAGE.FRCA,
+                useFRFR: CLOUDPOODLL.language === LANGUAGE.FRFR,
+                useESUS: CLOUDPOODLL.language === LANGUAGE.ESUS,
+                useESES: CLOUDPOODLL.language === LANGUAGE.ESES,
+                useITIT: CLOUDPOODLL.language === LANGUAGE.ITIT,
+                usePTBR: CLOUDPOODLL.language === LANGUAGE.PTBR,
+                useDEDE: CLOUDPOODLL.language === LANGUAGE.DEDE,
+                useKOKR: CLOUDPOODLL.language === LANGUAGE.KOKR,
+                useHIIN: CLOUDPOODLL.language === LANGUAGE.HIIN,
+                useARAE: CLOUDPOODLL.language === LANGUAGE.ARAE,
+                useARSA: CLOUDPOODLL.language === LANGUAGE.ARSA,
+                useZHCN: CLOUDPOODLL.language === LANGUAGE.ZHCN,
+                useNLNL: CLOUDPOODLL.language === LANGUAGE.NLNL,
+                useENIE: CLOUDPOODLL.language === LANGUAGE.ENIE,
+                useENWL: CLOUDPOODLL.language === LANGUAGE.ENWL,
+                useENAB: CLOUDPOODLL.language === LANGUAGE.ENAB,
+                useFAIR: CLOUDPOODLL.language === LANGUAGE.FAIR,
+                useDECH: CLOUDPOODLL.language === LANGUAGE.DECH,
+                useHEIL: CLOUDPOODLL.language === LANGUAGE.HEIL,
+                useIDID: CLOUDPOODLL.language === LANGUAGE.IDID,
+                useJAJP: CLOUDPOODLL.language === LANGUAGE.JAJP,
+                useMSMY: CLOUDPOODLL.language === LANGUAGE.MSMY,
+                usePTPT: CLOUDPOODLL.language === LANGUAGE.PTPT,
+                useRURU: CLOUDPOODLL.language === LANGUAGE.RURU,
+                useTAIN: CLOUDPOODLL.language === LANGUAGE.TAIN,
+                useTEIN: CLOUDPOODLL.language === LANGUAGE.TEIN,
+                useTRTR: CLOUDPOODLL.language === LANGUAGE.TRTR,
+                CSS: CSS,
+                CP: CLOUDPOODLL,
+                LANG: LANGUAGE
+            }, extra);
         },
-
-        /**
-         * Gets the root context for all templates, with extra supplied context.
-         *
-         * @method _getContext
-         * @param  {Object} extra The extra context to add
-         * @return {Object}
-         * @private
-         */
-        _getContext:
-            function (extra) {
-                return Y.merge({
-                    elementid: this.get('host').get('elementid'),
-                    component: COMPONENTNAME,
-                    helpStrings: this.get('help'),
-                    isvideo: STATE.currentrecorder == RECORDERS.VIDEO,
-                    cansubtitle: CLOUDPOODLL.cansubtitle,
-                    recorder: STATE.currentrecorder,
-                    mediataginsert: STATE.insertmethod == INSERTMETHOD.TAGS,
-                    subtitleaudiobydefault: STATE.subtitleaudiobydefault,
-                    subtitlevideobydefault: STATE.subtitlevideobydefault,
-                    letssubtitleaudio: STATE.subtitleaudiobydefault == 1,
-                    letssubtitlevideo: STATE.subtitlevideobydefault == 1,
-                    useENUS: CLOUDPOODLL.language == LANGUAGE.ENUS,
-                    useENUK: CLOUDPOODLL.language == LANGUAGE.ENUK,
-                    useENAU: CLOUDPOODLL.language == LANGUAGE.ENAU,
-                    useENIN: CLOUDPOODLL.language == LANGUAGE.ENIN,
-                    useFRCA: CLOUDPOODLL.language == LANGUAGE.FRCA,
-                    useFRFR: CLOUDPOODLL.language == LANGUAGE.FRFR,
-                    useESUS: CLOUDPOODLL.language == LANGUAGE.ESUS,
-                    useESES: CLOUDPOODLL.language == LANGUAGE.ESES,
-                    useITIT: CLOUDPOODLL.language == LANGUAGE.ITIT,
-                    usePTBR: CLOUDPOODLL.language == LANGUAGE.PTBR,
-                    useDEDE: CLOUDPOODLL.language == LANGUAGE.DEDE,
-                    useKOKR: CLOUDPOODLL.language == LANGUAGE.KOKR,
-                    useHIIN: CLOUDPOODLL.language == LANGUAGE.HIIN,
-                    CSS: CSS,
-                    CP: CLOUDPOODLL,
-                    LANG: LANGUAGE
-                }, extra);
-            },
 
         _fetchRecorderDimensions: function () {
             // Get return object
