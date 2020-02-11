@@ -272,7 +272,7 @@ YUI.add('moodle-atto_cloudpoodll-button', function (Y, NAME) {
                 '>{{name}}</a>&nbsp;'
         }
     };
-
+    let poodleRecorder = null;
 
     Y.namespace('M.atto_cloudpoodll').Button = Y.Base.create('button', Y.M.editor_atto.EditorPlugin, [], {
         initializer: function (config) {
@@ -498,6 +498,7 @@ YUI.add('moodle-atto_cloudpoodll-button', function (Y, NAME) {
             STATE.languageselect = Y.one('#' + STATE.elementid + '_' + CSS.LANG_SELECT);
             var topnode = Y.one('#' + STATE.elementid + '_' + CSS.ATTO_CLOUDPOODLL_FORM);
             var that = this;
+            poodleRecorder = that;
 
             //subtitle checkbox click event.. reload recorders
             if (STATE.subtitlecheckbox != null) {
@@ -644,6 +645,7 @@ YUI.add('moodle-atto_cloudpoodll-button', function (Y, NAME) {
          */
         _loadRecorders: function () {
             var that = this;
+
             that.uploaded = false;
             that.ap_count = 0;
             require(['atto_cloudpoodll/cloudpoodllloader'], function (loader) {
@@ -703,9 +705,11 @@ YUI.add('moodle-atto_cloudpoodll-button', function (Y, NAME) {
 
         insertHistoryItem: function(historyItem) {
             let obj = this;
-            let cpinstance = CLOUDPOODLL;
-            cpinstance.focusAfterHide = null;
-            Y.namespace('M.atto_cloudpoodll').Button.prototype.getDialogue(cpinstance).hide();
+
+            poodleRecorder.getDialogue({
+                focusAfterHide: null
+            }).hide();
+
 
             require(['core/ajax'], function (ajax) {
                 ajax.call([{
@@ -714,13 +718,14 @@ YUI.add('moodle-atto_cloudpoodll-button', function (Y, NAME) {
                     done: function (historyItemData) {
                         const [first] = historyItemData.responses;
                         let item = first;
-                        let {context, template} = obj.createMediaLink(
+                        let {context, template} = poodleRecorder.createMediaLink(
                             item.mediaurl,
                             item.mediafilename,
                             item.filetitle,
                             item.sourcemimetype
                         );
-                        obj.insertIntoEditor(template, context);
+                        template = poodleRecorder.createMediaTemplate(context, item.sourcemimetype, template);
+                        poodleRecorder.insertIntoEditor(template, context);
                     }
                 }]);
             });
@@ -749,6 +754,31 @@ YUI.add('moodle-atto_cloudpoodll-button', function (Y, NAME) {
             host.setSelection(this._currentSelection);
             host.insertContentAtFocusPoint(content);
             this.markUpdated();
+        },
+
+        createMediaTemplate: function (context, sourcemimetype, template) {
+            if (STATE.currentrecorder === RECORDERS.VIDEO) {
+                context.width = false;
+                context.height = false;
+                context.poster = false;
+                if (STATE.transcoding) {
+                    context.urlmimetype = 'video/mp4';
+                } else {
+                    context.urlmimetype = sourcemimetype;
+                }
+                template = TEMPLATES.HTML_MEDIA.VIDEO;
+            } else {
+                context.width = false;
+                context.height = false;
+                context.poster = false;
+                if (STATE.transcoding) {
+                    context.urlmimetype = 'audio/mp3';
+                } else {
+                    context.urlmimetype = sourcemimetype;
+                }
+                template = TEMPLATES.HTML_MEDIA.AUDIO;
+            }
+            return template;
         },
 
         /**
@@ -784,27 +814,7 @@ YUI.add('moodle-atto_cloudpoodll-button', function (Y, NAME) {
             switch (STATE.insertmethod) {
 
                 case INSERTMETHOD.TAGS:
-                    if (STATE.currentrecorder === RECORDERS.VIDEO) {
-                        context.width = false;
-                        context.height = false;
-                        context.poster = false;
-                        if (STATE.transcoding) {
-                            context.urlmimetype = 'video/mp4';
-                        } else {
-                            context.urlmimetype = sourcemimetype;
-                        }
-                        template = TEMPLATES.HTML_MEDIA.VIDEO;
-                    } else {
-                        context.width = false;
-                        context.height = false;
-                        context.poster = false;
-                        if (STATE.transcoding) {
-                            context.urlmimetype = 'audio/mp3';
-                        } else {
-                            context.urlmimetype = sourcemimetype;
-                        }
-                        template = TEMPLATES.HTML_MEDIA.AUDIO;
-                    }
+                    template = this.createMediaTemplate(context, sourcemimetype, template);
                     break;
 
                 case INSERTMETHOD.LINK:
