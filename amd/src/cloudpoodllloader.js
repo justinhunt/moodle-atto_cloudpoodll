@@ -21,7 +21,7 @@ define(['jquery', 'core/log',
                             "  </div>\n" +
                             "</div><br />";
 
-                        $('#id_introeditor_atto_cloudpoodll_history').html(loadingHtml);
+                        $('div[data-field="history"]').html(loadingHtml);
 
                         Y.namespace('M.atto_cloudpoodll').Button.prototype.loadHistory();
                     });

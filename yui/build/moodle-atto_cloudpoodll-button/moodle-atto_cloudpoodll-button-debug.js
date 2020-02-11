@@ -234,8 +234,8 @@ YUI.add('moodle-atto_cloudpoodll-button', function (Y, NAME) {
         "{{get_string 'cannotsubtitle' component}}" +
         "{{/if}}" +
         '</div>' +
+        '<div data-medium-type="{{CSS.HISTORY}}" data-field="history" class="tab-pane" id="{{elementid}}_{{CSS.HISTORY}}"></div>' +
         '</div>' +
-        '<div data-medium-type="{{CSS.HISTORY}}" class="tab-pane" id="{{elementid}}_{{CSS.HISTORY}}"></div>' +
         '</div>' +
         '</form>',
         HTML_MEDIA: {
@@ -606,7 +606,7 @@ YUI.add('moodle-atto_cloudpoodll-button', function (Y, NAME) {
 
                             templates.render('atto_cloudpoodll/history', context)
                                 .then(function (html, js) {
-                                    templates.replaceNodeContents('#id_introeditor_atto_cloudpoodll_history', html, js);
+                                    templates.replaceNodeContents('div[data-field="history"]', html, js);
                                 }).fail(function (ex) {
                             });
                         }
@@ -631,7 +631,7 @@ YUI.add('moodle-atto_cloudpoodll-button', function (Y, NAME) {
                         var context = {data: historyItemData.responses, isVideo: STATE.currentrecorder === RECORDERS.VIDEO};
                         templates.render('atto_cloudpoodll/historypreview', context)
                             .then(function (html, js) {
-                                templates.replaceNodeContents('#id_introeditor_atto_cloudpoodll_history', html, js);
+                                templates.replaceNodeContents('div[data-field="history"]', html, js);
                             }).fail(function (ex) {
                         });
                     }
