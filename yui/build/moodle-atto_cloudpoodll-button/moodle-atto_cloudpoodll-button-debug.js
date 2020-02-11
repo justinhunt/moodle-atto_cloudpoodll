@@ -107,169 +107,169 @@ YUI.add('moodle-atto_cloudpoodll-button', function (Y, NAME) {
 
     var TEMPLATES = {
         ROOT: '' +
-        '<form class="mform atto_form atto_cloudpoodll_form" id="{{elementid}}_atto_cloudpoodll_form">' +
-        '<ul class="root nav nav-tabs" role="tablist">' +
-        "{{#if isvideo}}" +
-        '<li data-medium-type="{{CSS.VIDEO}}" class="nav-item">' +
-        '<a class="nav-link active" href="#{{elementid}}_{{CSS.VIDEO}}" role="tab" data-toggle="tab">' +
-        '{{get_string "video" component}}' +
-        '</a>' +
-        '</li>' +
-        "{{else}}" +
-        '<li data-medium-type="{{CSS.AUDIO}}" class="nav-item">' +
-        '<a class="nav-link active" href="#{{elementid}}_{{CSS.AUDIO}}" role="tab" data-toggle="tab">' +
-        '{{get_string "audio" component}}' +
-        '</a>' +
-        '</li>' +
-        "{{/if}}" +
-        '<li data-medium-type="{{CSS.UPLOAD}}" class="nav-item">' +
-        '<a class="nav-link" href="#{{elementid}}_{{CSS.UPLOAD}}" role="tab" data-toggle="tab">' +
-        '{{get_string "upload" component}}' +
-        '</a>' +
-        '</li>' +
-        '<li data-medium-type="{{CSS.OPTIONS}}" class="nav-item">' +
-        '<a class="nav-link" href="#{{elementid}}_{{CSS.OPTIONS}}" role="tab" data-toggle="tab">' +
-        '{{get_string "options" component}}' +
-        '</a>' +
-        '</li>' +
-        '<li data-medium-type="{{CSS.HISTORY}}" class="nav-item" data-content="history" >' +
-        '<a class="nav-link" href="#{{elementid}}_{{CSS.HISTORY}}" role="tab" data-toggle="tab">' +
-        '{{get_string "history" component}}' +
-        '</a>' +
-        '</li>' +
-        '</ul>' +
-        '<div class="root tab-content">' +
-        "{{#if isvideo}}" +
-        '<div data-medium-type="{{CSS.VIDEO}}" class="tab-pane active" id="{{elementid}}_{{CSS.VIDEO}}">' +
-        '' +
-        '<div id="{{elementid}}_{{CSS.CP_VIDEO}}" class="{{CSS.CP_SWAP}}" data-id="{{elementid}}_{{CSS.CP_VIDEO}}" data-parent="{{CP.parent}}"' +
-        ' data-appid="{{CP.appid}}" data-media="video" data-type="{{CP.videoskin}}" data-localloader="/lib/editor/atto/plugins/cloudpoodll/poodllloader.html"' +
-        ' data-localloading="auto" data-width="{{CP.sizes.videowidth}}" data-height="{{CP.sizes.videoheight}}"' +
-        ' data-transcode="{{CP.transcode}}" data-transcribe="{{subtitlevideobydefault}}" data-subtitle="{{subtitlevideobydefault}}" data-language="{{CP.language}}"' +
-        ' data-expiredays="{{CP.expiredays}}" data-region="{{CP.region}}" data-owner="{{CP.owner}}" data-token="{{CP.token}}" data-fallback="{{CP.fallback}}"></div>' +
-        '</div>' +
-        "{{else}}" +
-        '<div data-medium-type="{{CSS.AUDIO}}" class="tab-pane active" id="{{elementid}}_{{CSS.AUDIO}}">' +
-        '<div id="{{elementid}}_{{CSS.CP_AUDIO}}" class="{{CSS.CP_SWAP}}" data-id="{{elementid}}_{{CSS.CP_AUDIO}}" data-parent="{{CP.parent}}"' +
-        ' data-appid="{{CP.appid}}" data-media="audio" data-type="{{CP.audioskin}}" data-localloader="/lib/editor/atto/plugins/cloudpoodll/poodllloader.html"' +
-        ' data-localloading="auto" data-width="{{CP.sizes.audiowidth}}" data-height="{{CP.sizes.audioheight}}"' +
-        ' data-transcode="{{CP.transcode}}" data-transcribe="{{subtitleaudiobydefault}}" data-subtitle="{{subtitleaudiobydefault}}" data-language="{{CP.language}}"' +
-        ' data-expiredays="{{CP.expiredays}}" data-region="{{CP.region}}" data-owner="{{CP.owner}}" data-token="{{CP.token}}" data-fallback="{{CP.fallback}}"></div>' +
-        '</div>' +
-        "{{/if}}" +
-        '<div data-medium-type="{{CSS.UPLOAD}}" class="tab-pane" id="{{elementid}}_{{CSS.UPLOAD}}">' +
-        '<br>{{get_string "uploadinstructions" component}}' +
-        '<div id="{{elementid}}_{{CSS.CP_UPLOAD}}" class="{{CSS.CP_SWAP}}" data-id="{{elementid}}_{{CSS.CP_UPLOAD}}" data-parent="{{CP.parent}}"' +
-        ' data-appid="{{CP.appid}}" data-media="{{recorder}}" data-type="upload" data-width="450" data-height="350"' +
-        ' data-transcode="{{CP.transcode}}" ' +
-        "{{#if isvideo}}" +
-        'data-transcribe="{{subtitlevideobydefault}}" ' +
-        'data-subtitle="{{subtitlevideobydefault}}" ' +
-        "{{else}}" +
-        'data-transcribe="{{subtitleaudiobydefault}}" ' +
-        'data-subtitle="{{subtitleaudiobydefault}}" ' +
-        "{{/if}}" +
-        'data-language="{{CP.language}}"' +
-        'data-expiredays="{{CP.expiredays}}" data-region="{{CP.region}}" data-owner="{{CP.owner}}" data-token="{{CP.token}}"></div>' +
-        '</div>' +
-        '<div data-medium-type="{{CSS.OPTIONS}}" class="tab-pane" id="{{elementid}}_{{CSS.OPTIONS}}">' +
-        '<br><label>' +
-        '<input type="checkbox" id="{{elementid}}_{{CSS.MEDIAINSERT_CHECKBOX}}" class="{{CSS.MEDIAINSERT_CHECKBOX}}"' +
-        "{{#if mediataginsert}}" +
-        ' checked="true" ' +
-        "{{/if}}" +
-        '/>&nbsp;{{get_string "mediainsertcheckbox" component}}' +
-        '</label>' +
-        "{{#if cansubtitle}}" +
-        '<br><label>' +
-        '<input type="checkbox" id="{{elementid}}_{{CSS.SUBTITLE_CHECKBOX}}" class="{{CSS.SUBTITLE_CHECKBOX}}"' +
-        "{{#if isvideo}}" +
-        "{{#if letssubtitlevideo}}" +
-        ' checked="true" ' +
-        "{{/if}}" +
-        "{{else}}" +
-        "{{#if letssubtitleaudio}}" +
-        ' checked="true" ' +
-        "{{/if}}" +
-        "{{/if}}" +
-        '/>' +
-        '&nbsp;{{get_string "subtitlecheckbox" component}}' +
-        '</label>' +
-        '<br><label>{{get_string "speakerlanguage" component}}&nbsp;' +
-        '<select id="{{elementid}}_{{CSS.LANG_SELECT}}" class="{{CSS.LANG_SELECT}}">' +
-        '<option value="{{LANG.ARAE}}" {{#if useARAE}}selected="selected"{{/if}}>{{get_string "ar-ae" component}}</option>' +
-        '<option value="{{LANG.ARSA}}" {{#if useARSA}}selected="selected"{{/if}}>{{get_string "ar-sa" component}}</option>' +
-        '<option value="{{LANG.DEDE}}" {{#if useDEDE}}selected="selected"{{/if}}>{{get_string "de-de" component}}</option>' +
-        '<option value="{{LANG.DECH}}" {{#if useDECH}}selected="selected"{{/if}}>{{get_string "de-ch" component}}</option>' +
-        '<option value="{{LANG.ENUS}}" {{#if useENUS}}selected="selected"{{/if}}>{{get_string "en-us" component}}</option>' +
-        '<option value="{{LANG.ENGB}}" {{#if useENGB}}selected="selected"{{/if}}>{{get_string "en-gb" component}}</option>' +
-        '<option value="{{LANG.ENAU}}" {{#if useENAU}}selected="selected"{{/if}}>{{get_string "en-au" component}}</option>' +
-        '<option value="{{LANG.ENIN}}" {{#if useENIN}}selected="selected"{{/if}}>{{get_string "en-in" component}}</option>' +
-        '<option value="{{LANG.ENIE}}" {{#if useENIE}}selected="selected"{{/if}}>{{get_string "en-ie" component}}</option>' +
-        '<option value="{{LANG.ENWL}}" {{#if useENWL}}selected="selected"{{/if}}>{{get_string "en-wl" component}}</option>' +
-        '<option value="{{LANG.ENAB}}" {{#if useENAB}}selected="selected"{{/if}}>{{get_string "en-ab" component}}</option>' +
-        '<option value="{{LANG.ESUS}}" {{#if useESUS}}selected="selected"{{/if}}>{{get_string "es-us" component}}</option>' +
-        '<option value="{{LANG.ESES}}" {{#if useESES}}selected="selected"{{/if}}>{{get_string "es-es" component}}</option>' +
-        '<option value="{{LANG.FAIR}}" {{#if useFAIR}}selected="selected"{{/if}}>{{get_string "fa-ir" component}}</option>' +
-        '<option value="{{LANG.FRFR}}" {{#if useFRFR}}selected="selected"{{/if}}>{{get_string "fr-fr" component}}</option>' +
-        '<option value="{{LANG.FRCA}}" {{#if useFRCA}}selected="selected"{{/if}}>{{get_string "fr-ca" component}}</option>' +
-        '<option value="{{LANG.HEIL}}" {{#if useHEIL}}selected="selected"{{/if}}>{{get_string "he-il" component}}</option>' +
-        '<option value="{{LANG.HIIN}}" {{#if useHIIN}}selected="selected"{{/if}}>{{get_string "hi-in" component}}</option>' +
-        '<option value="{{LANG.ITIT}}" {{#if useITIT}}selected="selected"{{/if}}>{{get_string "it-it" component}}</option>' +
-        '<option value="{{LANG.JAJP}}" {{#if useJAJP}}selected="selected"{{/if}}>{{get_string "ja-jp" component}}</option>' +
-        '<option value="{{LANG.KOKR}}" {{#if useKOKR}}selected="selected"{{/if}}>{{get_string "ko-kr" component}}</option>' +
-        '<option value="{{LANG.MSMY}}" {{#if useMSMY}}selected="selected"{{/if}}>{{get_string "ms-my" component}}</option>' +
-        '<option value="{{LANG.NLNL}}" {{#if useNLNL}}selected="selected"{{/if}}>{{get_string "nl-nl" component}}</option>' +
-        '<option value="{{LANG.PTPT}}" {{#if usePTPT}}selected="selected"{{/if}}>{{get_string "pt-pt" component}}</option>' +
-        '<option value="{{LANG.PTBR}}" {{#if usePTBR}}selected="selected"{{/if}}>{{get_string "pt-br" component}}</option>' +
-        '<option value="{{LANG.RURU}}" {{#if useRURU}}selected="selected"{{/if}}>{{get_string "ru-ru" component}}</option>' +
-        '<option value="{{LANG.TAIN}}" {{#if useTAIN}}selected="selected"{{/if}}>{{get_string "ta-in" component}}</option>' +
-        '<option value="{{LANG.TEIN}}" {{#if useTEIN}}selected="selected"{{/if}}>{{get_string "te-in" component}}</option>' +
-        '<option value="{{LANG.TRTR}}" {{#if useTRTR}}selected="selected"{{/if}}>{{get_string "tr-tr" component}}</option>' +
-        '<option value="{{LANG.ZHCN}}" {{#if useZHCN}}selected="selected"{{/if}}>{{get_string "zh-cn" component}}</option>' +
-        '</select>' +
-        '</label>' +
-        '<br>{{get_string "subtitleinstructions" component}}' +
-        "{{else}}" +
-        "{{get_string 'cannotsubtitle' component}}" +
-        "{{/if}}" +
-        '</div>' +
-        '<div data-medium-type="{{CSS.HISTORY}}" data-field="history" class="tab-pane" id="{{elementid}}_{{CSS.HISTORY}}"></div>' +
-        '</div>' +
-        '</div>' +
-        '</form>',
+            '<form class="mform atto_form atto_cloudpoodll_form" id="{{elementid}}_atto_cloudpoodll_form">' +
+            '<ul class="root nav nav-tabs" role="tablist">' +
+            "{{#if isvideo}}" +
+            '<li data-medium-type="{{CSS.VIDEO}}" class="nav-item">' +
+            '<a class="nav-link active" href="#{{elementid}}_{{CSS.VIDEO}}" role="tab" data-toggle="tab">' +
+            '{{get_string "video" component}}' +
+            '</a>' +
+            '</li>' +
+            "{{else}}" +
+            '<li data-medium-type="{{CSS.AUDIO}}" class="nav-item">' +
+            '<a class="nav-link active" href="#{{elementid}}_{{CSS.AUDIO}}" role="tab" data-toggle="tab">' +
+            '{{get_string "audio" component}}' +
+            '</a>' +
+            '</li>' +
+            "{{/if}}" +
+            '<li data-medium-type="{{CSS.UPLOAD}}" class="nav-item">' +
+            '<a class="nav-link" href="#{{elementid}}_{{CSS.UPLOAD}}" role="tab" data-toggle="tab">' +
+            '{{get_string "upload" component}}' +
+            '</a>' +
+            '</li>' +
+            '<li data-medium-type="{{CSS.OPTIONS}}" class="nav-item">' +
+            '<a class="nav-link" href="#{{elementid}}_{{CSS.OPTIONS}}" role="tab" data-toggle="tab">' +
+            '{{get_string "options" component}}' +
+            '</a>' +
+            '</li>' +
+            '<li data-medium-type="{{CSS.HISTORY}}" class="nav-item" data-content="history" >' +
+            '<a class="nav-link" href="#{{elementid}}_{{CSS.HISTORY}}" role="tab" data-toggle="tab">' +
+            '{{get_string "history" component}}' +
+            '</a>' +
+            '</li>' +
+            '</ul>' +
+            '<div class="root tab-content">' +
+            "{{#if isvideo}}" +
+            '<div data-medium-type="{{CSS.VIDEO}}" class="tab-pane active" id="{{elementid}}_{{CSS.VIDEO}}">' +
+            '' +
+            '<div id="{{elementid}}_{{CSS.CP_VIDEO}}" class="{{CSS.CP_SWAP}}" data-id="{{elementid}}_{{CSS.CP_VIDEO}}" data-parent="{{CP.parent}}"' +
+            ' data-appid="{{CP.appid}}" data-media="video" data-type="{{CP.videoskin}}" data-localloader="/lib/editor/atto/plugins/cloudpoodll/poodllloader.html"' +
+            ' data-localloading="auto" data-width="{{CP.sizes.videowidth}}" data-height="{{CP.sizes.videoheight}}"' +
+            ' data-transcode="{{CP.transcode}}" data-transcribe="{{subtitlevideobydefault}}" data-subtitle="{{subtitlevideobydefault}}" data-language="{{CP.language}}"' +
+            ' data-expiredays="{{CP.expiredays}}" data-region="{{CP.region}}" data-owner="{{CP.owner}}" data-token="{{CP.token}}" data-fallback="{{CP.fallback}}"></div>' +
+            '</div>' +
+            "{{else}}" +
+            '<div data-medium-type="{{CSS.AUDIO}}" class="tab-pane active" id="{{elementid}}_{{CSS.AUDIO}}">' +
+            '<div id="{{elementid}}_{{CSS.CP_AUDIO}}" class="{{CSS.CP_SWAP}}" data-id="{{elementid}}_{{CSS.CP_AUDIO}}" data-parent="{{CP.parent}}"' +
+            ' data-appid="{{CP.appid}}" data-media="audio" data-type="{{CP.audioskin}}" data-localloader="/lib/editor/atto/plugins/cloudpoodll/poodllloader.html"' +
+            ' data-localloading="auto" data-width="{{CP.sizes.audiowidth}}" data-height="{{CP.sizes.audioheight}}"' +
+            ' data-transcode="{{CP.transcode}}" data-transcribe="{{subtitleaudiobydefault}}" data-subtitle="{{subtitleaudiobydefault}}" data-language="{{CP.language}}"' +
+            ' data-expiredays="{{CP.expiredays}}" data-region="{{CP.region}}" data-owner="{{CP.owner}}" data-token="{{CP.token}}" data-fallback="{{CP.fallback}}"></div>' +
+            '</div>' +
+            "{{/if}}" +
+            '<div data-medium-type="{{CSS.UPLOAD}}" class="tab-pane" id="{{elementid}}_{{CSS.UPLOAD}}">' +
+            '<br>{{get_string "uploadinstructions" component}}' +
+            '<div id="{{elementid}}_{{CSS.CP_UPLOAD}}" class="{{CSS.CP_SWAP}}" data-id="{{elementid}}_{{CSS.CP_UPLOAD}}" data-parent="{{CP.parent}}"' +
+            ' data-appid="{{CP.appid}}" data-media="{{recorder}}" data-type="upload" data-width="450" data-height="350"' +
+            ' data-transcode="{{CP.transcode}}" ' +
+            "{{#if isvideo}}" +
+            'data-transcribe="{{subtitlevideobydefault}}" ' +
+            'data-subtitle="{{subtitlevideobydefault}}" ' +
+            "{{else}}" +
+            'data-transcribe="{{subtitleaudiobydefault}}" ' +
+            'data-subtitle="{{subtitleaudiobydefault}}" ' +
+            "{{/if}}" +
+            'data-language="{{CP.language}}"' +
+            'data-expiredays="{{CP.expiredays}}" data-region="{{CP.region}}" data-owner="{{CP.owner}}" data-token="{{CP.token}}"></div>' +
+            '</div>' +
+            '<div data-medium-type="{{CSS.OPTIONS}}" class="tab-pane" id="{{elementid}}_{{CSS.OPTIONS}}">' +
+            '<br><label>' +
+            '<input type="checkbox" id="{{elementid}}_{{CSS.MEDIAINSERT_CHECKBOX}}" class="{{CSS.MEDIAINSERT_CHECKBOX}}"' +
+            "{{#if mediataginsert}}" +
+            ' checked="true" ' +
+            "{{/if}}" +
+            '/>&nbsp;{{get_string "mediainsertcheckbox" component}}' +
+            '</label>' +
+            "{{#if cansubtitle}}" +
+            '<br><label>' +
+            '<input type="checkbox" id="{{elementid}}_{{CSS.SUBTITLE_CHECKBOX}}" class="{{CSS.SUBTITLE_CHECKBOX}}"' +
+            "{{#if isvideo}}" +
+            "{{#if letssubtitlevideo}}" +
+            ' checked="true" ' +
+            "{{/if}}" +
+            "{{else}}" +
+            "{{#if letssubtitleaudio}}" +
+            ' checked="true" ' +
+            "{{/if}}" +
+            "{{/if}}" +
+            '/>' +
+            '&nbsp;{{get_string "subtitlecheckbox" component}}' +
+            '</label>' +
+            '<br><label>{{get_string "speakerlanguage" component}}&nbsp;' +
+            '<select id="{{elementid}}_{{CSS.LANG_SELECT}}" class="{{CSS.LANG_SELECT}}">' +
+            '<option value="{{LANG.ARAE}}" {{#if useARAE}}selected="selected"{{/if}}>{{get_string "ar-ae" component}}</option>' +
+            '<option value="{{LANG.ARSA}}" {{#if useARSA}}selected="selected"{{/if}}>{{get_string "ar-sa" component}}</option>' +
+            '<option value="{{LANG.DEDE}}" {{#if useDEDE}}selected="selected"{{/if}}>{{get_string "de-de" component}}</option>' +
+            '<option value="{{LANG.DECH}}" {{#if useDECH}}selected="selected"{{/if}}>{{get_string "de-ch" component}}</option>' +
+            '<option value="{{LANG.ENUS}}" {{#if useENUS}}selected="selected"{{/if}}>{{get_string "en-us" component}}</option>' +
+            '<option value="{{LANG.ENGB}}" {{#if useENGB}}selected="selected"{{/if}}>{{get_string "en-gb" component}}</option>' +
+            '<option value="{{LANG.ENAU}}" {{#if useENAU}}selected="selected"{{/if}}>{{get_string "en-au" component}}</option>' +
+            '<option value="{{LANG.ENIN}}" {{#if useENIN}}selected="selected"{{/if}}>{{get_string "en-in" component}}</option>' +
+            '<option value="{{LANG.ENIE}}" {{#if useENIE}}selected="selected"{{/if}}>{{get_string "en-ie" component}}</option>' +
+            '<option value="{{LANG.ENWL}}" {{#if useENWL}}selected="selected"{{/if}}>{{get_string "en-wl" component}}</option>' +
+            '<option value="{{LANG.ENAB}}" {{#if useENAB}}selected="selected"{{/if}}>{{get_string "en-ab" component}}</option>' +
+            '<option value="{{LANG.ESUS}}" {{#if useESUS}}selected="selected"{{/if}}>{{get_string "es-us" component}}</option>' +
+            '<option value="{{LANG.ESES}}" {{#if useESES}}selected="selected"{{/if}}>{{get_string "es-es" component}}</option>' +
+            '<option value="{{LANG.FAIR}}" {{#if useFAIR}}selected="selected"{{/if}}>{{get_string "fa-ir" component}}</option>' +
+            '<option value="{{LANG.FRFR}}" {{#if useFRFR}}selected="selected"{{/if}}>{{get_string "fr-fr" component}}</option>' +
+            '<option value="{{LANG.FRCA}}" {{#if useFRCA}}selected="selected"{{/if}}>{{get_string "fr-ca" component}}</option>' +
+            '<option value="{{LANG.HEIL}}" {{#if useHEIL}}selected="selected"{{/if}}>{{get_string "he-il" component}}</option>' +
+            '<option value="{{LANG.HIIN}}" {{#if useHIIN}}selected="selected"{{/if}}>{{get_string "hi-in" component}}</option>' +
+            '<option value="{{LANG.ITIT}}" {{#if useITIT}}selected="selected"{{/if}}>{{get_string "it-it" component}}</option>' +
+            '<option value="{{LANG.JAJP}}" {{#if useJAJP}}selected="selected"{{/if}}>{{get_string "ja-jp" component}}</option>' +
+            '<option value="{{LANG.KOKR}}" {{#if useKOKR}}selected="selected"{{/if}}>{{get_string "ko-kr" component}}</option>' +
+            '<option value="{{LANG.MSMY}}" {{#if useMSMY}}selected="selected"{{/if}}>{{get_string "ms-my" component}}</option>' +
+            '<option value="{{LANG.NLNL}}" {{#if useNLNL}}selected="selected"{{/if}}>{{get_string "nl-nl" component}}</option>' +
+            '<option value="{{LANG.PTPT}}" {{#if usePTPT}}selected="selected"{{/if}}>{{get_string "pt-pt" component}}</option>' +
+            '<option value="{{LANG.PTBR}}" {{#if usePTBR}}selected="selected"{{/if}}>{{get_string "pt-br" component}}</option>' +
+            '<option value="{{LANG.RURU}}" {{#if useRURU}}selected="selected"{{/if}}>{{get_string "ru-ru" component}}</option>' +
+            '<option value="{{LANG.TAIN}}" {{#if useTAIN}}selected="selected"{{/if}}>{{get_string "ta-in" component}}</option>' +
+            '<option value="{{LANG.TEIN}}" {{#if useTEIN}}selected="selected"{{/if}}>{{get_string "te-in" component}}</option>' +
+            '<option value="{{LANG.TRTR}}" {{#if useTRTR}}selected="selected"{{/if}}>{{get_string "tr-tr" component}}</option>' +
+            '<option value="{{LANG.ZHCN}}" {{#if useZHCN}}selected="selected"{{/if}}>{{get_string "zh-cn" component}}</option>' +
+            '</select>' +
+            '</label>' +
+            '<br>{{get_string "subtitleinstructions" component}}' +
+            "{{else}}" +
+            "{{get_string 'cannotsubtitle' component}}" +
+            "{{/if}}" +
+            '</div>' +
+            '<div data-medium-type="{{CSS.HISTORY}}" data-field="history" class="tab-pane" id="{{elementid}}_{{CSS.HISTORY}}"></div>' +
+            '</div>' +
+            '</div>' +
+            '</form>',
         HTML_MEDIA: {
             VIDEO: '' +
-            '&nbsp;<video ' +
-            'controls="true" crossorigin="anonymous"' +
-            '>' +
-            "{{#if includesourcetrack}}" +
-            '<source src="{{sourceurl}}" type="{{sourcemimetype}}">' +
-            "{{/if}}" +
-            '<source src="{{url}}" type="{{urlmimetype}}">' +
-            "{{#if issubtitling}}" +
-            '<track src="{{subtitleurl}}" kind="captions" srclang="{{CP.language}}" label="{{CP.language}}" default="true">' +
-            "{{/if}}" +
-            '</video>&nbsp;',
+                '&nbsp;<video ' +
+                'controls="true" crossorigin="anonymous"' +
+                '>' +
+                "{{#if includesourcetrack}}" +
+                '<source src="{{sourceurl}}" type="{{sourcemimetype}}">' +
+                "{{/if}}" +
+                '<source src="{{url}}" type="{{urlmimetype}}">' +
+                "{{#if issubtitling}}" +
+                '<track src="{{subtitleurl}}" kind="captions" srclang="{{CP.language}}" label="{{CP.language}}" default="true">' +
+                "{{/if}}" +
+                '</video>&nbsp;',
             AUDIO: '' +
-            '&nbsp;<audio ' +
-            'controls="true" crossorigin="anonymous"' +
-            '>' +
-            "{{#if includesourcetrack}}" +
-            '<source src="{{sourceurl}}" type="{{sourcemimetype}}">' +
-            "{{/if}}" +
-            '<source src="{{url}}" type="{{urlmimetype}}">' +
-            "{{#if issubtitling}}" +
-            '<track src="{{subtitleurl}}" kind="captions" srclang="{{CP.language}}" label="{{CP.language}}" default="true">' +
-            "{{/if}}" +
-            '</audio>&nbsp;',
+                '&nbsp;<audio ' +
+                'controls="true" crossorigin="anonymous"' +
+                '>' +
+                "{{#if includesourcetrack}}" +
+                '<source src="{{sourceurl}}" type="{{sourcemimetype}}">' +
+                "{{/if}}" +
+                '<source src="{{url}}" type="{{urlmimetype}}">' +
+                "{{#if issubtitling}}" +
+                '<track src="{{subtitleurl}}" kind="captions" srclang="{{CP.language}}" label="{{CP.language}}" default="true">' +
+                "{{/if}}" +
+                '</audio>&nbsp;',
             LINK: '' +
-            "{{#if issubtitling}}" +
-            '&nbsp;<a href="{{url}}?data-subtitles={{subtitleurl}}&data-language={{CP.language}}"' +
-            "{{else}}" +
-            '&nbsp;<a href="{{url}}"' +
-            "{{/if}}" +
-            '>{{name}}</a>&nbsp;'
+                "{{#if issubtitling}}" +
+                '&nbsp;<a href="{{url}}?data-subtitles={{subtitleurl}}&data-language={{CP.language}}"' +
+                "{{else}}" +
+                '&nbsp;<a href="{{url}}"' +
+                "{{/if}}" +
+                '>{{name}}</a>&nbsp;'
         }
     };
 
@@ -572,47 +572,44 @@ YUI.add('moodle-atto_cloudpoodll-button', function (Y, NAME) {
          * @method _loadHistory
          */
         loadHistory: function () {
-            require(['core/templates'], function (templates) {
-                require(['core/ajax'], function (ajax) {
-                    ajax.call([{
-                        methodname: 'atto_cloudpoodll_history_get_items',
-                        args: {},
-                        done: function (historyitems) {
-                            /**
-                             * Takes a mysql unix timestamp (in seconds) and converts to a display date.
-                             *
-                             * @method _formatUnixDate
-                             * @param dateToFormat Date to format
-                             */
-                            function _formatUnixDate(dateToFormat) {
-                                var dateObj = new Date(dateToFormat * 1000);
+            require(['core/templates','core/ajax'], function (templates,ajax) {
+                ajax.call([{
+                    methodname: 'atto_cloudpoodll_history_get_items',
+                    args: {},
+                    done: function (historyitems) {
+                        /**
+                         * Takes a mysql unix timestamp (in seconds) and converts to a display date.
+                         *
+                         * @method _formatUnixDate
+                         * @param dateToFormat Date to format
+                         */
+                        function _formatUnixDate(dateToFormat) {
+                            var dateObj = new Date(dateToFormat * 1000);
 
-                                var month = dateObj.getUTCMonth() + 1;
-                                var day = dateObj.getUTCDate();
-                                var year = dateObj.getUTCFullYear();
+                            var month = dateObj.getUTCMonth() + 1;
+                            var day = dateObj.getUTCDate();
+                            var year = dateObj.getUTCFullYear();
 
-                                return month + "/" + day + "/" + year;
-                            }
-
-                            if (Array.isArray(historyitems.responses)) {
-                                historyitems.responses.forEach(function(item){
-                                    item.displaydateofentry = _formatUnixDate(item.dateofentry);
-                                    item.displayfiletitle = item.filetitle.substring(0, 10) + '...';
-                                });
-                                historyitems.responses.formatted = JSON.stringify(historyitems.responses);
-                            }
-
-                            var context = {data: historyitems.responses};
-
-                            templates.render('atto_cloudpoodll/history', context)
-                                .then(function (html, js) {
-                                    templates.replaceNodeContents('div[data-field="history"]', html, js);
-                                }).fail(function (ex) {
-                            });
+                            return month + "/" + day + "/" + year;
                         }
-                    }]);
-                });
 
+                        if (Array.isArray(historyitems.responses)) {
+                            historyitems.responses.forEach(function(item){
+                                item.displaydateofentry = _formatUnixDate(item.dateofentry);
+                                item.displayfiletitle = item.filetitle.substring(0, 10) + '...';
+                            });
+                            historyitems.responses.formatted = JSON.stringify(historyitems.responses);
+                        }
+
+                        var context = {data: historyitems.responses};
+
+                        templates.render('atto_cloudpoodll/history', context)
+                            .then(function (html, js) {
+                                templates.replaceNodeContents('div[data-field="history"]', html, js);
+                            }).fail(function (ex) {
+                        });
+                    }
+                }]);
             });
         },
 

@@ -572,47 +572,44 @@ Y.namespace('M.atto_cloudpoodll').Button = Y.Base.create('button', Y.M.editor_at
          * @method _loadHistory
          */
         loadHistory: function () {
-            require(['core/templates'], function (templates) {
-                require(['core/ajax'], function (ajax) {
-                    ajax.call([{
-                        methodname: 'atto_cloudpoodll_history_get_items',
-                        args: {},
-                        done: function (historyitems) {
-                            /**
-                             * Takes a mysql unix timestamp (in seconds) and converts to a display date.
-                             *
-                             * @method _formatUnixDate
-                             * @param dateToFormat Date to format
-                             */
-                            function _formatUnixDate(dateToFormat) {
-                                var dateObj = new Date(dateToFormat * 1000);
+            require(['core/templates','core/ajax'], function (templates,ajax) {
+                ajax.call([{
+                    methodname: 'atto_cloudpoodll_history_get_items',
+                    args: {},
+                    done: function (historyitems) {
+                        /**
+                         * Takes a mysql unix timestamp (in seconds) and converts to a display date.
+                         *
+                         * @method _formatUnixDate
+                         * @param dateToFormat Date to format
+                         */
+                        function _formatUnixDate(dateToFormat) {
+                            var dateObj = new Date(dateToFormat * 1000);
 
-                                var month = dateObj.getUTCMonth() + 1;
-                                var day = dateObj.getUTCDate();
-                                var year = dateObj.getUTCFullYear();
+                            var month = dateObj.getUTCMonth() + 1;
+                            var day = dateObj.getUTCDate();
+                            var year = dateObj.getUTCFullYear();
 
-                                return month + "/" + day + "/" + year;
-                            }
-
-                            if (Array.isArray(historyitems.responses)) {
-                                historyitems.responses.forEach(function(item){
-                                    item.displaydateofentry = _formatUnixDate(item.dateofentry);
-                                    item.displayfiletitle = item.filetitle.substring(0, 10) + '...';
-                                });
-                                historyitems.responses.formatted = JSON.stringify(historyitems.responses);
-                            }
-
-                            var context = {data: historyitems.responses};
-
-                            templates.render('atto_cloudpoodll/history', context)
-                                .then(function (html, js) {
-                                    templates.replaceNodeContents('div[data-field="history"]', html, js);
-                                }).fail(function (ex) {
-                            });
+                            return month + "/" + day + "/" + year;
                         }
-                    }]);
-                });
 
+                        if (Array.isArray(historyitems.responses)) {
+                            historyitems.responses.forEach(function(item){
+                                item.displaydateofentry = _formatUnixDate(item.dateofentry);
+                                item.displayfiletitle = item.filetitle.substring(0, 10) + '...';
+                            });
+                            historyitems.responses.formatted = JSON.stringify(historyitems.responses);
+                        }
+
+                        var context = {data: historyitems.responses};
+
+                        templates.render('atto_cloudpoodll/history', context)
+                            .then(function (html, js) {
+                                templates.replaceNodeContents('div[data-field="history"]', html, js);
+                            }).fail(function (ex) {
+                        });
+                    }
+                }]);
             });
         },
 
