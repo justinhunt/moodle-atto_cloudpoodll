@@ -29,32 +29,17 @@
 </table>
 
 {{#js}}
-    function format (name, value) {
-           return '<table cellpadding="5" cellspacing="0" border="0" style="padding-left:50px; width: 100%;">'+
-               '<tr>'+
-                   '<td><em>{{# str }} actions, atto_cloudpoodll {{/ str }}</em></td>'+
-                   '<td><a href="#"  data-action-type="preview" data-history-id="' +
-                   value +
-                   '">{{# pix }} t/preview, core{{/ pix }}</a> | <a href="#" data-action-type="delete" data-history-id="' +
-                   value +
-                   '">{{# pix }} t/delete, core{{/ pix }}</a> | <a href="#" data-action-type="add" data-history-id="' +
-                   value +
-                   '">{{# pix }} t/add, core{{/ pix }}</a> </td>'+
-               '</tr>'+
-           '</table>';
-    }
     require(
-    [
-        '//cdn.datatables.net/1.10.20/js/jquery.dataTables.min.js',
-        'jquery',
-        'core/inplace_editable',
-        'core/modal_factory',
-        'core/modal_events',
-        'core/ajax'
-    ], function(datatable, jQuery, inplace, ModalFactory, ModalEvents, ajax) {
-        jQuery(document).ready(function() {
+    ['jquery',
+     '//cdn.datatables.net/1.10.20/js/jquery.dataTables.min.js',
+     'core/inplace_editable',
+     'core/modal_factory',
+     'core/modal_events',
+     'core/ajax',
+     'core/templates'
+    ], function($, datatable, inplace, ModalFactory, ModalEvents, ajax,templates) {
                 // Handle the delete.
-                jQuery('#atto_cloud_history_table').on('click', 'a[data-action-type="delete"]', function() {
+                $('#atto_cloud_history_table').on('click', 'a[data-action-type="delete"]', function() {
                         var clickedLink = $(this);
                          ModalFactory.create({
                             type: ModalFactory.types.SAVE_CANCEL,
@@ -83,29 +68,29 @@
                 });
 
                 // Handle the insert.
-                jQuery('#atto_cloud_history_table').on('click', 'a[data-action-type="add"]', function() {
+                $('#atto_cloud_history_table').on('click', 'a[data-action-type="add"]', function() {
                     Y.namespace('M.atto_cloudpoodll').Button.prototype.insertHistoryItem(this);
                 });
 
                 // Handle the preview.
-                jQuery('#atto_cloud_history_table').on('click', 'a[data-action-type="preview"]', function() {
-                    const loadingHtml = "<br /><div class=\"d-flex justify-content-center\">\n" +
-                                        "  <div class=\"spinner-border\" role=\"status\">\n" +
-                                        "    <span class=\"sr-only\">{{# str }} loading, atto_cloudpoodll {{/ str }}</span>\n" +
-                                        "  </div>\n" +
-                                        "</div><br />";
+                $('#atto_cloud_history_table').on('click', 'a[data-action-type="preview"]', function() {
+                    const loadingHtml = '<br /><div class="d-flex justify-content-center">\n' +
+                                        '  <div class=\"spinner-border\" role="status">\n' +
+                                        '    <span class=\"sr-only\">{{# str }} loading, atto_cloudpoodll {{/ str }}</span>\n' +
+                                        '  </div>\n' +
+                                        '</div><br />';
 
                     $('div[data-field="history"]').html(loadingHtml);
                     Y.namespace('M.atto_cloudpoodll').Button.prototype.loadHistoryPreview(this);
                 });
 
-                let table = jQuery('#atto_cloud_history_table').dataTable({
+                let table = $('#atto_cloud_history_table').dataTable({
                     "columnDefs": [
                         { "orderable": false, "targets": 0 }
                     ]
                 });
 
-                jQuery('#atto_cloud_history_table tbody').on('click', 'td.details-control', function () {
+                $('#atto_cloud_history_table tbody').on('click', 'td.details-control', function () {
                     let tr = jQuery(this).closest('tr');
                     let row = table.api().row( tr );
 
@@ -114,10 +99,14 @@
                         tr.removeClass('shown');
                     }
                     else {
-                        row.child(format('id', tr.data('history-id'))).show();
-                        tr.addClass('shown');
+                        var rowdata = {"name": "id", "value": tr.data('history-id') };
+                        templates.render('atto_cloudpoodll/historyrow',rowdata).then(
+                            function(html,js){
+                                row.child(html).show();
+                                tr.addClass('shown');
+                            }
+                        );
                     }
                 } );
-        } );
     });
 {{/js}}

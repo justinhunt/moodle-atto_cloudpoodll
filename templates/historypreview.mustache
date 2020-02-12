@@ -27,9 +27,8 @@
 {{/data}}
 
 {{#js}}
-    require(['jquery'], function(jQuery) {
-        jQuery(document).ready(function() {
-               jQuery('#atto_cloudpoodle_history_preview_div').slideDown('slow');
+    require(['jquery'], function($) {
+               $('#atto_cloudpoodle_history_preview_div').slideDown('slow');
 
                  $('.atto_cloudpoodll_form a[data-content="history"]').on("click", function () {
                        const loadingHtml = "<br /><div class=\"d-flex justify-content-center\">\n" +
@@ -42,6 +41,5 @@
 
                        Y.namespace('M.atto_cloudpoodll').Button.prototype.loadHistory();
                    });
-            });
-        } );
+        });
 {{/js}}
