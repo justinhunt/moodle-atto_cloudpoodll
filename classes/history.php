@@ -68,17 +68,24 @@ class history {
     }
 
     /**
+     * @param string $recordertype
      * @return array
-     * @throws dml_exception
      * @throws \coding_exception
+     * @throws dml_exception
      */
-    public function get() {
+    public function get($recordertype = '') {
         global $USER, $OUTPUT;
+
+        $searchparams = ['userid' => $this->user->id, 'archived' => "0"];
+
+        if (!empty($recordertype)) {
+            $searchparams['recordertype'] = $recordertype;
+        }
 
         $items = [];
         $records = $this->db->get_records(
             self::CLOUDPOODLL_HISTORY_TABLE,
-            ['userid' => $this->user->id, 'archived' => "0"],
+            $searchparams,
             'dateofentry DESC'
         );
 
@@ -107,9 +114,15 @@ class history {
      * @throws dml_exception
      */
     public function get_item($itemid) {
-        $data = (array) $this->db->get_record(
+        $searchparams = [
+            'id' => $itemid,
+            'userid' => $this->user->id,
+            'archived' => "0"
+        ];
+
+        $data = (array)$this->db->get_record(
             self::CLOUDPOODLL_HISTORY_TABLE,
-            ['id' => $itemid, 'userid' => $this->user->id, 'archived' => "0"]
+            $searchparams
         );
 
         $items = [];

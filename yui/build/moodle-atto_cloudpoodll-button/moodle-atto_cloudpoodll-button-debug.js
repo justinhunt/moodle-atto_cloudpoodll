@@ -576,7 +576,7 @@ YUI.add('moodle-atto_cloudpoodll-button', function (Y, NAME) {
             require(['core/templates','core/ajax', 'core/notification'], function (templates,ajax, notification) {
                 ajax.call([{
                     methodname: 'atto_cloudpoodll_history_get_items',
-                    args: {},
+                    args: {'recordertype' : STATE.currentrecorder},
                     done: function (historyitems) {
                         /**
                          * Takes a mysql unix timestamp (in seconds) and converts to a display date.

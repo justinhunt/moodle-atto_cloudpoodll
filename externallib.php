@@ -157,6 +157,7 @@ class atto_cloudpoodll_history_external extends external_api {
 
     /**
      * Gets the history items by user.
+     * @param string $recordertype
      * @return array
      * @throws coding_exception
      * @throws dml_exception
@@ -164,7 +165,7 @@ class atto_cloudpoodll_history_external extends external_api {
      * @throws moodle_exception
      * @throws restricted_context_exception
      */
-    public static function get_history_items() {
+    public static function get_history_items($recordertype = '') {
         global $USER;
 
         $context = context_user::instance($USER->id);
@@ -175,7 +176,7 @@ class atto_cloudpoodll_history_external extends external_api {
         }
         $history = new atto_cloudpoodll\history();
 
-        return $history->get();
+        return $history->get($recordertype);
     }
 
 
@@ -228,7 +229,7 @@ class atto_cloudpoodll_history_external extends external_api {
     public static function get_history_items_parameters() {
         return new external_function_parameters(
             array(
-                'userid' => new external_value(PARAM_INT, 'userid', VALUE_OPTIONAL)
+                'recordertype' => new external_value(PARAM_TEXT, 'recordertype', VALUE_OPTIONAL)
             )
         );
     }
