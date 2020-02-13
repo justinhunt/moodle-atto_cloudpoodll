@@ -1,3 +1,27 @@
+  {{!
+    This file is part of Moodle - http://moodle.org/
+
+    Moodle is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    Moodle is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
+  }}
+  {{!
+    @template atto_cloudpoodll/historypreview
+
+    CloudPoodll history preview template.
+
+    The purpose of this template is to render a history item preview.
+  }}
+
 {{#data}}
 <br/>
 <div id="atto_cloudpoodle_history_preview_div" style="display: none;">
@@ -28,18 +52,18 @@
 
 {{#js}}
     require(['jquery'], function($) {
-               $('#atto_cloudpoodle_history_preview_div').slideDown('slow');
+       $('#atto_cloudpoodle_history_preview_div').slideDown('slow');
 
-                 $('.atto_cloudpoodll_form a[data-content="history"]').on("click", function () {
-                       const loadingHtml = "<br /><div class=\"d-flex justify-content-center\">\n" +
-                           "  <div class=\"spinner-border\" role=\"status\">\n" +
-                           "    <span class=\"sr-only\">{{# str }} loading, atto_cloudpoodll {{/ str }}</span>\n" +
-                           "  </div>\n" +
-                           "</div><br />";
+         $('.atto_cloudpoodll_form a[data-content="history"]').on("click", function () {
+               const loadingHtml = "<br /><div class=\"d-flex justify-content-center\">\n" +
+                   "  <div class=\"spinner-border\" role=\"status\">\n" +
+                   "    <span class=\"sr-only\">{{# str }} loading, atto_cloudpoodll {{/ str }}</span>\n" +
+                   "  </div>\n" +
+                   "</div><br />";
 
-                       $('div[data-field="history"]').html(loadingHtml);
+               $('div[data-field="history"]').html(loadingHtml);
 
-                       Y.namespace('M.atto_cloudpoodll').Button.prototype.loadHistory();
-                   });
-        });
+               Y.namespace('M.atto_cloudpoodll').Button.prototype.loadHistory();
+           });
+    });
 {{/js}}

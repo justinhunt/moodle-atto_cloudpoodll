@@ -24,6 +24,7 @@
 
 namespace atto_cloudpoodll;
 
+use coding_exception;
 use context_user;
 use core\output\inplace_editable;
 use dml_exception;
@@ -70,7 +71,7 @@ class history {
     /**
      * @param string $recordertype
      * @return array
-     * @throws \coding_exception
+     * @throws coding_exception
      * @throws dml_exception
      */
     public function get($recordertype = '') {
@@ -110,7 +111,7 @@ class history {
 
     /**
      * @param $itemid
-     * @return stdClass
+     * @return array
      * @throws dml_exception
      */
     public function get_item($itemid) {

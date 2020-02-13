@@ -570,7 +570,7 @@ YUI.add('moodle-atto_cloudpoodll-button', function (Y, NAME) {
         /**
          * Loads the history tab html.
          *
-         * @method _loadHistory
+         * @method loadHistory
          */
         loadHistory: function () {
             require(['core/templates','core/ajax', 'core/notification'], function (templates,ajax, notification) {
@@ -585,11 +585,11 @@ YUI.add('moodle-atto_cloudpoodll-button', function (Y, NAME) {
                          * @param dateToFormat Date to format
                          */
                         function _formatUnixDate(dateToFormat) {
-                            var dateObj = new Date(dateToFormat * 1000);
+                            let dateObj = new Date(dateToFormat * 1000);
 
-                            var month = dateObj.getUTCMonth() + 1;
-                            var day = dateObj.getUTCDate();
-                            var year = dateObj.getUTCFullYear();
+                            let month = dateObj.getUTCMonth() + 1;
+                            let day = dateObj.getUTCDate();
+                            let year = dateObj.getUTCFullYear();
 
                             return month + "/" + day + "/" + year;
                         }
@@ -618,7 +618,7 @@ YUI.add('moodle-atto_cloudpoodll-button', function (Y, NAME) {
         /**
          * Loads the history video preview tab html.
          *
-         * @method _loadHistoryPreview
+         * @method loadHistoryPreview
          * @param historyItem History item ID from list.
          */
         loadHistoryPreview: function (historyItem) {
@@ -708,13 +708,17 @@ YUI.add('moodle-atto_cloudpoodll-button', function (Y, NAME) {
             return content;
         },
 
+        /**
+         * Inserts the history item info the page.
+         *
+         * @method insertHistoryItem
+         * @param  historyItem object
+         * @private
+         */
         insertHistoryItem: function(historyItem) {
-            let obj = this;
-
             poodleRecorder.getDialogue({
                 focusAfterHide: null
             }).hide();
-
 
             require(['core/ajax'], function (ajax) {
                 ajax.call([{
@@ -723,22 +727,31 @@ YUI.add('moodle-atto_cloudpoodll-button', function (Y, NAME) {
                     done: function (historyItemData) {
                         const [first] = historyItemData.responses;
                         let item = first;
-                        let {context, template} = poodleRecorder.createMediaLink(
+                        let {context, template} = poodleRecorder._createMediaLink(
                             item.mediaurl,
                             item.mediafilename,
                             item.filetitle,
                             item.sourcemimetype
                         );
-                        template = poodleRecorder.createMediaTemplate(context, item.sourcemimetype, template);
-                        poodleRecorder.insertIntoEditor(template, context);
+                        template = poodleRecorder._createMediaTemplate(context, item.sourcemimetype, template);
+                        poodleRecorder._insertIntoEditor(template, context);
                     }
                 }]);
             });
-
         },
 
-        createMediaLink: function (mediaurl, mediafilename, sourceurl, sourcemimetype) {
-            var context = {};
+        /**
+         * Creates the media link based on the recorder type.
+         *
+         * @method _createMediaLink
+         * @param  mediaurl media URL to the AWS object
+         * @param  mediafilename File name of the AWS object
+         * @param  sourceurl URL to the AWS object
+         * @param  sourcemimetype MimeType of the AWS object
+         * @private
+         */
+        _createMediaLink: function (mediaurl, mediafilename, sourceurl, sourcemimetype) {
+            let context = {};
             context.url = mediaurl;
             context.name = mediafilename;
             context.issubtitling = STATE.subtitling;
@@ -747,21 +760,40 @@ YUI.add('moodle-atto_cloudpoodll-button', function (Y, NAME) {
             context.subtitleurl = mediaurl + '.vtt';
             context.sourceurl = sourceurl;
             context.sourcemimetype = sourcemimetype;
-            var template = TEMPLATES.HTML_MEDIA.LINK;
+
+            let template = TEMPLATES.HTML_MEDIA.LINK;
+
             return {context: context, template: template};
         },
 
-        insertIntoEditor: function (template, context) {
-            var content =
+        /**
+         * Inserts the item into the editor.
+         *
+         * @method _createMediaLink
+         * @param  template HTML template to insert into the editor
+         * @param  context Context of the item being inserted
+         * @private
+         */
+        _insertIntoEditor: function (template, context) {
+            let content =
                 Y.Handlebars.compile(template)(context);
-            var host = this.get('host');
+            let host = this.get('host');
             host.focus();
             host.setSelection(this._currentSelection);
             host.insertContentAtFocusPoint(content);
             this.markUpdated();
         },
 
-        createMediaTemplate: function (context, sourcemimetype, template) {
+        /**
+         * Creates the media template for audio/video.
+         *
+         * @method _createMediaTemplate
+         * @param  context Context of the item being inserted
+         * @param  sourcemimetype MimeType of the AWS object
+         * @param  context Context of the item being inserted
+         * @private
+         */
+        _createMediaTemplate: function (context, sourcemimetype, template) {
             if (STATE.currentrecorder === RECORDERS.VIDEO) {
                 context.width = false;
                 context.height = false;
@@ -797,7 +829,7 @@ YUI.add('moodle-atto_cloudpoodll-button', function (Y, NAME) {
             }).hide();
 
             //default context values(link) for template
-            var {context, template} = this.createMediaLink(mediaurl, mediafilename, sourceurl, sourcemimetype);
+            var {context, template} = this._createMediaLink(mediaurl, mediafilename, sourceurl, sourcemimetype);
 
             function saveToHistory() {
                 require(['core/ajax'], function (ajax) {
@@ -819,7 +851,7 @@ YUI.add('moodle-atto_cloudpoodll-button', function (Y, NAME) {
             switch (STATE.insertmethod) {
 
                 case INSERTMETHOD.TAGS:
-                    template = this.createMediaTemplate(context, sourcemimetype, template);
+                    template = this._createMediaTemplate(context, sourcemimetype, template);
                     break;
 
                 case INSERTMETHOD.LINK:
@@ -828,7 +860,7 @@ YUI.add('moodle-atto_cloudpoodll-button', function (Y, NAME) {
                 //do nothing special actually.
             }
             saveToHistory();
-            this.insertIntoEditor(template, context);
+            this._insertIntoEditor(template, context);
         }
     }, {
         ATTRS: {
