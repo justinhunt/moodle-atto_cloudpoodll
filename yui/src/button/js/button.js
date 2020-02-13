@@ -573,7 +573,7 @@ YUI.add('moodle-atto_cloudpoodll-button', function (Y, NAME) {
          * @method _loadHistory
          */
         loadHistory: function () {
-            require(['core/templates','core/ajax'], function (templates,ajax) {
+            require(['core/templates','core/ajax', 'core/notification'], function (templates,ajax, notification) {
                 ajax.call([{
                     methodname: 'atto_cloudpoodll_history_get_items',
                     args: {},
@@ -602,12 +602,13 @@ YUI.add('moodle-atto_cloudpoodll-button', function (Y, NAME) {
                             historyitems.responses.formatted = JSON.stringify(historyitems.responses);
                         }
 
-                        var context = {data: historyitems.responses};
+                        let context = {data: historyitems.responses};
 
                         templates.render('atto_cloudpoodll/history', context)
                             .then(function (html, js) {
                                 templates.replaceNodeContents('div[data-field="history"]', html, js);
                             }).fail(function (ex) {
+                            notification.exception(ex);
                         });
                     }
                 }]);
@@ -621,16 +622,20 @@ YUI.add('moodle-atto_cloudpoodll-button', function (Y, NAME) {
          * @param historyItem History item ID from list.
          */
         loadHistoryPreview: function (historyItem) {
-            require(['core/templates','core/ajax'], function (templates,ajax) {
+            require(['core/templates', 'core/ajax', 'core/notification'], function (templates, ajax, notification) {
                 ajax.call([{
                     methodname: 'atto_cloudpoodll_history_get_item',
                     args: {'id': historyItem.dataset.historyId},
                     done: function (historyItemData) {
-                        var context = {data: historyItemData.responses, isVideo: STATE.currentrecorder === RECORDERS.VIDEO};
+                        let context = {
+                            data: historyItemData.responses,
+                            isVideo: STATE.currentrecorder === RECORDERS.VIDEO
+                        };
                         templates.render('atto_cloudpoodll/historypreview', context)
                             .then(function (html, js) {
                                 templates.replaceNodeContents('div[data-field="history"]', html, js);
                             }).fail(function (ex) {
+                            notification.exception(ex);
                         });
                     }
                 }]);

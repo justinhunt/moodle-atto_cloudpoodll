@@ -70,6 +70,7 @@ class history {
     /**
      * @return array
      * @throws dml_exception
+     * @throws \coding_exception
      */
     public function get() {
         global $USER, $OUTPUT;
