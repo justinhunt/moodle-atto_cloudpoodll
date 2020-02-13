@@ -85,6 +85,30 @@
                 });
 
                 let table = $('#atto_cloud_history_table').dataTable({
+                    "language": {
+                        "decimal":        "",
+                        "emptyTable":     "{{# str }} emptyTable, atto_cloudpoodll {{/ str }}",
+                        "info":           "{{# str }} info, atto_cloudpoodll {{/ str }}",
+                        "infoEmpty":      "{{# str }} loading, atto_cloudpoodll {{/ str }}",
+                        "infoFiltered":   "{{# str }} infoFiltered, atto_cloudpoodll {{/ str }}",
+                        "infoPostFix":    "",
+                        "thousands":      "{{# str }} thousands, atto_cloudpoodll {{/ str }}",
+                        "lengthMenu":     "{{# str }} lengthMenu, atto_cloudpoodll {{/ str }}",
+                        "loadingRecords": "{{# str }} loadingRecords, atto_cloudpoodll {{/ str }}",
+                        "processing":     "{{# str }} processing, atto_cloudpoodll {{/ str }}",
+                        "search":         "{{# str }} search, atto_cloudpoodll {{/ str }}",
+                        "zeroRecords":    "{{# str }} zeroRecords, atto_cloudpoodll {{/ str }}",
+                        "paginate": {
+                            "first":      "{{# str }} first, atto_cloudpoodll {{/ str }}",
+                            "last":       "{{# str }} last, atto_cloudpoodll {{/ str }}",
+                            "next":       "{{# str }} next, atto_cloudpoodll {{/ str }}",
+                            "previous":   "{{# str }} previous, atto_cloudpoodll {{/ str }}"
+                        },
+                        "aria": {
+                            "sortAscending":  "{{# str }} sortAscending, atto_cloudpoodll {{/ str }}",
+                            "sortDescending": "{{# str }} sortDescending, atto_cloudpoodll {{/ str }}"
+                        }
+                    },
                     "columnDefs": [
                         { "orderable": false, "targets": 0 }
                     ]
