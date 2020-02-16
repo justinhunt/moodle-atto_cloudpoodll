@@ -749,7 +749,18 @@ YUI.add('moodle-atto_cloudpoodll-button', function (Y, NAME) {
                             item.sourceurl,
                             item.sourcemimetype
                         );
-                        mediaLink.template = poodllRecorder._createMediaTemplate(mediaLink.context, item.sourcemimetype, mediaLink.template);
+
+                        switch (STATE.insertmethod) {
+
+                            case INSERTMETHOD.TAGS:
+                                mediaLink.template = poodllRecorder._createMediaTemplate(mediaLink.context, item.sourcemimetype, mediaLink.template);
+                                break;
+
+                            case INSERTMETHOD.LINK:
+                            default:
+                            //do nothing we already made the template as a link
+                        }
+
                         poodllRecorder._insertIntoEditor(mediaLink.template, mediaLink.context);
                     }
                 }]);
