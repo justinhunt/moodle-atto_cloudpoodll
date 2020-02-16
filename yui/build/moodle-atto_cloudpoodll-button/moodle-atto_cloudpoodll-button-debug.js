@@ -272,7 +272,7 @@ YUI.add('moodle-atto_cloudpoodll-button', function (Y, NAME) {
                 '>{{name}}</a>&nbsp;'
         }
     };
-    let poodleRecorder = null;
+    var poodllRecorder = null;
 
     Y.namespace('M.atto_cloudpoodll').Button = Y.Base.create('button', Y.M.editor_atto.EditorPlugin, [], {
         initializer: function (config) {
@@ -306,6 +306,9 @@ YUI.add('moodle-atto_cloudpoodll-button', function (Y, NAME) {
 
             //transcoding flag
             STATE.transcoding = config.cp_transcode == '1';
+
+            //file title display length
+            STATE.filetitledisplaylength = config.filetitle_displaylength;
 
             //set up the cloudpoodll div
             CLOUDPOODLL.parent = M.cfg.wwwroot;
@@ -498,7 +501,7 @@ YUI.add('moodle-atto_cloudpoodll-button', function (Y, NAME) {
             STATE.languageselect = Y.one('#' + STATE.elementid + '_' + CSS.LANG_SELECT);
             var topnode = Y.one('#' + STATE.elementid + '_' + CSS.ATTO_CLOUDPOODLL_FORM);
             var that = this;
-            poodleRecorder = that;
+            poodllRecorder = that;
 
             //subtitle checkbox click event.. reload recorders
             if (STATE.subtitlecheckbox != null) {
@@ -585,11 +588,11 @@ YUI.add('moodle-atto_cloudpoodll-button', function (Y, NAME) {
                          * @param dateToFormat Date to format
                          */
                         function _formatUnixDate(dateToFormat) {
-                            let dateObj = new Date(dateToFormat * 1000);
+                            var dateObj = new Date(dateToFormat * 1000);
 
-                            let month = dateObj.getUTCMonth() + 1;
-                            let day = dateObj.getUTCDate();
-                            let year = dateObj.getUTCFullYear();
+                            var month = dateObj.getUTCMonth() + 1;
+                            var day = dateObj.getUTCDate();
+                            var year = dateObj.getUTCFullYear();
 
                             return month + "/" + day + "/" + year;
                         }
@@ -597,19 +600,19 @@ YUI.add('moodle-atto_cloudpoodll-button', function (Y, NAME) {
                         if (Array.isArray(historyitems.responses)) {
                             historyitems.responses.forEach(function(item){
                                 item.displaydateofentry = _formatUnixDate(item.dateofentry);
-                                item.displayfiletitle = item.filetitle.substring(0, 10) + '...';
+                                item.displayfiletitle = item.filetitle.substring(0, STATE.filetitledisplaylength) + '...';
                             });
                             historyitems.responses.formatted = JSON.stringify(historyitems.responses);
                         }
 
-                        let context = {data: historyitems.responses};
+                        var context = {data: historyitems.responses};
 
                         templates.render('atto_cloudpoodll/history', context)
                             .then(function (html, js) {
                                 templates.replaceNodeContents('div[data-field="history"]', html, js);
                             }).fail(function (ex) {
-                                notification.exception(ex);
-                            });
+                            notification.exception(ex);
+                        });
                     }
                 }]);
             });
@@ -627,7 +630,7 @@ YUI.add('moodle-atto_cloudpoodll-button', function (Y, NAME) {
                     methodname: 'atto_cloudpoodll_history_get_item',
                     args: {'id': historyItem.dataset.historyId},
                     done: function (historyItemData) {
-                        let context = {
+                        var context = {
                             data: historyItemData.responses,
                             isVideo: STATE.currentrecorder === RECORDERS.VIDEO
                         };
@@ -635,8 +638,8 @@ YUI.add('moodle-atto_cloudpoodll-button', function (Y, NAME) {
                             .then(function (html, js) {
                                 templates.replaceNodeContents('div[data-field="history"]', html, js);
                             }).fail(function (ex) {
-                                notification.exception(ex);
-                            });
+                            notification.exception(ex);
+                        });
                     }
                 }]);
             });
@@ -716,7 +719,7 @@ YUI.add('moodle-atto_cloudpoodll-button', function (Y, NAME) {
          * @private
          */
         insertHistoryItem: function(historyItem) {
-            poodleRecorder.getDialogue({
+            poodllRecorder.getDialogue({
                 focusAfterHide: null
             }).hide();
 
@@ -725,16 +728,17 @@ YUI.add('moodle-atto_cloudpoodll-button', function (Y, NAME) {
                     methodname: 'atto_cloudpoodll_history_get_item',
                     args: {'id': historyItem.dataset.historyId},
                     done: function (historyItemData) {
-                        const [first] = historyItemData.responses;
-                        let item = first;
-                        let {context, template} = poodleRecorder._createMediaLink(
+                        //const [first] = historyItemData.responses;
+                        //var item = first;
+                        var item = historyItemData.responses[0];
+                        var mediaLink = poodllRecorder._createMediaLink(
                             item.mediaurl,
                             item.mediafilename,
                             item.filetitle,
                             item.sourcemimetype
                         );
-                        template = poodleRecorder._createMediaTemplate(context, item.sourcemimetype, template);
-                        poodleRecorder._insertIntoEditor(template, context);
+                        mediaLink.template = poodllRecorder._createMediaTemplate(mediaLink.context, item.sourcemimetype, mediaLink.template);
+                        poodllRecorder._insertIntoEditor(mediaLink.template, mediaLink.context);
                     }
                 }]);
             });
@@ -751,7 +755,7 @@ YUI.add('moodle-atto_cloudpoodll-button', function (Y, NAME) {
          * @private
          */
         _createMediaLink: function (mediaurl, mediafilename, sourceurl, sourcemimetype) {
-            let context = {};
+            var context = {};
             context.url = mediaurl;
             context.name = mediafilename;
             context.issubtitling = STATE.subtitling;
@@ -761,7 +765,7 @@ YUI.add('moodle-atto_cloudpoodll-button', function (Y, NAME) {
             context.sourceurl = sourceurl;
             context.sourcemimetype = sourcemimetype;
 
-            let template = TEMPLATES.HTML_MEDIA.LINK;
+            var template = TEMPLATES.HTML_MEDIA.LINK;
 
             return {context: context, template: template};
         },
@@ -775,9 +779,9 @@ YUI.add('moodle-atto_cloudpoodll-button', function (Y, NAME) {
          * @private
          */
         _insertIntoEditor: function (template, context) {
-            let content =
+            var content =
                 Y.Handlebars.compile(template)(context);
-            let host = this.get('host');
+            var host = this.get('host');
             host.focus();
             host.setSelection(this._currentSelection);
             host.insertContentAtFocusPoint(content);
@@ -829,8 +833,10 @@ YUI.add('moodle-atto_cloudpoodll-button', function (Y, NAME) {
             }).hide();
 
             //default context values(link) for template
-            var {context, template} = this._createMediaLink(mediaurl, mediafilename, sourceurl, sourcemimetype);
-
+           // var {context, template}
+            var medialink = this._createMediaLink(mediaurl, mediafilename, sourceurl, sourcemimetype);
+            var context = medialink.context;
+            var template = medialink.template;
             function saveToHistory() {
                 require(['core/ajax'], function (ajax) {
                     ajax.call([{

@@ -94,6 +94,8 @@ function atto_cloudpoodll_params_for_js($elementid, $options, $fpoptions) {
     //add our disabled param
     $params['disabled'] = $disabled;
 
+    $params['filetitle_displaylength'] = constants::FILETITLE_DISPLAYLENGTH;
+
     //add icons to editor if the permissions and settings are all ok
     $recorders = array('audio', 'video');
     foreach ($recorders as $recorder) {
@@ -128,7 +130,7 @@ function atto_cloudpoodll_inplace_editable($itemtype, $itemid, $newvalue) {
             'filetitle',
             $itemid,
             true,
-            shorten_text(format_string($newvalue), 10),
+            shorten_text(format_string($newvalue), constants::FILETITLE_DISPLAYLENGTH),
             $newvalue,
             'Edit file DISPLAY title',
             'New value for ' . format_string($newvalue)

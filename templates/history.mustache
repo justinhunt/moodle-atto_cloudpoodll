@@ -108,7 +108,7 @@
                     Y.namespace('M.atto_cloudpoodll').Button.prototype.loadHistoryPreview(this);
                 });
 
-                let table = $('#atto_cloud_history_table').dataTable({
+                var table = $('#atto_cloud_history_table').dataTable({
                     "language": {
                         "decimal":        "",
                         "emptyTable":     "{{# str }} emptyTable, atto_cloudpoodll {{/ str }}",
@@ -134,13 +134,14 @@
                         }
                     },
                     "columnDefs": [
-                        { "orderable": false, "targets": 0 }
+                        { "targets": 0, "orderable": false, "searchable": false, "width": "8%"},
+                        { "targets": 2, "width": "20%"},
                     ]
                 });
 
                 $('#atto_cloud_history_table tbody').on('click', 'td.details-control', function () {
-                    let tr = jQuery(this).closest('tr');
-                    let row = table.api().row( tr );
+                    var tr = jQuery(this).closest('tr');
+                    var row = table.api().row( tr );
 
                     if ( row.child.isShown() ) {
                         row.child.hide();

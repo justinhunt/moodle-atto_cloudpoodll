@@ -99,7 +99,7 @@ class history {
                 'filetitle',
                 $item->id,
                 has_capability('atto/cloudpoodll:visible', $context),
-                shorten_text(format_string($item->filetitle), 10),
+                shorten_text(format_string($item->filetitle), constants::FILETITLE_DISPLAYLENGTH),
                 $item->filetitle,
                 'Edit file display title',
                 'New value for ' . format_string($item->filetitle));
