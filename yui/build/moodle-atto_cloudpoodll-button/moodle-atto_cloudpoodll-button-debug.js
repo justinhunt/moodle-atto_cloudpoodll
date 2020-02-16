@@ -94,7 +94,7 @@ YUI.add('moodle-atto_cloudpoodll-button', function (Y, NAME) {
 
     };
     var STATE = {
-        subtitling: false,
+        subtitling: 0,
         transcoding: false,
         started: false,
         currentrecorder: false,
@@ -356,8 +356,8 @@ YUI.add('moodle-atto_cloudpoodll-button', function (Y, NAME) {
                     mediataginsert: STATE.insertmethod === INSERTMETHOD.TAGS,
                     subtitleaudiobydefault: STATE.subtitleaudiobydefault,
                     subtitlevideobydefault: STATE.subtitlevideobydefault,
-                    letssubtitleaudio: STATE.subtitleaudiobydefault === 1,
-                    letssubtitlevideo: STATE.subtitlevideobydefault === 1,
+                    letssubtitleaudio: STATE.subtitleaudiobydefault == 1,
+                    letssubtitlevideo: STATE.subtitlevideobydefault == 1,
                     useENUS: CLOUDPOODLL.language === LANGUAGE.ENUS,
                     useENGB: CLOUDPOODLL.language === LANGUAGE.ENGB,
                     useENAU: CLOUDPOODLL.language === LANGUAGE.ENAU,
@@ -478,6 +478,8 @@ YUI.add('moodle-atto_cloudpoodll-button', function (Y, NAME) {
                 } else {
                     STATE.subtitling = STATE.subtitleaudiobydefault;
                 }
+            }else{
+                STATE.subtitling = 0;
             }
 
             var d_conf = {};
@@ -857,7 +859,7 @@ YUI.add('moodle-atto_cloudpoodll-button', function (Y, NAME) {
                             sourceurl: sourceurl,
                             mediaurl: mediaurl,
                             sourcemimetype: sourcemimetype,
-                            subtitling: STATE.subtitling,
+                            subtitling: STATE.subtitling ? 1 : 0,
                             subtitleurl: STATE.subtitling ? mediaurl + '.vtt' : '',
                         },
                     }]);
