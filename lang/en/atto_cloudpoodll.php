@@ -149,6 +149,7 @@ $string['subtitleinstructions'] =
 $string['mediainsertcheckbox'] = 'Insert media player into editor. Otherwise it be a media link.';
 
 $string['options'] = 'Options';
+$string['history'] = 'History';
 $string['transcode'] = 'Transcode';
 $string['transcode_details'] = 'CloudPoodll can transcode audio to mp3 and video to mp4';
 
@@ -171,4 +172,31 @@ $string['notokenincache'] = "Refresh to see license information. Contact Poodll 
 //shown in popup
 $string['notoken'] = 'API user and secret were rejected and could not gain access. Please check the Atto Cloud Poodll plugin settings page.';
 
-
+//shown in history tabs
+$string['historyback'] = 'Back to history';
+$string['deleteitem'] = 'Delete item';
+$string['loading'] = 'Loading...';
+$string['title'] = 'Title';
+$string['actions'] = 'Actions';
+$string['date'] = 'Date';
+$string['confirmdelete'] = 'Do you really want to delete? Deleting only removes the item from history, not from the server.';
+$string['decimal'] = '';
+$string['emptyTable'] = 'No data available in table';
+$string['info'] = 'Showing _START_ to _END_ of _TOTAL_ entries';
+$string['infoEmpty'] = 'Showing 0 to 0 of 0 entries';
+$string['infoFiltered'] = '(filtered from _MAX_ total entries)';
+$string['infoPostFix'] = '';
+$string['thousands'] = ',';
+$string['lengthMenu'] = 'Show _MENU_ entries';
+$string['loadingRecords'] = 'Loading...';
+$string['processing'] = 'Processing...';
+$string['search'] = 'Search:';
+$string['zeroRecords'] = 'No matching records found';
+$string['first'] = 'First';
+$string['last'] = 'Last';
+$string['next'] = 'Next';
+$string['previous'] = 'Previous';
+$string['sortAscending'] = ': activate to sort column ascending';
+$string['sortDescending'] = ': activate to sort column descending';
+$string['showhistory']="Show history tab";
+$string['showhistory_details']="The history tab allows users to select from their previously recorded audio or video.";

@@ -1,3 +1,6 @@
 .atto_cloudpoodll_button .dropdown-menu {
     min-width: inherit;
 }
+.history-row .inplaceeditable input[type="text"] {
+    width: 90%;
+}
