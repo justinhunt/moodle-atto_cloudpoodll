@@ -1,5 +1,3 @@
-YUI.add('moodle-atto_cloudpoodll-button', function (Y, NAME) {
-
 // This file is part of Moodle - http://moodle.org/
 //
 // Moodle is free software: you can redistribute it and/or modify
@@ -103,7 +101,9 @@ YUI.add('moodle-atto_cloudpoodll-button', function (Y, NAME) {
         subitlevideobydefault: 0,
         elementid: false,
         subtitlecheckbox: false,
-    }
+        filetitledisplaylength: 30,
+        showhistory: true
+    };
 
     var TEMPLATES = {
         ROOT: '' +
@@ -132,11 +132,13 @@ YUI.add('moodle-atto_cloudpoodll-button', function (Y, NAME) {
             '{{get_string "options" component}}' +
             '</a>' +
             '</li>' +
+            '{{#if showhistory}}' +
             '<li data-medium-type="{{CSS.HISTORY}}" class="nav-item" data-content="history" >' +
             '<a class="nav-link" href="#{{elementid}}_{{CSS.HISTORY}}" role="tab" data-toggle="tab">' +
             '{{get_string "history" component}}' +
             '</a>' +
             '</li>' +
+            '{{/if}}' +
             '</ul>' +
             '<div class="root tab-content">' +
             "{{#if isvideo}}" +
@@ -234,8 +236,10 @@ YUI.add('moodle-atto_cloudpoodll-button', function (Y, NAME) {
             "{{get_string 'cannotsubtitle' component}}" +
             "{{/if}}" +
             '</div>' +
+            '{{#if showhistory}}' +
             '<div data-medium-type="{{CSS.HISTORY}}" data-field="history" class="tab-pane" id="{{elementid}}_{{CSS.HISTORY}}"></div>' +
             '</div>' +
+            '{{/if}}' +
             '</div>' +
             '</form>',
         HTML_MEDIA: {
@@ -310,6 +314,9 @@ YUI.add('moodle-atto_cloudpoodll-button', function (Y, NAME) {
             //file title display length
             STATE.filetitledisplaylength = config.filetitle_displaylength;
 
+            //show history tab
+            STATE.showhistory = config.showhistory== '1';
+
             //set up the cloudpoodll div
             CLOUDPOODLL.parent = M.cfg.wwwroot;
             CLOUDPOODLL.appid = 'atto_cloudpoodll';
@@ -340,14 +347,15 @@ YUI.add('moodle-atto_cloudpoodll-button', function (Y, NAME) {
                     elementid: this.get('host').get('elementid'),
                     component: COMPONENTNAME,
                     helpStrings: this.get('help'),
-                    isvideo: STATE.currentrecorder == RECORDERS.VIDEO,
+                    isvideo: STATE.currentrecorder === RECORDERS.VIDEO,
+                    showhistory: STATE.showhistory,
                     cansubtitle: CLOUDPOODLL.cansubtitle,
                     recorder: STATE.currentrecorder,
-                    mediataginsert: STATE.insertmethod == INSERTMETHOD.TAGS,
+                    mediataginsert: STATE.insertmethod === INSERTMETHOD.TAGS,
                     subtitleaudiobydefault: STATE.subtitleaudiobydefault,
                     subtitlevideobydefault: STATE.subtitlevideobydefault,
-                    letssubtitleaudio: STATE.subtitleaudiobydefault == 1,
-                    letssubtitlevideo: STATE.subtitlevideobydefault == 1,
+                    letssubtitleaudio: STATE.subtitleaudiobydefault === 1,
+                    letssubtitlevideo: STATE.subtitlevideobydefault === 1,
                     useENUS: CLOUDPOODLL.language === LANGUAGE.ENUS,
                     useENGB: CLOUDPOODLL.language === LANGUAGE.ENGB,
                     useENAU: CLOUDPOODLL.language === LANGUAGE.ENAU,
@@ -734,7 +742,7 @@ YUI.add('moodle-atto_cloudpoodll-button', function (Y, NAME) {
                         var mediaLink = poodllRecorder._createMediaLink(
                             item.mediaurl,
                             item.mediafilename,
-                            item.filetitle,
+                            item.sourceurl,
                             item.sourcemimetype
                         );
                         mediaLink.template = poodllRecorder._createMediaTemplate(mediaLink.context, item.sourcemimetype, mediaLink.template);
@@ -759,7 +767,7 @@ YUI.add('moodle-atto_cloudpoodll-button', function (Y, NAME) {
             context.url = mediaurl;
             context.name = mediafilename;
             context.issubtitling = STATE.subtitling;
-            context.includesourcetrack = STATE.transcoding && (mediaurl !== sourceurl) && (sourceurl.slice(-3) !== 'wav');
+            context.includesourcetrack = STATE.transcoding && (mediaurl !== sourceurl) && (sourceurl.slice(-3) !== 'wav') && (sourceurl !== false);
             context.CP = CLOUDPOODLL;
             context.subtitleurl = mediaurl + '.vtt';
             context.sourceurl = sourceurl;
@@ -848,7 +856,7 @@ YUI.add('moodle-atto_cloudpoodll-button', function (Y, NAME) {
                             mediaurl: mediaurl,
                             sourcemimetype: sourcemimetype,
                             subtitling: STATE.subtitling,
-                            subtitleurl: STATE.subtitleurl
+                            subtitleurl: STATE.subtitling ? mediaurl + '.vtt' : '',
                         },
                     }]);
                 });
@@ -875,5 +883,3 @@ YUI.add('moodle-atto_cloudpoodll-button', function (Y, NAME) {
             }
         }
     });
-
-}, '@VERSION@');

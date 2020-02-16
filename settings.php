@@ -77,6 +77,10 @@ if ($ADMIN->fulltree) {
             get_string('language', constants::M_COMPONENT),
             '', constants::LANG_ENUS, $langoptions));
 
+    $settings->add(new admin_setting_configcheckbox(constants::M_COMPONENT . '/showhistory',
+            get_string('showhistory', constants::M_COMPONENT), get_string('showhistory_details', constants::M_COMPONENT),
+            1));
+
     $skinoptions = utils::fetch_options_skins();
     unset($skinoptions[constants::SKIN_ONCE]);
     $settings->add(new admin_setting_configselect(constants::M_COMPONENT . '/audioskin',

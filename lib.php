@@ -96,6 +96,9 @@ function atto_cloudpoodll_params_for_js($elementid, $options, $fpoptions) {
 
     $params['filetitle_displaylength'] = constants::FILETITLE_DISPLAYLENGTH;
 
+    //showhistory or not
+    $params['showhistory'] = $config->showhistory;
+
     //add icons to editor if the permissions and settings are all ok
     $recorders = array('audio', 'video');
     foreach ($recorders as $recorder) {

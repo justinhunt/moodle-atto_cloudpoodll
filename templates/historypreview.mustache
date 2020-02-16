@@ -24,12 +24,12 @@
 
 {{#data}}
 <br/>
-<div id="atto_cloudpoodle_history_preview_div" style="display: none;">
+<div id="atto_cloudpoodll_history_preview_div" style="display: none;">
     <div class="mask gradient-card align-items-center">
         <div class="container d-flex justify-content-center">
             <div class="card">
                 <div class="card-body text-center">
-                    <h2 class="bg-info">{{filetitle}}</h2>
+                    <h3>{{filetitle}}</h3>
                     {{^isVideo}}
                         <audio controls="true" crossorigin="anonymous" >
                             <source src="{{mediaurl}}" type="audio/mpeg">
@@ -52,7 +52,7 @@
 
 {{#js}}
     require(['jquery'], function($) {
-       $('#atto_cloudpoodle_history_preview_div').slideDown('slow');
+       $('#atto_cloudpoodll_history_preview_div').slideDown('slow');
 
          $('.atto_cloudpoodll_form a[data-content="history"]').on("click", function () {
                const loadingHtml = "<br /><div class=\"d-flex justify-content-center\">\n" +

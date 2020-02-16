@@ -40,9 +40,10 @@ function xmldb_atto_cloudpoodll_upgrade($oldversion) {
         $table->add_field('recordertype', XMLDB_TYPE_CHAR, '5', null, XMLDB_NOTNULL, null, null);
         $table->add_field('mediafilename', XMLDB_TYPE_CHAR, '255', null, XMLDB_NOTNULL, null, null);
         $table->add_field('mediaurl', XMLDB_TYPE_CHAR, '255', null, XMLDB_NOTNULL, null, null);
-        $table->add_field('sourcefilename', XMLDB_TYPE_CHAR, '255', null, XMLDB_NOTNULL, null, null);
+        $table->add_field('sourceurl', XMLDB_TYPE_CHAR, '255', null, XMLDB_NOTNULL, null, null);
         $table->add_field('sourcemimetype', XMLDB_TYPE_CHAR, '20', null, XMLDB_NOTNULL, null, null);
         $table->add_field('subtitling', XMLDB_TYPE_CHAR, '1', null, XMLDB_NOTNULL, null, '0');
+        $table->add_field('subtitleurl', XMLDB_TYPE_CHAR, '255', null, XMLDB_NOTNULL, null, null);
         $table->add_field('language', XMLDB_TYPE_CHAR, '25', null, null, null, null);
         $table->add_field('archived', XMLDB_TYPE_CHAR, '1', null, XMLDB_NOTNULL, null, '0');
         $table->add_field('dateofentry', XMLDB_TYPE_INTEGER, '10', null, null, null, null);

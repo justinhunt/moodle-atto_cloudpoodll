@@ -100,6 +100,6 @@ class constants {
     const REGION_SINGAPORE = 'singapore';
     const REGION_MUMBAI = 'mumbai';
 
-    const FILETITLE_DISPLAYLENGTH = 25;
+    const FILETITLE_DISPLAYLENGTH = 30;
 
 }

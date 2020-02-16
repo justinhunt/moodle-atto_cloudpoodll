@@ -90,9 +90,10 @@ class atto_cloudpoodll_history_external extends external_api {
         $item->recordertype = $params['recordertype'];
         $item->mediafilename = $params['mediafilename'];
         $item->mediaurl = $params['mediaurl'];
-        $item->sourcefilename = $params['sourceurl'];
+        $item->sourceurl = $params['sourceurl'];
         $item->sourcemimetype = $params['sourcemimetype'];
         $item->subtitling = empty($params['subtitling']) ? 0 : $params['subtitling'];
+        $item->subtitleurl = $params['subtitleurl'];
         $item->archived = "0";
         $item->dateofentry = time();
         $item->userofentry = $USER->id;

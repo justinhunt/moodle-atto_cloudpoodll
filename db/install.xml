@@ -13,9 +13,10 @@
         <FIELD NAME="recordertype" TYPE="char" LENGTH="5" NOTNULL="true" SEQUENCE="false"/>
         <FIELD NAME="mediafilename" TYPE="char" LENGTH="255" NOTNULL="true" SEQUENCE="false"/>
         <FIELD NAME="mediaurl" TYPE="char" LENGTH="255" NOTNULL="true" SEQUENCE="false"/>
-        <FIELD NAME="sourcefilename" TYPE="char" LENGTH="255" NOTNULL="true" SEQUENCE="false"/>
+        <FIELD NAME="sourceurl" TYPE="char" LENGTH="255" NOTNULL="true" SEQUENCE="false"/>
         <FIELD NAME="sourcemimetype" TYPE="char" LENGTH="20" NOTNULL="true" SEQUENCE="false"/>
         <FIELD NAME="subtitling" TYPE="char" LENGTH="1" NOTNULL="true" DEFAULT="0" SEQUENCE="false"/>
+        <FIELD NAME="subtitleurl" TYPE="char" LENGTH="255" NOTNULL="true" SEQUENCE="false"/>
         <FIELD NAME="language" TYPE="char" LENGTH="25" NOTNULL="false" SEQUENCE="false"/>
         <FIELD NAME="archived" TYPE="char" LENGTH="1" NOTNULL="true" DEFAULT="0" SEQUENCE="false"/>
         <FIELD NAME="dateofentry" TYPE="int" LENGTH="10" NOTNULL="false" SEQUENCE="false"/>
