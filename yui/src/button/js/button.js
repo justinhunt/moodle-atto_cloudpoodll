@@ -237,7 +237,7 @@
             "{{/if}}" +
             '</div>' +
             '{{#if showhistory}}' +
-            '<div data-medium-type="{{CSS.HISTORY}}" data-field="history" class="tab-pane" id="{{elementid}}_{{CSS.HISTORY}}"></div>' +
+            '<div data-medium-type="{{CSS.HISTORY}}" data-field="history" data-loaded="false" class="tab-pane" id="{{elementid}}_{{CSS.HISTORY}}"></div>' +
             '</div>' +
             '{{/if}}' +
             '</div>' +

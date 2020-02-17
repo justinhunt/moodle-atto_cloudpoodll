@@ -14,8 +14,10 @@ define(['jquery', 'core/log',
                 // Load the history template for the history tab; this will call the history mustache template.
                 $('.atto_cloudpoodll_form li[data-content="history"]')
                     .on("click", function() {
-                        const loadingStr = str.get_string('loading', 'atto_cloudpoodll');
-                        const loadingHtml = "<br /><div class=\"d-flex justify-content-center\">\n" +
+                        if($(this).attr("data-loaded")=="true"){return;}
+                        $(this).attr("data-loaded","true");
+                        var loadingStr = str.get_string('loading', 'atto_cloudpoodll');
+                        var loadingHtml = "<br /><div class=\"d-flex justify-content-center\">\n" +
                             "  <div class=\"spinner-border\" role=\"status\">\n" +
                             "    <span class=\"sr-only\">" + loadingStr + "</span>\n" +
                             "  </div>\n" +
