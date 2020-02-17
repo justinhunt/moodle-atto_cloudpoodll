@@ -1,3 +1,6 @@
+Version 1.0.17 (Build 2020021000)
+-Added history tab so user can select from their previous recordings
+
 Version 1.0.16 (Build 2020020700)
 -nothing special, version bump for internal reasons
 
