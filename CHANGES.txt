@@ -1,3 +1,6 @@
+Version 1.0.18 (Build 2020040500)
+-Improved responsive display on small screens
+
 Version 1.0.17 (Build 2020021000)
 -Added history tab so user can select from their previous recordings
 

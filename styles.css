@@ -4,3 +4,30 @@
 .history-row .inplaceeditable input[type="text"] {
     width: 90%;
 }
+
+.atto_cloudpoodll_iframe {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    border: 0;
+}
+
+#id_message_atto_cloudpoodll_audio_cont {
+    position: relative;
+    overflow: hidden;
+    padding-top: 110%;
+}
+
+#id_message_atto_cloudpoodll_upload_cont {
+    position: relative;
+    overflow: hidden;
+    padding-top: 110%;
+}
+
+#id_message_atto_cloudpoodll_video_cont {
+    position: relative;
+    overflow: hidden;
+    padding-top: 130%;
+}
