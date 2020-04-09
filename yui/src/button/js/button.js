@@ -144,13 +144,16 @@
             "{{#if isvideo}}" +
             '<div data-medium-type="{{CSS.VIDEO}}" class="tab-pane active" id="{{elementid}}_{{CSS.VIDEO}}">' +
             '' +
+            '<div id="id_responsive_atto_cloudpoodll_video_cont">' +
             '<div id="{{elementid}}_{{CSS.CP_VIDEO}}" class="{{CSS.CP_SWAP}}" data-iframeclass="atto_cloudpoodll_iframe" data-id="{{elementid}}_{{CSS.CP_VIDEO}}" data-parent="{{CP.parent}}"' +
             ' data-appid="{{CP.appid}}" data-media="video" data-type="{{CP.videoskin}}" data-localloader="/lib/editor/atto/plugins/cloudpoodll/poodllloader.html"' +
             ' data-localloading="auto" data-width="{{CP.sizes.videowidth}}" data-height="{{CP.sizes.videoheight}}"' +
             ' data-transcode="{{CP.transcode}}" data-transcribe="{{subtitlevideobydefault}}" data-subtitle="{{subtitlevideobydefault}}" data-language="{{CP.language}}"' +
             ' data-expiredays="{{CP.expiredays}}" data-region="{{CP.region}}" data-owner="{{CP.owner}}" data-token="{{CP.token}}" data-fallback="{{CP.fallback}}"></div>' +
             '</div>' +
+            '</div>' +
             "{{else}}" +
+            '<div id="id_responsive_atto_cloudpoodll_audio_cont">' +
             '<div data-medium-type="{{CSS.AUDIO}}" class="tab-pane active" id="{{elementid}}_{{CSS.AUDIO}}">' +
             '<div id="{{elementid}}_{{CSS.CP_AUDIO}}" class="{{CSS.CP_SWAP}}" data-iframeclass="atto_cloudpoodll_iframe" data-id="{{elementid}}_{{CSS.CP_AUDIO}}" data-parent="{{CP.parent}}"' +
             ' data-appid="{{CP.appid}}" data-media="audio" data-type="{{CP.audioskin}}" data-localloader="/lib/editor/atto/plugins/cloudpoodll/poodllloader.html"' +
@@ -158,9 +161,11 @@
             ' data-transcode="{{CP.transcode}}" data-transcribe="{{subtitleaudiobydefault}}" data-subtitle="{{subtitleaudiobydefault}}" data-language="{{CP.language}}"' +
             ' data-expiredays="{{CP.expiredays}}" data-region="{{CP.region}}" data-owner="{{CP.owner}}" data-token="{{CP.token}}" data-fallback="{{CP.fallback}}"></div>' +
             '</div>' +
+            '</div>' +
             "{{/if}}" +
             '<div id="{{elementid}}_{{CSS.UPLOAD}}" data-medium-type="{{CSS.UPLOAD}}" class="tab-pane">' +
             '<br>{{get_string "uploadinstructions" component}}' +
+            '<div id="id_responsive_atto_cloudpoodll_upload_cont">' +
             '<div id="{{elementid}}_{{CSS.CP_UPLOAD}}" class="{{CSS.CP_SWAP}}" data-iframeclass="atto_cloudpoodll_iframe" data-id="{{elementid}}_{{CSS.CP_UPLOAD}}" data-parent="{{CP.parent}}"' +
             ' data-appid="{{CP.appid}}" data-media="{{recorder}}" data-type="upload" data-width="450" data-height="350"' +
             ' data-transcode="{{CP.transcode}}" ' +
@@ -173,6 +178,7 @@
             "{{/if}}" +
             'data-language="{{CP.language}}"' +
             'data-expiredays="{{CP.expiredays}}" data-region="{{CP.region}}" data-owner="{{CP.owner}}" data-token="{{CP.token}}"></div>' +
+            '</div>' +
             '</div>' +
             '<div data-medium-type="{{CSS.OPTIONS}}" class="tab-pane" id="{{elementid}}_{{CSS.OPTIONS}}">' +
             '<br><label>' +
@@ -245,7 +251,7 @@
         HTML_MEDIA: {
             VIDEO: '' +
                 '&nbsp;<video ' +
-                'controls="true" crossorigin="anonymous"' +
+                'controls="true" crossorigin="anonymous"  controlList="noDownload"' +
                 '>' +
                 "{{#if includesourcetrack}}" +
                 '<source src="{{sourceurl}}" type="{{sourcemimetype}}">' +
@@ -257,7 +263,7 @@
                 '</video>&nbsp;',
             AUDIO: '' +
                 '&nbsp;<audio ' +
-                'controls="true" crossorigin="anonymous"' +
+                'controls="true" crossorigin="anonymous" controlList="noDownload"' +
                 '>' +
                 "{{#if includesourcetrack}}" +
                 '<source src="{{sourceurl}}" type="{{sourcemimetype}}">' +

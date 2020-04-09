@@ -1,3 +1,6 @@
+Version 1.0.19 (Build 2020040900)
+-Fixed broken responsive display on small screens outside of forum posts (urgh)
+
 Version 1.0.18 (Build 2020040500)
 -Improved responsive display on small screens
 

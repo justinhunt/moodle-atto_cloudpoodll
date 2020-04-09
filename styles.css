@@ -14,19 +14,19 @@
     border: 0;
 }
 
-#id_message_atto_cloudpoodll_audio_cont {
+#id_responsive_atto_cloudpoodll_audio_cont {
     position: relative;
     overflow: hidden;
     padding-top: 110%;
 }
 
-#id_message_atto_cloudpoodll_upload_cont {
+#id_responsive_atto_cloudpoodll_upload_cont {
     position: relative;
     overflow: hidden;
     padding-top: 110%;
 }
 
-#id_message_atto_cloudpoodll_video_cont {
+#id_responsive_atto_cloudpoodll_video_cont {
     position: relative;
     overflow: hidden;
     padding-top: 130%;
