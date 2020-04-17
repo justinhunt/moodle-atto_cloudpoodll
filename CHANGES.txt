@@ -1,3 +1,7 @@
+Version 1.0.20 (Build 2020041700)
+-fixed no download setting
+-made subtitle track insert work better
+
 Version 1.0.19 (Build 2020040900)
 -Fixed broken responsive display on small screens outside of forum posts (urgh)
 

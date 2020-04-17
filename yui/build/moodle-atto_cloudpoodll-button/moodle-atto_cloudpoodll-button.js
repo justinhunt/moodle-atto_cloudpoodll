@@ -255,7 +255,7 @@ YUI.add('moodle-atto_cloudpoodll-button', function (Y, NAME) {
         HTML_MEDIA: {
             VIDEO: '' +
                 '&nbsp;<video ' +
-                'controls="true" crossorigin="anonymous"  controlList="noDownload"' +
+                'controls="true" crossorigin="anonymous"  controlsList="nodownload"' +
                 '>' +
                 "{{#if includesourcetrack}}" +
                 '<source src="{{sourceurl}}" type="{{sourcemimetype}}">' +
@@ -267,7 +267,7 @@ YUI.add('moodle-atto_cloudpoodll-button', function (Y, NAME) {
                 '</video>&nbsp;',
             AUDIO: '' +
                 '&nbsp;<audio ' +
-                'controls="true" crossorigin="anonymous" controlList="noDownload"' +
+                'controls="true" crossorigin="anonymous" controlsList="nodownload"' +
                 '>' +
                 "{{#if includesourcetrack}}" +
                 '<source src="{{sourceurl}}" type="{{sourcemimetype}}">' +
@@ -433,7 +433,7 @@ YUI.add('moodle-atto_cloudpoodll-button', function (Y, NAME) {
 
 
         /**
-         * Display the media editing tool.
+         * Display the cloud poodll tool.
          *
          * @method _displayDialogue
          * @private
@@ -789,7 +789,7 @@ YUI.add('moodle-atto_cloudpoodll-button', function (Y, NAME) {
             var context = {};
             context.url = mediaurl;
             context.name = mediafilename;
-            context.issubtitling = STATE.subtitling;
+            context.issubtitling = STATE.subtitling && STATE.subtitling !== '0';
             context.includesourcetrack = STATE.transcoding && (mediaurl !== sourceurl) && (sourceurl.slice(-3) !== 'wav') && (sourceurl !== false);
             context.CP = CLOUDPOODLL;
             context.subtitleurl = mediaurl + '.vtt';
