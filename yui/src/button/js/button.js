@@ -688,9 +688,13 @@
                             break;
                         case 'awaitingprocessing':
                             //we delay  a second to allow the sourcefile to be copied to correct location
+                            //the source filename will sometimes be incorrect because we do not know it when creating the dynamo db entry
+                            // but an incorrect ext is just confusing. most players will ignore it and deal with contents
                             if (!that.uploaded) {
                                 setTimeout(function () {
-                                    var sourceurl = evt.s3root + evt.sourcefilename;
+                                    var guessed_ext = loader.fetch_guessed_extension(STATE.currentrecorder );
+                                    var sourcefilename = evt.sourcefilename.split('.').slice(0, -1).join('.') + '.' + guessed_ext;
+                                    var sourceurl = evt.s3root + sourcefilename;
                                     that._doInsert(evt.mediaurl, evt.mediafilename, sourceurl, evt.sourcemimetype);
                                 }, 4000);
                                 that.uploaded = true;

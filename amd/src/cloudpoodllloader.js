@@ -27,6 +27,14 @@ define(['jquery', 'core/log',
 
                         Y.namespace('M.atto_cloudpoodll').Button.prototype.loadHistory();
                     });
+            },
+            fetch_guessed_extension(mediatype){
+                var mimetype = CloudPoodll.guess_mimetype(mediatype,0,false);
+                if(mimetype){
+                    var bits = mimetype.split('/');
+                    if(bits.length===2){return bits[1];}
+                }
+                return false;
             }
         };
     });

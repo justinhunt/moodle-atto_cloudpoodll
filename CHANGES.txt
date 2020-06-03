@@ -1,3 +1,6 @@
+Version 1.0.21 (Build 2020060300)
+-Improved support for uploaded files with hard to predict file extensions
+
 Version 1.0.20 (Build 2020041700)
 -fixed no download setting
 -made subtitle track insert work better
