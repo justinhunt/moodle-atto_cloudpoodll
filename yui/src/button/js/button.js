@@ -31,7 +31,7 @@
      * @extends M.editor_atto.EditorPlugin
      */
     var COMPONENTNAME = 'atto_cloudpoodll';
-    var RECORDERS = {VIDEO: 'video', AUDIO: 'audio'};
+    var RECORDERS = {VIDEO: 'video', AUDIO: 'audio', WIDGETS: 'widgets'};
     var INSERTMETHOD = {LINK: 'link', TAGS: 'tags'};
     var LANGUAGE = {
         ENUS: 'en-US',
@@ -77,6 +77,7 @@
     var CSS = {
         VIDEO: 'atto_cloudpoodll_video',
         AUDIO: 'atto_cloudpoodll_audio',
+        WIDGETS: 'atto_cloudpoodll_audio',
         UPLOAD: 'atto_cloudpoodll_upload',
         SUBTITLE: 'atto_cloudpoodll_subtitle',
         OPTIONS: 'atto_cloudpoodll_options',
@@ -294,7 +295,7 @@
                 return;
             }
 
-            var recorders = new Array('audio', 'video');
+            var recorders = new Array('audio', 'video','widgets');
             for (var therecorder = 0; therecorder < recorders.length; therecorder++) {
                 // Add the poodll button first (if we are supposed to)
                 if (config.hasOwnProperty(recorders[therecorder])) {

@@ -100,14 +100,13 @@ function atto_cloudpoodll_params_for_js($elementid, $options, $fpoptions) {
     $params['showhistory'] = $config->showhistory;
 
     //add icons to editor if the permissions and settings are all ok
-    $recorders = array('audio', 'video');
+    $recorders = array('audio', 'video', 'widgets');
     foreach ($recorders as $recorder) {
         $enablemedia = get_config('atto_cloudpoodll', 'enable' . $recorder);
         if ($enablemedia && has_capability('atto/cloudpoodll:allow' . $recorder, $context)) {
             $params[$recorder] = true;
         }
     }
-
     return $params;
 }
 
