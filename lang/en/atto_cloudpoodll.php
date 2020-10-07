@@ -113,8 +113,10 @@ $string['insert'] = 'Insert';
 $string['cancel'] = 'Cancel';
 $string['createvideo'] = 'Create Video';
 $string['createaudio'] = 'Create Audio';
-
-
+$string['dialogtitle'] = 'Choose a widget';
+$string['chooseinsert'] = 'What do you want to insert?';
+$string['fieldsheader'] = 'Enter details for : ';
+$string['nofieldsheader'] = 'Insert : ';
 
 $string['forever'] = 'Never expire';
 $string['awsregion'] = 'AWS Region';
