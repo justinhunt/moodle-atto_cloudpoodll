@@ -71,8 +71,6 @@ if ($ADMIN->fulltree) {
             get_string('enableaudio', constants::M_COMPONENT), '', 1));
     $settings->add(new admin_setting_configcheckbox(constants::M_COMPONENT . '/enablevideo',
             get_string('enablevideo', constants::M_COMPONENT), '', 1));
-    $settings->add(new admin_setting_configcheckbox(constants::M_COMPONENT . '/enablewidgets',
-        get_string('enablewidgets', constants::M_COMPONENT), '', 1));
 
     $langoptions = utils::get_lang_options();
     $settings->add(new admin_setting_configselect(constants::M_COMPONENT . '/language',

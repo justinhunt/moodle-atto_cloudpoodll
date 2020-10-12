@@ -63,18 +63,6 @@ $capabilities = array(
                         'user' => CAP_ALLOW
                 )
         ),
-        'atto/cloudpoodll:allowwidgets' => array(
-            'captype' => 'write',
-            'contextlevel' => CONTEXT_MODULE,
-            'archetypes' => array(
-                'coursecreator' => CAP_ALLOW,
-                'teacher' => CAP_ALLOW,
-                'editingteacher' => CAP_ALLOW,
-                'student' => CAP_ALLOW,
-                'manager' => CAP_ALLOW,
-                'user' => CAP_ALLOW
-            )
-        ),
         'atto/cloudpoodll:allowupload' => array(
                 'captype' => 'write',
                 'contextlevel' => CONTEXT_MODULE,
