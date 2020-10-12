@@ -31,7 +31,7 @@
      * @extends M.editor_atto.EditorPlugin
      */
     var COMPONENTNAME = 'atto_cloudpoodll';
-    var RECORDERS = {VIDEO: 'video', AUDIO: 'audio'};
+    var RECORDERS = {VIDEO: 'video', AUDIO: 'audio', WIDGETS: 'widgets'};
     var INSERTMETHOD = {LINK: 'link', TAGS: 'tags'};
     var LANGUAGE = {
         ENUS: 'en-US',
@@ -77,6 +77,7 @@
     var CSS = {
         VIDEO: 'atto_cloudpoodll_video',
         AUDIO: 'atto_cloudpoodll_audio',
+        WIDGETS: 'atto_cloudpoodll_audio',
         UPLOAD: 'atto_cloudpoodll_upload',
         SUBTITLE: 'atto_cloudpoodll_subtitle',
         OPTIONS: 'atto_cloudpoodll_options',
@@ -284,17 +285,53 @@
                 '>{{name}}</a>&nbsp;'
         }
     };
-    var poodllRecorder = null;
+
+    var BUTTONSHEADERTEMPLATE = '' +
+        '<div id="{{elementid}}_{{innerform}}" class="mdl-align">' +
+        '<h4 class="' + CSS.HEADERTEXT + '">{{headertext}}</h4>' +
+        '</div>';
+
+    var BUTTONTEMPLATE = '' +
+        '<div id="{{elementid}}_{{innerform}}" class="atto_widget_buttons mdl-align" style="width:30%;">' +
+        '<button style="width: 100%;" class="' + CSS.NAMEBUTTON + '_{{templateindex}} btn btn-info d-block">{{name}}</button>' +
+        '</div>';
+
+var FIELDTEMPLATE = '' +
+    '<div id="{{elementid}}_{{innerform}}" class="mdl-align">{{variable}}' +
+    '&nbsp;<input type="text" class="' + CSS.TEMPLATEVARIABLE + '_{{variableindex}} atto_widget_field" value="{{defaultvalue}}"></input>' +
+    '</div>';
+var SELECTCONTAINERTEMPLATE = '' +
+    '<div id="{{elementid}}_{{innerform}}" class="mdl-align">{{variable}}</div>';
+
+var SELECTTEMPLATE = '' +
+    '<select class="' + CSS.TEMPLATEVARIABLE + '_{{variableindex}} atto_widget_field"></select>';
+
+var OPTIONTEMPLATE = '' +
+    '<option value="{{option}}">{{option}}</option>';
+
+var SUBMITTEMPLATE = '' +
+    '<form class="atto_form">' +
+    '<div id="{{elementid}}_{{innerform}}" class="mdl-align">' +
+    '<button class="' + CSS.INPUTSUBMIT + '">{{inserttext}}</button>' +
+    '</div>' +
+    '</form>';
+
+var FIELDSHEADERTEMPLATE = '' +
+    '<div id="{{elementid}}_{{innerform}}" class="mdl-align">' +
+    '<h4 class="' + CSS.HEADERTEXT + '">{{headertext}} {{key}}</h4>' +
+    '<div class="' + CSS.INSTRUCTIONSTEXT + '">{{instructions}}</div>' +
+    '</div>';
+
+var poodllRecorder = null;
 
     Y.namespace('M.atto_cloudpoodll').Button = Y.Base.create('button', Y.M.editor_atto.EditorPlugin, [], {
         initializer: function (config) {
-
             //if we don't have the capability
             if (config.disabled) {
                 return;
             }
 
-            var recorders = new Array('audio', 'video');
+            var recorders = new Array('audio', 'video','widgets');
             for (var therecorder = 0; therecorder < recorders.length; therecorder++) {
                 // Add the poodll button first (if we are supposed to)
                 if (config.hasOwnProperty(recorders[therecorder])) {
@@ -338,6 +375,12 @@
             CLOUDPOODLL.audioskin = config.cp_audioskin;
             CLOUDPOODLL.videoskin = config.cp_videoskin;
             CLOUDPOODLL.fallback = config.fallback;
+            CLOUDPOODLL.keys = config.keys;
+            CLOUDPOODLL.names = config.names;
+            CLOUDPOODLL.instructions = config.instructions;
+            CLOUDPOODLL.defaults = config.defaults;
+            CLOUDPOODLL.variables = config.variables;
+            CLOUDPOODLL.ends = config.ends;
             CLOUDPOODLL.sizes = this._fetchRecorderDimensions();
         },
 
@@ -429,6 +472,274 @@
             return sizes;
         },
 
+        /**
+         * Display the widgets dialog
+         *
+         * @method _displayDialogue
+         * @private
+         */
+        _displayWidgetsDialogue: function (e, clickedicon) {
+            e.preventDefault();
+            var width = 800;
+
+            var dialogue = this.getDialogue({
+                headerContent: M.util.get_string('dialogtitle', COMPONENTNAME),
+                width: width + 'px',
+                focusAfterHide: clickedicon
+            });
+            //dialog doesn't detect changes in width without this
+            //if you reuse the dialog, this seems necessary
+            if (dialogue.width !== width + 'px') {
+                dialogue.set('width', width + 'px');
+            }
+
+
+            //create content container
+            var bodycontent = Y.Node.create('<div></div>');
+
+            //create and append header
+            var template = Y.Handlebars.compile(BUTTONSHEADERTEMPLATE),
+                content = Y.Node.create(template({
+                    headertext: M.util.get_string('chooseinsert', COMPONENTNAME)
+                }));
+            bodycontent.append(content);
+
+            //get button nodes
+            var buttons = this._getButtonsForNames(clickedicon);
+
+            Y.Array.each(buttons, function (button) {
+                bodycontent.append(button);
+            }, bodycontent);
+
+            //set to bodycontent
+            dialogue.set('bodyContent', bodycontent);
+            dialogue.show();
+            this.markUpdated();
+        },
+
+        /**
+         * Return the dialogue content for the tool, attaching any required
+         * events.
+         *
+         * @method _getButtonsForNames
+         * @return {Node} The content to place in the dialogue.
+         * @private
+         */
+        _getButtonsForNames: function (clickedicon) {
+            var allcontent = [];
+            Y.Array.each(CLOUDPOODLL.names, function (thename, currentindex) {
+                //loop start
+                var template = Y.Handlebars.compile(BUTTONTEMPLATE),
+                    content = Y.Node.create(template({
+                        elementid: this.get('host').get('elementid'),
+                        name: thename,
+                        templateindex: currentindex
+                    }));
+                this._form = content;
+                content.one('.' + CSS.NAMEBUTTON + '_' + currentindex).on('click', this._showTemplateForm, this, currentindex);
+                allcontent.push(content);
+                //loop end
+            }, this);
+
+            return allcontent;
+        },
+
+        /**
+         * Return the widget dialogue content for the tool, attaching any required
+         * events.
+         *
+         * @method _getSubmitButtons
+         * @return {Node} The content to place in the dialogue.
+         * @private
+         */
+        _getSubmitButtons: function (templateindex) {
+
+            var template = Y.Handlebars.compile(SUBMITTEMPLATE),
+
+                content = Y.Node.create(template({
+                    elementid: this.get('host').get('elementid'),
+                    inserttext: M.util.get_string('insert', COMPONENTNAME)
+                }));
+
+            content.one('.' + CSS.INPUTSUBMIT).on('click', this._doWidgetsInsert, this, templateindex);
+            return content;
+        },
+
+        /**
+         * Inserts the users input onto the page
+         * @method _getDialogueContent
+         * @private
+         */
+        _doWidgetsInsert: function (e, templateindex) {
+            e.preventDefault();
+            this.getDialogue({
+                focusAfterHide: null
+            }).hide();
+
+            var retstring = "{POODLL:type=";
+            var thekey = CLOUDPOODLL.keys[templateindex];
+            var thevariables = CLOUDPOODLL.variables[templateindex];
+            var thedefaults = CLOUDPOODLL.defaults[templateindex];
+            var theend = CLOUDPOODLL.ends[templateindex];
+            var defaultsarray = thedefaults;
+
+            //add key to return string
+            retstring += '"' + thekey + '"';
+
+            //add variables to return string
+            Y.Array.each(thevariables, function (variable, currentindex) {
+                //loop start
+                var thefield = Y.one('.' + CSS.TEMPLATEVARIABLE + '_' + currentindex);
+                var thevalue = thefield.get('value');
+                if (thevalue && thevalue != defaultsarray[variable]) {
+                    retstring += ',' + variable + '="' + thevalue + '"';
+                }
+                //loop end
+            }, this);
+
+            //close out return string
+            retstring += "}";
+
+            //add an end tag, if we need to
+            if (theend) {
+                retstring += '<br/>{POODLL:type="' + thekey + '_end"}';
+            }
+
+            this.editor.focus();
+            this.get('host').insertContentAtFocusPoint(retstring);
+            this.markUpdated();
+
+        },
+        /**
+         * Display the chosen widgets template form
+         *
+         * @method _showTemplateForm
+         * @private
+         */
+        _showTemplateForm: function (e, templateindex) {
+            e.preventDefault();
+            var width = 800;
+
+
+            var dialogue = this.getDialogue({
+                headerContent: M.util.get_string('dialogtitle', COMPONENTNAME),
+                width: width + 'px',
+            });
+
+            //dialog doesn't detect changes in width without this
+            //if you reuse the dialog, this seems necessary
+            if (dialogue.width !== width + 'px') {
+                dialogue.set('width', width + 'px');
+            }
+
+            //get fields , 1 per variable
+            var fields = this._getTemplateFields(templateindex);
+            var instructions = CLOUDPOODLL.instructions[templateindex];
+            instructions = decodeURIComponent(instructions);
+
+            //get header node. It will be different if we have no fields
+            if (fields && fields.length > 0) {
+                var useheadertext = M.util.get_string('fieldsheader', COMPONENTNAME);
+            } else {
+                var useheadertext = M.util.get_string('nofieldsheader', COMPONENTNAME);
+            }
+            var template = Y.Handlebars.compile(FIELDSHEADERTEMPLATE),
+                content = Y.Node.create(template({
+                    key: CLOUDPOODLL.keys[templateindex],
+                    headertext: useheadertext,
+                    instructions: instructions
+                }));
+            var header = content;
+
+            //set container for our nodes (header, fields, buttons)
+            var bodycontent = Y.Node.create('<div />');
+
+            //add our header
+            bodycontent.append(header);
+
+            //add fields
+            Y.Array.each(fields, function (field) {
+                //loop start
+                bodycontent.append(field);
+                //loop end
+            }, bodycontent);
+
+            //add submit button
+            var submitbuttons = this._getSubmitButtons(templateindex);
+            bodycontent.append(submitbuttons)
+
+            //set to bodycontent
+            dialogue.set('bodyContent', bodycontent);
+            dialogue.show();
+            this.markUpdated();
+        },
+
+        /**
+         * Return a field (yui node) for each variable in the template
+         *
+         * @method _getTemplateFields
+         * @return {Node} The content to place in the dialogue.
+         * @private
+         */
+        _getTemplateFields: function (templateindex) {
+            var allcontent = [];
+            var thekey = CLOUDPOODLL.keys[templateindex];
+            var thevariables = CLOUDPOODLL.variables[templateindex];
+            var thedefaults = CLOUDPOODLL.defaults[templateindex];
+
+            //defaults array
+            //var defaultsarray=this._getDefArray(thedefaults);
+            var defaultsarray = thedefaults;
+
+            Y.Array.each(thevariables, function (thevariable, currentindex) {
+                //loop start
+                if ((thevariable in defaultsarray) && defaultsarray[thevariable].indexOf('|') > -1) {
+
+                    var containertemplate = Y.Handlebars.compile(SELECTCONTAINERTEMPLATE),
+                        content = Y.Node.create(containertemplate({
+                            elementid: this.get('host').get('elementid'),
+                            variable: thevariable,
+                            defaultvalue: defaultsarray[thevariable],
+                            variableindex: currentindex
+                        }));
+
+                    var selecttemplate = Y.Handlebars.compile(SELECTTEMPLATE),
+                        selectbox = Y.Node.create(selecttemplate({
+                            variable: thevariable,
+                            defaultvalue: defaultsarray[thevariable],
+                            variableindex: currentindex
+                        }));
+
+                    var opts = defaultsarray[thevariable].split('|');
+                    var htmloptions = "";
+                    var opttemplate = Y.Handlebars.compile(OPTIONTEMPLATE);
+                    Y.Array.each(opts, function (opt, optindex) {
+                        var optcontent = Y.Node.create(opttemplate({
+                            option: opt
+                        }));
+                        selectbox.appendChild(optcontent);
+                    });
+                    content.appendChild(selectbox);
+
+                } else {
+
+                    var template = Y.Handlebars.compile(FIELDTEMPLATE),
+                        content = Y.Node.create(template({
+                            elementid: this.get('host').get('elementid'),
+                            variable: thevariable,
+                            defaultvalue: defaultsarray[thevariable],
+                            variableindex: currentindex
+                        }));
+                }
+
+
+                allcontent.push(content);
+                //loop end
+            }, this);
+
+
+            return allcontent;
+        },
 
         /**
          * Display the cloud poodll tool.
@@ -437,7 +748,13 @@
          * @private
          */
         _displayDialogue: function (e, recorder) {
+            e.preventDefault();
+            this._currentrecorder = recorder;
 
+            if (recorder == 'widgets') {
+                this._displayWidgetsDialogue(e, recorder);
+                return;
+            }
             //whats this?
             if (this.get('host').getSelection() === false) {
                 return;
