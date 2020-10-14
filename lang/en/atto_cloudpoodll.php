@@ -32,6 +32,8 @@ $string['cloudpoodll'] = 'Cloud Poodll';
 $string['recorder'] = 'Recorder Type';
 $string['recorderaudio'] = 'Audio Recorder';
 $string['recordervideo'] = 'Video Recorder';
+$string['recorderwidgets'] = 'Widgets';
+$string['recorderwidgets'] = 'Widgets';
 
 $string['apiuser'] = 'Poodll API User ';
 $string['apiuser_details'] = 'The Poodll account username that authorises Poodll on this site.';
@@ -105,12 +107,16 @@ $string['audio'] = 'Audio';
 $string['audio_desc'] = 'Audio recorder';
 $string['video'] = 'Video';
 $string['video_desc'] = 'Video recorder';
+$string['widgets'] = 'Widgets';
+$string['widgets_desc'] = 'Insert a Widget';
 $string['insert'] = 'Insert';
 $string['cancel'] = 'Cancel';
 $string['createvideo'] = 'Create Video';
 $string['createaudio'] = 'Create Audio';
-
-
+$string['dialogtitle'] = 'Choose a widget';
+$string['chooseinsert'] = 'What do you want to insert?';
+$string['fieldsheader'] = 'Enter details for : ';
+$string['nofieldsheader'] = 'Insert : ';
 
 $string['forever'] = 'Never expire';
 $string['awsregion'] = 'AWS Region';
@@ -126,6 +132,7 @@ $string['no'] = 'no';
 
 $string['enableaudio'] = 'Enable audio recording';
 $string['enablevideo'] = 'Enable video recording';
+$string['enablewidgets'] = 'Enable widgets';
 
 $string['recordertype'] = 'Recorder Type';
 $string['recorderskin'] = 'Recorder Skin';
