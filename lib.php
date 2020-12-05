@@ -235,22 +235,21 @@ function atto_cloudpoodll_params_for_js($elementid, $options, $fpoptions) {
     //showhistory or not
     $params['showhistory'] = $config->showhistory;
 
-    $widgetparams = atto_cloudpoodll_widgets_params_for_js();
-    $params['keys'] = $widgetparams['keys'];
-    //this will sort names only ..we need a full sort. probably much earlier in the process
-    //sort($widgetparams['names']);
-    $params['names'] = $widgetparams['names'];
-    $params['instructions'] = $widgetparams['instructions'];
-    $params['defaults'] = $widgetparams['defaults'];
-    $params['variables'] = $widgetparams['variables'];
-    $params['ends'] = $widgetparams['ends'];
-
     //add icons to editor if the permissions and settings are all ok
     $recorders = array('audio', 'video');
-    // If the poodle Atto plugin is not enabled, add widgets to the toolbar.
+
+    // If the poodle filter plugin is installed and enabled, add widgets to the toolbar.
     $poodllconfig = get_config('filter_poodll');
     if ($poodllconfig->version) {
         $recorders[] = 'widgets';
+
+        $widgetparams = atto_cloudpoodll_widgets_params_for_js();
+        $params['keys'] = $widgetparams['keys'];
+        $params['names'] = $widgetparams['names'];
+        $params['instructions'] = $widgetparams['instructions'];
+        $params['defaults'] = $widgetparams['defaults'];
+        $params['variables'] = $widgetparams['variables'];
+        $params['ends'] = $widgetparams['ends'];
     }
 
     foreach ($recorders as $recorder) {
