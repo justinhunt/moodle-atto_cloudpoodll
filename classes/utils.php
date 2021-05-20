@@ -61,7 +61,9 @@ class utils {
                 constants::REGION_LONDON => get_string("london",constants::M_COMPONENT),
                 constants::REGION_SAOPAULO => get_string("saopaulo",constants::M_COMPONENT),
                 constants::REGION_SINGAPORE => get_string("singapore",constants::M_COMPONENT),
-                constants::REGION_MUMBAI => get_string("mumbai",constants::M_COMPONENT)
+                constants::REGION_MUMBAI => get_string("mumbai",constants::M_COMPONENT),
+                constants::REGION_CAPETOWN => get_string("capetown",constants::M_COMPONENT),
+                constants::REGION_BAHRAIN => get_string("bahrain",constants::M_COMPONENT)
         );
     }
 

@@ -24,8 +24,8 @@
 
 defined('MOODLE_INTERNAL') || die();
 
-$plugin->version = 2020120500;        // The current plugin version (Date: YYYYMMDDXX).
+$plugin->version = 2021052000;        // The current plugin version (Date: YYYYMMDDXX).
 $plugin->requires = 2015051100;        // Requires Moodle version 2.9 or greater
 $plugin->component = 'atto_cloudpoodll';  // Full name of the plugin (used for diagnostics).
 $plugin->maturity = MATURITY_STABLE;
-$plugin->release = '1.0.24 (Build 2020120500';
+$plugin->release = '1.0.25 (Build 2021052000)';

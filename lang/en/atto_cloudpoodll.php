@@ -27,7 +27,7 @@ $string['privacy:metadata:cloudpoodllcom'] =
         'The atto_cloudpoodll plugin stores recordings in AWS S3 buckets via cloud.poodll.com.';
 $string['privacy:metadata:cloudpoodllcom:userid'] =
         'The atto_cloudpoodll plugin includes the moodle userid in the urls of recordings.';
-
+$string['cloudpoodll:allowwidgets'] ='Allow visibility of widgets icon';
 $string['cloudpoodll'] = 'Cloud Poodll';
 $string['recorder'] = 'Recorder Type';
 $string['recorderaudio'] = 'Audio Recorder';
@@ -58,6 +58,8 @@ $string['london'] = 'London, U.K (slow)';
 $string['saopaulo'] = 'Sao Paulo, Brazil';
 $string['singapore']='Singapore';
 $string['mumbai']='Mumbai, India';
+$string['capetown'] = 'Capetown, South Africa';
+$string['bahrain'] = 'Bahrain';
 
 $string['language'] = 'Transcription language';
 $string['speakerlanguage'] = 'Speaker language';
