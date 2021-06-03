@@ -254,7 +254,7 @@
         HTML_MEDIA: {
             VIDEO: '' +
                 '&nbsp;<video ' +
-                'controls="true" crossorigin="anonymous"  controlsList="nodownload"' +
+                'controls="true" crossorigin="anonymous"  controlsList="nodownload" preload="metadata"' +
                 '>' +
                 "{{#if includesourcetrack}}" +
                 '<source src="{{sourceurl}}" type="{{sourcemimetype}}">' +
