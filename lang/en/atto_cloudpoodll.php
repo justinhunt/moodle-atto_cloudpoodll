@@ -209,3 +209,7 @@ $string['sortAscending'] = ': activate to sort column ascending';
 $string['sortDescending'] = ': activate to sort column descending';
 $string['showhistory']="Show history tab";
 $string['showhistory_details']="The history tab allows users to select from their previously recorded audio or video.";
+$string['screen']="Screen Recording";
+$string['showscreen']="Screen Recording";
+$string['showscreen_details']="Record your screen as video";
+$string['skinscreen']="Screen Recording";

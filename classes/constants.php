@@ -42,6 +42,7 @@ class constants {
     const SKIN_123 = 'onetwothree';
     const SKIN_FRESH = 'fresh';
     const SKIN_ONCE = 'once';
+    const SKIN_SCREEN = 'screen';
 
     const LANG_ENUS = 'en-US';
     const LANG_ENGB = 'en-GB';

@@ -83,6 +83,10 @@ if ($ADMIN->fulltree) {
             get_string('showhistory', constants::M_COMPONENT), get_string('showhistory_details', constants::M_COMPONENT),
             1));
 
+    $settings->add(new admin_setting_configcheckbox(constants::M_COMPONENT . '/showscreen',
+            get_string('showscreen', constants::M_COMPONENT), get_string('showscreen_details', constants::M_COMPONENT),
+            1));
+
     $skinoptions = utils::fetch_options_skins();
     unset($skinoptions[constants::SKIN_ONCE]);
     $settings->add(new admin_setting_configselect(constants::M_COMPONENT . '/audioskin',

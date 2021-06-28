@@ -1,0 +1,40 @@
+<ul class="root nav nav-tabs" role="tablist">
+    {{#isvideo}}
+        <li data-medium-type="{{CSS.VIDEO}}" class="nav-item">
+            <a class="nav-link active" href="#{{elementid}}_{{CSS.VIDEO}}" role="tab" data-toggle="tab">
+                {{get_string "video" component}}
+                </a>
+        </li>
+    {{/isvideo}}
+    {{^isvideo}}
+        <li data-medium-type="{{CSS.AUDIO}}" class="nav-item">
+            <a class="nav-link active" href="#{{elementid}}_{{CSS.AUDIO}}" role="tab" data-toggle="tab">
+                {{get_string "audio" component}}
+                </a>
+        </li>
+    {{/isvideo}}
+    {{#showscreen}}
+        <li data-medium-type="{{CSS.SCREEN}}" class="nav-item" data-content="screen" >
+            <a class="nav-link" href="#{{elementid}}_{{CSS.SCREEN}}" role="tab" data-toggle="tab">
+                {{get_string "screen" component}}
+                </a>
+            </li>
+    {{/showscreen}}
+    <li data-medium-type="{{CSS.UPLOAD}}" class="nav-item">
+        <a class="nav-link" href="#{{elementid}}_{{CSS.UPLOAD}}" role="tab" data-toggle="tab">
+            {{get_string "upload" component}}
+            </a>
+    </li>
+    <li data-medium-type="{{CSS.OPTIONS}}" class="nav-item">
+        <a class="nav-link" href="#{{elementid}}_{{CSS.OPTIONS}}" role="tab" data-toggle="tab">
+            {{get_string "options" component}}
+        </a>
+    </li>
+    {{#showhistory}}
+        <li data-medium-type="{{CSS.HISTORY}}" class="nav-item" data-content="history" >
+            <a class="nav-link" href="#{{elementid}}_{{CSS.HISTORY}}" role="tab" data-toggle="tab">
+                {{get_string "history" component}}
+            </a>
+        </li>
+    {{/showhistory}}
+ </ul>

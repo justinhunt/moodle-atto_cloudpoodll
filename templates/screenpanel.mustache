@@ -1,0 +1,161 @@
+
+  {{!
+    This file is part of Moodle - http://moodle.org/
+
+    Moodle is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    Moodle is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
+  }}
+  {{!
+    @template atto_cloudpoodll/history
+
+    CloudPoodll history template.
+
+    The purpose of this template is to render recorder type history by user.
+  }}
+
+<link rel="stylesheet" type="text/css" href="//cdn.datatables.net/1.10.19/css/jquery.dataTables.min.css"/>
+<table cellpadding="0" cellspacing="0" width="100%" class="table" id="atto_cloud_history_table">
+    <thead>
+    <tr>
+        <th>&nbsp;</th>
+        <th>{{# str }} title, atto_cloudpoodll {{/ str }}</th>
+        <th>{{# str }} date, atto_cloudpoodll {{/ str }}</th>
+    </tr>
+    </thead>
+    <tfoot>
+    <tr>
+        <th>&nbsp;</th>
+        <th>{{# str }} title, atto_cloudpoodll {{/ str }}</th>
+        <th>{{# str }} date, atto_cloudpoodll {{/ str }}</th>
+    </tr>
+    </tfoot>
+    <tbody id="history-table-body">
+    {{#data}}
+    <tr data-history-id="{{id}}" class="history-row">
+        <td class="details-control">
+                {{# pix }} t/collapsed, core{{/ pix }}
+        </td>
+        <td>{{{editabletitle}}}</td>
+        <td>{{displaydateofentry}}</td>
+    </tr>
+    {{/data}}
+    </tbody>
+</table>
+
+{{#js}}
+    require(
+    ['jquery',
+     '//cdn.datatables.net/1.10.20/js/jquery.dataTables.min.js',
+     'core/inplace_editable',
+     'core/modal_factory',
+     'core/modal_events',
+     'core/ajax',
+     'core/templates'
+    ], function($, datatable, inplace, ModalFactory, ModalEvents, ajax,templates) {
+                // Handle the delete.
+                $('#atto_cloud_history_table').on('click', 'a[data-action-type="delete"]', function() {
+                        var clickedLink = $(this);
+                         ModalFactory.create({
+                            type: ModalFactory.types.SAVE_CANCEL,
+                            title: '{{# str }} deleteitem, atto_cloudpoodll {{/ str }}',
+                            body: '{{# str }} confirmdelete, atto_cloudpoodll {{/ str }}',
+                          }, clickedLink    )
+                          .then(function(modal) {
+                              modal.setSaveButtonText('Delete');
+                              var root = modal.getRoot();
+                                root.on(ModalEvents.save, function() {
+                                    let historyRow = clickedLink.parents('table').parents('tr').first().prev('.history-row');
+                                    let historyItemId = historyRow.data('history-id');
+                                    let childHistoryRow = clickedLink.parents('table').parents('tr').first();
+
+                                   ajax.call([{
+                                       methodname: 'atto_cloudpoodll_history_archive',
+                                       args: {'id': historyItemId},
+                                       done: function () {
+                                            childHistoryRow.fadeOut(300, function(){ $(this).remove();});
+                                            historyRow.fadeOut(300, function(){ $(this).remove();});
+                                       }
+                                   }]);
+                                });
+                            modal.show();
+                          });
+                });
+
+                // Handle the insert.
+                $('#atto_cloud_history_table').on('click', 'a[data-action-type="add"]', function() {
+                    Y.namespace('M.atto_cloudpoodll').Button.prototype.insertHistoryItem(this);
+                });
+
+                // Handle the preview.
+                $('#atto_cloud_history_table').on('click', 'a[data-action-type="preview"]', function() {
+                    const loadingHtml = '<br /><div class="d-flex justify-content-center">\n' +
+                                        '  <div class=\"spinner-border\" role="status">\n' +
+                                        '    <span class=\"sr-only\">{{# str }} loading, atto_cloudpoodll {{/ str }}</span>\n' +
+                                        '  </div>\n' +
+                                        '</div><br />';
+
+                    $('div[data-field="history"]').html(loadingHtml);
+                    Y.namespace('M.atto_cloudpoodll').Button.prototype.loadHistoryPreview(this);
+                });
+
+                var table = $('#atto_cloud_history_table').dataTable({
+                    "language": {
+                        "decimal":        "",
+                        "emptyTable":     "{{# str }} emptyTable, atto_cloudpoodll {{/ str }}",
+                        "info":           "{{# str }} info, atto_cloudpoodll {{/ str }}",
+                        "infoEmpty":      "{{# str }} loading, atto_cloudpoodll {{/ str }}",
+                        "infoFiltered":   "{{# str }} infoFiltered, atto_cloudpoodll {{/ str }}",
+                        "infoPostFix":    "",
+                        "thousands":      "{{# str }} thousands, atto_cloudpoodll {{/ str }}",
+                        "lengthMenu":     "{{# str }} lengthMenu, atto_cloudpoodll {{/ str }}",
+                        "loadingRecords": "{{# str }} loadingRecords, atto_cloudpoodll {{/ str }}",
+                        "processing":     "{{# str }} processing, atto_cloudpoodll {{/ str }}",
+                        "search":         "{{# str }} search, atto_cloudpoodll {{/ str }}",
+                        "zeroRecords":    "{{# str }} zeroRecords, atto_cloudpoodll {{/ str }}",
+                        "paginate": {
+                            "first":      "{{# str }} first, atto_cloudpoodll {{/ str }}",
+                            "last":       "{{# str }} last, atto_cloudpoodll {{/ str }}",
+                            "next":       "{{# str }} next, atto_cloudpoodll {{/ str }}",
+                            "previous":   "{{# str }} previous, atto_cloudpoodll {{/ str }}"
+                        },
+                        "aria": {
+                            "sortAscending":  "{{# str }} sortAscending, atto_cloudpoodll {{/ str }}",
+                            "sortDescending": "{{# str }} sortDescending, atto_cloudpoodll {{/ str }}"
+                        }
+                    },
+                    "columnDefs": [
+                        { "targets": 0, "orderable": false, "searchable": false, "width": "8%"},
+                        { "targets": 2, "width": "20%"},
+                    ]
+                });
+
+                $('#atto_cloud_history_table tbody').on('click', 'td.details-control', function () {
+                    var tr = jQuery(this).closest('tr');
+                    var row = table.api().row( tr );
+
+                    if ( row.child.isShown() ) {
+                        row.child.hide();
+                        tr.removeClass('shown');
+                    }
+                    else {
+                        var rowdata = {"name": "id", "value": tr.data('history-id') };
+                        templates.render('atto_cloudpoodll/historyrow',rowdata).then(
+                            function(html,js){
+                                row.child(html).show();
+                                tr.addClass('shown');
+                            }
+                        );
+                    }
+                } );
+    });
+{{/js}}

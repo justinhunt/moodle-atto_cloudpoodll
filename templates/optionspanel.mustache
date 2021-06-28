@@ -1,0 +1,78 @@
+
+  {{!
+    This file is part of Moodle - http://moodle.org/
+
+    Moodle is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    Moodle is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
+  }}
+  {{!
+    @template atto_cloudpoodll/options
+
+    CloudPoodll options template.
+
+    The purpose of this template is to render recorder type history by user.
+  }}
+  <div data-medium-type="{{CSS.OPTIONS}}" data-field="options" class="tab-pane" id="{{elementid}}_{{CSS.OPTIONS}}">
+      <br><label>
+          <input type="checkbox" id="{{elementid}}_{{CSS.MEDIAINSERT_CHECKBOX}}" class="{{CSS.MEDIAINSERT_CHECKBOX}}"
+          {{#mediataginsert}} checked="true"{{/mediataginsert}}
+          />&nbsp;{{#str}} mediainsertcheckbox, atto_cloudpoodll {{/str}}
+          </label>
+      {{#cansubtitle}}
+          <br><label>
+              <input type="checkbox" id="{{elementid}}_{{CSS.SUBTITLE_CHECKBOX}}" class="{{CSS.SUBTITLE_CHECKBOX}}"
+              {{#isvideo}}{{#letssubtitlevideo}} checked="true"{{/letssubtitlevideo}}{{/isvideo}}
+              {{^isvideo}}{{#letssubtitleaudio}} checked="true"{{/letssubtitleaudio}}{{/isvideo}}
+              />
+              &nbsp;{{#str}} subtitlecheckbox, atto_cloudpoodll {{/str}}
+              </label>
+          <br><label>{{#str}} speakerlanguage, atto_cloudpoodll{{/str}}&nbsp;
+              <select id="{{elementid}}_{{CSS.LANG_SELECT}}" class="{{CSS.LANG_SELECT}}">
+                  <option value="{{LANG.ARAE}}" {{#LANG.useARAE}}selected="selected"{{/LANG.useARAE}}>{{#str}} ar-ae, atto_cloudpoodll {{/str}}</option>
+                  <option value="{{LANG.ARSA}}" {{#LANG.useARSA}}selected="selected"{{/LANG.useARSA}}>{{#str}} ar-sa, atto_cloudpoodll {{/str}}</option>
+                  <option value="{{LANG.DEDE}}" {{#LANG.useDEDE}}selected="selected"{{/LANG.useDEDE}}>{{#str}} de-de, atto_cloudpoodll {{/str}}</option>
+                  <option value="{{LANG.DECH}}" {{#LANG.useDECH}}selected="selected"{{/LANG.useDECH}}>{{#str}} de-ch, atto_cloudpoodll {{/str}}</option>
+                  <option value="{{LANG.ENUS}}" {{#LANG.useENUS}}selected="selected"{{/LANG.useENUS}}>{{#str}} en-us, atto_cloudpoodll {{/str}}</option>
+                  <option value="{{LANG.ENGB}}" {{#LANG.useENGB}}selected="selected"{{/LANG.useENGB}}>{{#str}} en-gb, atto_cloudpoodll {{/str}}</option>
+                  <option value="{{LANG.ENAU}}" {{#LANG.useENAU}}selected="selected"{{/LANG.useENAU}}>{{#str}} en-au, atto_cloudpoodll {{/str}}</option>
+                  <option value="{{LANG.ENIN}}" {{#LANG.useENIN}}selected="selected"{{/LANG.useENIN}}>{{#str}} en-in, atto_cloudpoodll {{/str}}</option>
+                  <option value="{{LANG.ENIE}}" {{#LANG.useENIE}}selected="selected"{{/LANG.useENIE}}>{{#str}} en-ie, atto_cloudpoodll {{/str}}</option>
+                  <option value="{{LANG.ENWL}}" {{#LANG.useENWL}}selected="selected"{{/LANG.useENWL}}>{{#str}} en-wl, atto_cloudpoodll {{/str}}</option>
+                  <option value="{{LANG.ENAB}}" {{#LANG.useENAB}}selected="selected"{{/LANG.useENAB}}>{{#str}} en-ab, atto_cloudpoodll {{/str}}</option>
+                  <option value="{{LANG.ESUS}}" {{#LANG.useESUS}}selected="selected"{{/LANG.useESUS}}>{{#str}} es-us, atto_cloudpoodll {{/str}}</option>
+                  <option value="{{LANG.ESES}}" {{#LANG.useESES}}selected="selected"{{/LANG.useESES}}>{{#str}} es-es, atto_cloudpoodll {{/str}}</option>
+                  <option value="{{LANG.FAIR}}" {{#LANG.useFAIR}}selected="selected"{{/LANG.useFAIR}}>{{#str}} fa-ir, atto_cloudpoodll {{/str}}</option>
+                  <option value="{{LANG.FRFR}}" {{#LANG.useFRFR}}selected="selected"{{/LANG.useFRFR}}>{{#str}} fr-fr, atto_cloudpoodll {{/str}}</option>
+                  <option value="{{LANG.FRCA}}" {{#LANG.useFRCA}}selected="selected"{{/LANG.useFRCA}}>{{#str}} fr-ca, atto_cloudpoodll {{/str}}</option>
+                  <option value="{{LANG.HEIL}}" {{#LANG.useHEIL}}selected="selected"{{/LANG.useHEIL}}>{{#str}} he-il, atto_cloudpoodll {{/str}}</option>
+                  <option value="{{LANG.HIIN}}" {{#LANG.useHIIN}}selected="selected"{{/LANG.useHIIN}}>{{#str}} hi-in, atto_cloudpoodll {{/str}}</option>
+                  <option value="{{LANG.ITIT}}" {{#LANG.useITIT}}selected="selected"{{/LANG.useITIT}}>{{#str}} it-it, atto_cloudpoodll {{/str}}</option>
+                  <option value="{{LANG.JAJP}}" {{#LANG.useJAJP}}selected="selected"{{/LANG.useJAJP}}>{{#str}} ja-jp, atto_cloudpoodll {{/str}}</option>
+                  <option value="{{LANG.KOKR}}" {{#LANG.useKOKR}}selected="selected"{{/LANG.useKOKR}}>{{#str}} ko-kr, atto_cloudpoodll {{/str}}</option>
+                  <option value="{{LANG.MSMY}}" {{#LANG.useMSMY}}selected="selected"{{/LANG.useMSMY}}>{{#str}} ms-my, atto_cloudpoodll {{/str}}</option>
+                  <option value="{{LANG.NLNL}}" {{#LANG.useNLNL}}selected="selected"{{/LANG.useNLNL}}>{{#str}} nl-nl, atto_cloudpoodll {{/str}}</option>
+                  <option value="{{LANG.PTPT}}" {{#LANG.usePTPT}}selected="selected"{{/LANG.usePTPT}}>{{#str}} pt-pt, atto_cloudpoodll {{/str}}</option>
+                  <option value="{{LANG.PTBR}}" {{#LANG.usePTBR}}selected="selected"{{/LANG.usePTBR}}>{{#str}} pt-br, atto_cloudpoodll {{/str}}</option>
+                  <option value="{{LANG.RURU}}" {{#LANG.useRURU}}selected="selected"{{/LANG.useRURU}}>{{#str}} ru-ru, atto_cloudpoodll {{/str}}</option>
+                  <option value="{{LANG.TAIN}}" {{#LANG.useTAIN}}selected="selected"{{/LANG.useTAIN}}>{{#str}} ta-in, atto_cloudpoodll {{/str}}</option>
+                  <option value="{{LANG.TEIN}}" {{#LANG.useTEIN}}selected="selected"{{/LANG.useTEIN}}>{{#str}} te-in, atto_cloudpoodll {{/str}}</option>
+                  <option value="{{LANG.TRTR}}" {{#LANG.useTRTR}}selected="selected"{{/LANG.useTRTR}}>{{#str}} tr-tr, atto_cloudpoodll {{/str}}</option>
+                  <option value="{{LANG.ZHCN}}" {{#LANG.useZHCN}}selected="selected"{{/LANG.useZHCN}}>{{#str}} zh-cn, atto_cloudpoodll {{/str}}</option>
+                  </select>
+              </label>
+          <br>{{#str}} subtitleinstructions, atto_cloudpoodll {{/str}}
+      {{/cansubtitle}}
+      {{^cansubtitle}}
+          {{#str}} cannotsubtitle, atto_cloudpoodll {{/str}}
+      {{/cansubtitle}}
+  </div>

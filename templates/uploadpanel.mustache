@@ -1,0 +1,19 @@
+<div id="{{elementid}}_{{CSS.UPLOAD}}" data-medium-type="{{CSS.UPLOAD}}" class="tab-pane">
+    <br>{{#str}}uploadinstructions, atto_cloudpoodll{{/str}}
+    <div id="id_responsive_atto_cloudpoodll_upload_cont">
+        <div id="{{elementid}}_{{CSS.CP_UPLOAD}}" class="{{CSS.CP_SWAP}}" data-iframeclass="atto_cloudpoodll_iframe" data-id="{{elementid}}_{{CSS.CP_UPLOAD}}" data-parent="{{CP.parent}}"
+             data-appid="{{CP.appid}}" data-media="{{recorder}}" data-type="upload" data-width="450" data-height="350"
+             data-transcode="{{CP.transcode}}"
+            {{#isvideo}}
+                data-transcribe="{{subtitlevideobydefault}}"
+                data-subtitle="{{subtitlevideobydefault}}"
+             {{/isvideo}}
+             {{^isvideo}}
+                data-transcribe="{{subtitleaudiobydefault}}"
+                data-subtitle="{{subtitleaudiobydefault}}"
+            {{/isvideo}}
+            data-language="{{CP.language}}"
+            data-expiredays="{{CP.expiredays}}" data-region="{{CP.region}}" data-owner="{{CP.owner}}" data-token="{{CP.token}}">
+        </div>
+    </div>
+</div>

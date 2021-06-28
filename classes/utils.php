@@ -46,7 +46,8 @@ class utils {
                 constants::SKIN_BMR => get_string("skinbmr", constants::M_COMPONENT),
                 constants::SKIN_123 => get_string("skin123", constants::M_COMPONENT),
                 constants::SKIN_FRESH => get_string("skinfresh", constants::M_COMPONENT),
-                constants::SKIN_ONCE => get_string("skinonce", constants::M_COMPONENT));
+                constants::SKIN_ONCE => get_string("skinonce", constants::M_COMPONENT),
+                constants::SKIN_SCREEN => get_string("skinscreen", constants::M_COMPONENT));
         return $rec_options;
     }
 
