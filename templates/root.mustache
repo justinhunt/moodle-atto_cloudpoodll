@@ -2,8 +2,9 @@
     {{> atto_cloudpoodll/menu}}
     <div class="root tab-content">
       {{#isvideo}}{{> atto_cloudpoodll/videopanel}}{{/isvideo}}
-      {{^isvideo}}{{> atto_cloudpoodll/audiopanel}}{{/isvideo}}
-      {{> atto_cloudpoodll/uploadpanel}}
+      {{#isaudio}}{{> atto_cloudpoodll/audiopanel}}{{/isaudio}}
+      {{#isscreen}}{{> atto_cloudpoodll/screenpanel}}{{/isscreen}}
+      {{^isscreen}}{{> atto_cloudpoodll/uploadpanel}}{{/isscreen}}
       {{> atto_cloudpoodll/optionspanel}}
        {{#showhistory}}
           <div data-medium-type="{{CSS.HISTORY}}" data-field="history" data-loaded="false" class="tab-pane" id="{{elementid}}_{{CSS.HISTORY}}"></div>

@@ -89,6 +89,7 @@
         MEDIAINSERT_CHECKBOX: 'atto_cloudpoodll_mediainsert_checkbox',
         ATTO_CLOUDPOODLL_FORM: 'atto_cloudpoodll_form',
         CP_VIDEO: 'atto_cloudpoodll_video_cont',
+        CP_SCREEN: 'atto_cloudpoodll_screen_cont',
         CP_AUDIO: 'atto_cloudpoodll_audio_cont',
         CP_UPLOAD: 'atto_cloudpoodll_upload_cont',
         CP_SWAP: 'atto_cloudpoodll_swapmeout'
@@ -260,37 +261,6 @@ var poodllRecorder = null;
                     component: COMPONENTNAME,
                     helpStrings: this.get('help'),
                     recorder: STATE.currentrecorder,
-                    useENUS: CLOUDPOODLL.language === LANGUAGE.ENUS,
-                    useENGB: CLOUDPOODLL.language === LANGUAGE.ENGB,
-                    useENAU: CLOUDPOODLL.language === LANGUAGE.ENAU,
-                    useENIN: CLOUDPOODLL.language === LANGUAGE.ENIN,
-                    useFRCA: CLOUDPOODLL.language === LANGUAGE.FRCA,
-                    useFRFR: CLOUDPOODLL.language === LANGUAGE.FRFR,
-                    useESUS: CLOUDPOODLL.language === LANGUAGE.ESUS,
-                    useESES: CLOUDPOODLL.language === LANGUAGE.ESES,
-                    useITIT: CLOUDPOODLL.language === LANGUAGE.ITIT,
-                    usePTBR: CLOUDPOODLL.language === LANGUAGE.PTBR,
-                    useDEDE: CLOUDPOODLL.language === LANGUAGE.DEDE,
-                    useKOKR: CLOUDPOODLL.language === LANGUAGE.KOKR,
-                    useHIIN: CLOUDPOODLL.language === LANGUAGE.HIIN,
-                    useARAE: CLOUDPOODLL.language === LANGUAGE.ARAE,
-                    useARSA: CLOUDPOODLL.language === LANGUAGE.ARSA,
-                    useZHCN: CLOUDPOODLL.language === LANGUAGE.ZHCN,
-                    useNLNL: CLOUDPOODLL.language === LANGUAGE.NLNL,
-                    useENIE: CLOUDPOODLL.language === LANGUAGE.ENIE,
-                    useENWL: CLOUDPOODLL.language === LANGUAGE.ENWL,
-                    useENAB: CLOUDPOODLL.language === LANGUAGE.ENAB,
-                    useFAIR: CLOUDPOODLL.language === LANGUAGE.FAIR,
-                    useDECH: CLOUDPOODLL.language === LANGUAGE.DECH,
-                    useHEIL: CLOUDPOODLL.language === LANGUAGE.HEIL,
-                    useIDID: CLOUDPOODLL.language === LANGUAGE.IDID,
-                    useJAJP: CLOUDPOODLL.language === LANGUAGE.JAJP,
-                    useMSMY: CLOUDPOODLL.language === LANGUAGE.MSMY,
-                    usePTPT: CLOUDPOODLL.language === LANGUAGE.PTPT,
-                    useRURU: CLOUDPOODLL.language === LANGUAGE.RURU,
-                    useTAIN: CLOUDPOODLL.language === LANGUAGE.TAIN,
-                    useTEIN: CLOUDPOODLL.language === LANGUAGE.TEIN,
-                    useTRTR: CLOUDPOODLL.language === LANGUAGE.TRTR,
                     CSS: CSS,
                     CP: CLOUDPOODLL,
                     LANG: LANGUAGE
@@ -303,6 +273,40 @@ var poodllRecorder = null;
                 if(STATE.insertmethod === INSERTMETHOD.TAGS){basicItems.mediataginsert=true;}
                 if(STATE.subtitleaudiobydefault === 1){basicItems.subtitleaudiobydefault=true;}
                 if(STATE.subtitlevideobydefault === 1){basicItems.subtitlevideobydefault=true;}
+                if(STATE.showhistory){basicItems.showhistory=true;}
+                if(CLOUDPOODLL.cansubtitle){basicItems.cansubtitle=true;}
+
+                if(CLOUDPOODLL.language === LANGUAGE.ENUS){basicItems.useENUS =true;}
+                if(CLOUDPOODLL.language === LANGUAGE.ENGB){basicItems.useENGB =true;}
+                if(CLOUDPOODLL.language === LANGUAGE.ENIN){basicItems.useENIN =true;}
+                if(CLOUDPOODLL.language === LANGUAGE.FRCA){basicItems.useFRCA =true;}
+                if(CLOUDPOODLL.language === LANGUAGE.FRFR){basicItems.useFRFR =true;}
+                if(CLOUDPOODLL.language === LANGUAGE.ESUS){basicItems.useESUS =true;}
+                if(CLOUDPOODLL.language === LANGUAGE.ESES){basicItems.useESES =true;}
+                if(CLOUDPOODLL.language === LANGUAGE.ITIT){basicItems.useITIT =true;}
+                if(CLOUDPOODLL.language === LANGUAGE.PTBR){basicItems.usePTBR =true;}
+                if(CLOUDPOODLL.language === LANGUAGE.PTPT){basicItems.usePTPT =true;}
+
+                if(CLOUDPOODLL.language === LANGUAGE.DEDE){basicItems.useDEDE =true;}
+                if(CLOUDPOODLL.language === LANGUAGE.KOKR){basicItems.useKOKR =true;}
+                if(CLOUDPOODLL.language === LANGUAGE.HIIN){basicItems.useHIIN =true;}
+                if(CLOUDPOODLL.language === LANGUAGE.ARAE){basicItems.useARAE =true;}
+                if(CLOUDPOODLL.language === LANGUAGE.ARSA){basicItems.useARSA =true;}
+                if(CLOUDPOODLL.language === LANGUAGE.ZHCN){basicItems.useZHCN =true;}
+                if(CLOUDPOODLL.language === LANGUAGE.NLNL){basicItems.useNLNL =true;}
+                if(CLOUDPOODLL.language === LANGUAGE.ENIE){basicItems.useENIE =true;}
+                if(CLOUDPOODLL.language === LANGUAGE.ENWL){basicItems.useENWL =true;}
+                if(CLOUDPOODLL.language === LANGUAGE.ENAB){basicItems.useENAB =true;}
+
+                if(CLOUDPOODLL.language === LANGUAGE.FAIR){basicItems.useFAIR =true;}
+                if(CLOUDPOODLL.language === LANGUAGE.DECH){basicItems.useDECH =true;}
+                if(CLOUDPOODLL.language === LANGUAGE.IDID){basicItems.useIDID =true;}
+                if(CLOUDPOODLL.language === LANGUAGE.JAJP){basicItems.useJAJP =true;}
+                if(CLOUDPOODLL.language === LANGUAGE.MSMY){basicItems.useMSMY =true;}
+                if(CLOUDPOODLL.language === LANGUAGE.RURU){basicItems.useRURU =true;}
+                if(CLOUDPOODLL.language === LANGUAGE.TAIN){basicItems.useTAIN =true;}
+                if(CLOUDPOODLL.language === LANGUAGE.TEIN){basicItems.useTEIN =true;}
+                if(CLOUDPOODLL.language === LANGUAGE.TRTR){basicItems.useTRTR =true;}
 
                 return Y.merge(basicItems,extra);
             },
@@ -627,7 +631,7 @@ var poodllRecorder = null;
             switch (recorder) {
                 case RECORDERS.SCREEN:
                     var title = M.util.get_string('createscreen', COMPONENTNAME);
-                    var width = '500';
+                    var width = '502';
                     var height = "660";
                     break;
 

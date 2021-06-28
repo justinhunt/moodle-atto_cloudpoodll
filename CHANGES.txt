@@ -1,3 +1,6 @@
+Version 1.0.27 (Build 2021062800)
+- added screen recording
+
 Version 1.0.26 (Build 2021060400)
 - changed preloading strategy for html5 video
 
