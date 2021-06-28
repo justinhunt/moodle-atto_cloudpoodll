@@ -39,7 +39,7 @@ function atto_cloudpoodll_strings_for_js() {
     foreach(utils::get_lang_options() as $key=>$value){
         $langstrings[]= strtolower($key);
     };
-    $otherstrings = array('createaudio', 'createvideo', 'insert', 'cancel', 'audio', 'video','screen', 'upload', 'subtitle', 'options',
+    $otherstrings = array('createaudio', 'createvideo','createscreen', 'insert', 'cancel', 'audio', 'video','screen', 'upload', 'subtitle', 'options',
             'history','subtitlecheckbox', 'mediainsertcheckbox', 'subtitleinstructions', 'audio_desc', 'video_desc',
             'speakerlanguage', 'uploadinstructions', 'cannotsubtitle','notoken', 'widgets_desc', 'dialogtitle', 'chooseinsert'
         , 'fieldsheader','nofieldsheader');
@@ -238,7 +238,7 @@ function atto_cloudpoodll_params_for_js($elementid, $options, $fpoptions) {
     $params['showscreen'] = $config->showscreen;
 
     //add icons to editor if the permissions and settings are all ok
-    $recorders = array('audio', 'video');
+    $recorders = array('audio', 'video','screen');
 
     // If the poodle filter plugin is installed and enabled, add widgets to the toolbar.
     $poodllconfig = get_config('filter_poodll');

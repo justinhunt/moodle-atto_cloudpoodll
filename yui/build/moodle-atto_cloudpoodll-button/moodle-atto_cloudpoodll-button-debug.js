@@ -74,7 +74,8 @@ YUI.add('moodle-atto_cloudpoodll-button', function (Y, NAME) {
         BMR: 'bmr',
         ONETWOTHREE: 'onetwothree',
         FRESH: 'fresh',
-        ONCE: 'once'
+        ONCE: 'once',
+        SCREEN: 'screen'
     };
     var CSS = {
         VIDEO: 'atto_cloudpoodll_video',
@@ -190,7 +191,7 @@ var poodllRecorder = null;
                 return;
             }
 
-            var recorders = new Array('audio', 'video','widgets');
+            var recorders = new Array('audio', 'video','screen','widgets');
             for (var therecorder = 0; therecorder < recorders.length; therecorder++) {
                 // Add the poodll button first (if we are supposed to)
                 if (config.hasOwnProperty(recorders[therecorder])) {
@@ -256,19 +257,11 @@ var poodllRecorder = null;
          */
         _getContext:
             function (extra) {
-                return Y.merge({
+                var basicItems={
                     elementid: this.get('host').get('elementid'),
                     component: COMPONENTNAME,
                     helpStrings: this.get('help'),
-                    isvideo: STATE.currentrecorder === RECORDERS.VIDEO,
-                    showhistory: STATE.showhistory,
-                    cansubtitle: CLOUDPOODLL.cansubtitle,
                     recorder: STATE.currentrecorder,
-                    mediataginsert: STATE.insertmethod === INSERTMETHOD.TAGS,
-                    subtitleaudiobydefault: STATE.subtitleaudiobydefault,
-                    subtitlevideobydefault: STATE.subtitlevideobydefault,
-                    letssubtitleaudio: STATE.subtitleaudiobydefault == 1,
-                    letssubtitlevideo: STATE.subtitlevideobydefault == 1,
                     useENUS: CLOUDPOODLL.language === LANGUAGE.ENUS,
                     useENGB: CLOUDPOODLL.language === LANGUAGE.ENGB,
                     useENAU: CLOUDPOODLL.language === LANGUAGE.ENAU,
@@ -303,7 +296,17 @@ var poodllRecorder = null;
                     CSS: CSS,
                     CP: CLOUDPOODLL,
                     LANG: LANGUAGE
-                }, extra);
+                };
+                if(STATE.currentrecorder === RECORDERS.VIDEO){basicItems.isvideo=true;}
+                if(STATE.currentrecorder === RECORDERS.SCREEN){basicItems.isscreen=true;}
+                if(STATE.currentrecorder === RECORDERS.AUDIO){basicItems.isaudio=true;}
+                if(STATE.subtitleaudiobydefault === 1){basicItems.letssubtitleaudio=true;}
+                if(STATE.subtitlevideobydefault === 1){basicItems.letssubtitlevideo=true;}
+                if(STATE.insertmethod === INSERTMETHOD.TAGS){basicItems.mediataginsert=true;}
+                if(STATE.subtitleaudiobydefault === 1){basicItems.subtitleaudiobydefault=true;}
+                if(STATE.subtitlevideobydefault === 1){basicItems.subtitlevideobydefault=true;}
+
+                return Y.merge(basicItems,extra);
             },
 
         _fetchRecorderDimensions: function () {
@@ -313,6 +316,7 @@ var poodllRecorder = null;
             //get video sizes]
             switch (CLOUDPOODLL.videoskin) {
                 case SKIN.ONETWOTHREE:
+                case SKIN.SCREEN:
                     sizes.videowidth = 441; //(because the @media CSS is for <=440)
                     sizes.videoheight = 540;
                     break;
@@ -430,7 +434,7 @@ var poodllRecorder = null;
 
         /**
          * Inserts the users input onto the page
-         * @method _getDialogueContent
+         * @method _getWidgetsInsert
          * @private
          */
         _doWidgetsInsert: function (e, templateindex) {
@@ -614,7 +618,7 @@ var poodllRecorder = null;
             e.preventDefault();
             this._currentrecorder = recorder;
 
-            if (recorder == 'widgets') {
+            if (recorder == RECORDERS.WIDGETS) {
                 this._displayWidgetsDialogue(e, recorder);
                 return;
             }
@@ -623,6 +627,12 @@ var poodllRecorder = null;
 
             //get title and sizes
             switch (recorder) {
+                case RECORDERS.SCREEN:
+                    var title = M.util.get_string('createscreen', COMPONENTNAME);
+                    var width = '500';
+                    var height = "660";
+                    break;
+
                 case RECORDERS.VIDEO:
                     var title = M.util.get_string('createvideo', COMPONENTNAME);
                     switch (CLOUDPOODLL.videoskin) {
@@ -654,7 +664,8 @@ var poodllRecorder = null;
 
             //set default subtitling flag
             if (CLOUDPOODLL.cansubtitle) {
-                if (STATE.currentrecorder == RECORDERS.VIDEO) {
+                if (STATE.currentrecorder == RECORDERS.VIDEO ||
+                    STATE.currentrecorder == RECORDERS.SCREEN) {
                     STATE.subtitling = STATE.subtitlevideobydefault;
                 } else {
                     STATE.subtitling = STATE.subtitleaudiobydefault;
@@ -682,76 +693,98 @@ var poodllRecorder = null;
                 dialogue.set('height', height + 'px');
             }
 
-
-            // Set the dialogue content, and then show the dialogue.
-            dialogue.set('bodyContent', this._getDialogueContent()).show();
-
             //store some common elements we will refer to later
             STATE.elementid = this.get('host').get('elementid');
             STATE.subtitlecheckbox = Y.one('#' + STATE.elementid + '_' + CSS.SUBTITLE_CHECKBOX);
             STATE.mediainsertcheckbox = Y.one('#' + STATE.elementid + '_' + CSS.MEDIAINSERT_CHECKBOX);
             STATE.languageselect = Y.one('#' + STATE.elementid + '_' + CSS.LANG_SELECT);
             var topnode = Y.one('#' + STATE.elementid + '_' + CSS.ATTO_CLOUDPOODLL_FORM);
-            var that = this;
-            poodllRecorder = that;
 
-            //subtitle checkbox click event.. reload recorders
-            if (STATE.subtitlecheckbox != null) {
-                //if we can subtitle, handle events, otherwise disable it
-                if (CLOUDPOODLL.cansubtitle) {
-                    STATE.subtitlecheckbox.on('click', function (e) {
-                        var element = e.currentTarget;
-                        //update recorder subtitle setting
-                        if (element.get('checked')) {
-                            topnode.all('.' + CSS.CP_SWAP).setAttribute('data-transcribe', '1');
-                            topnode.all('.' + CSS.CP_SWAP).setAttribute('data-subtitle', '1');
-                            topnode.all('.' + CSS.CP_SWAP).setAttribute('data-alreadyparsed', 'false');
-                            STATE.subtitling = true;
-                        } else {
-                            topnode.all('.' + CSS.CP_SWAP).setAttribute('data-transcribe', '0');
-                            topnode.all('.' + CSS.CP_SWAP).setAttribute('data-subtitle', '0');
-                            topnode.all('.' + CSS.CP_SWAP).setAttribute('data-alreadyparsed', 'false');
-                            STATE.subtitling = false;
+            var output = '';
+            if (CLOUDPOODLL.token == '') {
+                output = M.util.get_string('notoken', COMPONENTNAME);
+            } else {
+                //this block should be portioned into an async/await and function, but shifter wont allow it.
+                var context = this._getContext();
+                var that = this;
+                require(['core/templates','core/ajax', 'core/notification'], function (templates,ajax, notification) {
+
+                    templates.render('atto_cloudpoodll/root', context).then(function (html, js) {
+                        output = html;
+                        var content = Y.Node.create(output);
+
+                        // Set the dialogue content, and then show the dialogue.
+                        dialogue.set('bodyContent', content).show();
+
+                        //this is important?
+                        poodllRecorder = that;
+
+                        //subtitle checkbox click event.. reload recorders
+                        if (STATE.subtitlecheckbox != null) {
+                            //if we can subtitle, handle events, otherwise disable it
+                            if (CLOUDPOODLL.cansubtitle) {
+                                STATE.subtitlecheckbox.on('click', function (e) {
+                                    var element = e.currentTarget;
+                                    //update recorder subtitle setting
+                                    if (element.get('checked')) {
+                                        topnode.all('.' + CSS.CP_SWAP).setAttribute('data-transcribe', '1');
+                                        topnode.all('.' + CSS.CP_SWAP).setAttribute('data-subtitle', '1');
+                                        topnode.all('.' + CSS.CP_SWAP).setAttribute('data-alreadyparsed', 'false');
+                                        STATE.subtitling = true;
+                                    } else {
+                                        topnode.all('.' + CSS.CP_SWAP).setAttribute('data-transcribe', '0');
+                                        topnode.all('.' + CSS.CP_SWAP).setAttribute('data-subtitle', '0');
+                                        topnode.all('.' + CSS.CP_SWAP).setAttribute('data-alreadyparsed', 'false');
+                                        STATE.subtitling = false;
+                                    }
+                                    //reload the recorders
+                                    topnode.all('.' + CSS.CP_SWAP).empty();
+                                    that._loadRecorders();
+                                });
+                            } else {
+                                this._disableSubtitleCheckbox();
+                            }
                         }
-                        //reload the recorders
-                        topnode.all('.' + CSS.CP_SWAP).empty();
+
+                        //insert method checkbox;
+                        if (STATE.mediainsertcheckbox != null) {
+                            STATE.mediainsertcheckbox.on('click', function (e) {
+                                var element = e.currentTarget;
+                                //update recorder subtitle setting
+                                if (element.get('checked')) {
+                                    STATE.insertmethod = INSERTMETHOD.TAGS;
+                                } else {
+                                    STATE.insertmethod = INSERTMETHOD.LINK;
+                                }
+                            });
+                        }
+
+                        //language selectopr
+                        if (STATE.languageselect != null) {
+                            STATE.languageselect.on('change', function (e) {
+                                var element = e.currentTarget;
+                                if (element) {
+                                    CLOUDPOODLL.language = element.selectedOptionValue();
+                                    topnode.all('.' + CSS.CP_SWAP).setAttribute('data-language', CLOUDPOODLL.language);
+                                    topnode.all('.' + CSS.CP_SWAP).setAttribute('data-alreadyparsed', 'false');
+                                    //reload the recorders
+                                    topnode.all('.' + CSS.CP_SWAP).empty();
+                                    that._loadRecorders();
+                                }
+                            });
+                        }
+
+                        //so finally load those recorders
                         that._loadRecorders();
+
+
+                    }).fail(function (ex) {
+                        notification.exception(ex);
+
                     });
-                } else {
-                    this._disableSubtitleCheckbox();
-                }
-            }
-
-            //insert method checkbox;
-            if (STATE.mediainsertcheckbox != null) {
-                STATE.mediainsertcheckbox.on('click', function (e) {
-                    var element = e.currentTarget;
-                    //update recorder subtitle setting
-                    if (element.get('checked')) {
-                        STATE.insertmethod = INSERTMETHOD.TAGS;
-                    } else {
-                        STATE.insertmethod = INSERTMETHOD.LINK;
-                    }
                 });
-            }
 
-            //language selectopr
-            if (STATE.languageselect != null) {
-                STATE.languageselect.on('change', function (e) {
-                    var element = e.currentTarget;
-                    if (element) {
-                        CLOUDPOODLL.language = element.selectedOptionValue();
-                        topnode.all('.' + CSS.CP_SWAP).setAttribute('data-language', CLOUDPOODLL.language);
-                        topnode.all('.' + CSS.CP_SWAP).setAttribute('data-alreadyparsed', 'false');
-                        //reload the recorders
-                        topnode.all('.' + CSS.CP_SWAP).empty();
-                        that._loadRecorders();
-                    }
-                });
-            }
-
-            //so finally load those recorders
-            this._loadRecorders();
+            }//end of if cloudpoodll token
         },
 
         _disableSubtitleCheckbox: function () {
@@ -811,28 +844,6 @@ var poodllRecorder = null;
         },
 
         /**
-         * Loads the options panel tab html
-         *
-         * @method loadOptionsPanel;
-         */
-        loadOptionsPanel: function () {
-
-            var context = this._getContext();
-            require(['core/templates','core/ajax', 'core/notification'], function (templates,ajax, notification) {
-
-
-
-                        templates.render('atto_cloudpoodll/optionspanel', context)
-                            .then(function (html, js) {
-                                templates.replaceNodeContents('div[data-field="options"]', html, js);
-                            }).fail(function (ex) {
-                            notification.exception(ex);
-                        });
-            });
-        },
-
-
-        /**
          * Loads the history video preview tab html.
          *
          * @method loadHistoryPreview
@@ -846,7 +857,7 @@ var poodllRecorder = null;
                     done: function (historyItemData) {
                         var context = {
                             data: historyItemData.responses,
-                            isVideo: STATE.currentrecorder === RECORDERS.VIDEO
+                            isVideo: STATE.currentrecorder === RECORDERS.VIDEO || STATE.currentrecorder === RECORDERS.SCREEN
                         };
                         templates.render('atto_cloudpoodll/historypreview', context)
                             .then(function (html, js) {
@@ -908,37 +919,6 @@ var poodllRecorder = null;
                 };
                 loader.init(CSS.CP_SWAP, recorder_callback);
             });
-        },
-
-        /**
-         * Returns the dialogue content for the tool.
-         *
-         * @method _getDialogueContent
-         * @param  {WrappedRange[]} selection Current editor selection
-         * @return {Y.Node}
-         * @private
-         */
-         _getDialogueContent:  function (selection) {
-
-            var output = '';
-            if (CLOUDPOODLL.token == '') {
-                output = M.util.get_string('notoken', COMPONENTNAME);
-            } else {
-
-                var context = this._getContext();
-                require(['core/templates','core/ajax', 'core/notification'],  function (templates,ajax, notification) {
-
-                   await templates.render('atto_cloudpoodll/root', context)
-                       .then(function (html, js) {
-                            output = html;
-                        }).fail(function (ex) {
-                        notification.exception(ex);
-                    });
-                });
-            }
-            var content = Y.Node.create(output);
-            return content;
-
         },
 
         /**
@@ -1037,7 +1017,7 @@ var poodllRecorder = null;
          * @private
          */
         _createMediaTemplate: function (context, sourcemimetype, template) {
-            if (STATE.currentrecorder === RECORDERS.VIDEO) {
+            if (STATE.currentrecorder === RECORDERS.VIDEO || STATE.currentrecorder === RECORDERS.SCREEN) {
                 context.width = false;
                 context.height = false;
                 context.poster = false;

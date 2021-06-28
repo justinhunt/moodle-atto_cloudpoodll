@@ -32,7 +32,7 @@ $string['cloudpoodll'] = 'Cloud Poodll';
 $string['recorder'] = 'Recorder Type';
 $string['recorderaudio'] = 'Audio Recorder';
 $string['recordervideo'] = 'Video Recorder';
-$string['recorderwidgets'] = 'Widgets';
+$string['recorderscreen'] = 'Screen Recorder';
 $string['recorderwidgets'] = 'Widgets';
 
 $string['apiuser'] = 'Poodll API User ';
@@ -115,6 +115,7 @@ $string['insert'] = 'Insert';
 $string['cancel'] = 'Cancel';
 $string['createvideo'] = 'Create Video';
 $string['createaudio'] = 'Create Audio';
+$string['createscreen'] = 'Create Screen Recording';
 $string['dialogtitle'] = 'Choose a widget';
 $string['chooseinsert'] = 'What do you want to insert?';
 $string['fieldsheader'] = 'Enter details for : ';
@@ -134,6 +135,7 @@ $string['no'] = 'no';
 
 $string['enableaudio'] = 'Enable audio recording';
 $string['enablevideo'] = 'Enable video recording';
+$string['enablescreen'] = 'Enable screen recording';
 $string['enablewidgets'] = 'Enable widgets';
 
 $string['recordertype'] = 'Recorder Type';
@@ -143,6 +145,7 @@ $string['skinbmr'] = 'Burnt Rose';
 $string['skinfresh'] = 'Fresh';
 $string['skin123'] = 'One Two Three';
 $string['skinonce'] = 'Once';
+$string['skinscreen'] = 'Screen';
 
 $string['fallback'] = 'non-HTML5 Fallback';
 $string['fallbackdetails'] =
@@ -155,9 +158,10 @@ $string['subtitle'] = 'Subtitles';
 $string['subtitlecheckbox'] = 'Request subtitles for this recording';
 $string['subtitleinstructions'] =
         'Requested subtitles are ready about 5 minutes after recording. You must request before recording.';
-$string['mediainsertcheckbox'] = 'Insert media player into editor. Otherwise it be a media link.';
+$string['mediainsertcheckbox'] = 'Insert media player into editor. Otherwise insert a media link.';
 
 $string['options'] = 'Options';
+$string['screen'] = 'Screen';
 $string['history'] = 'History';
 $string['transcode'] = 'Transcode';
 $string['transcode_details'] = 'CloudPoodll can transcode audio to mp3 and video to mp4';
@@ -166,6 +170,7 @@ $string['cannotsubtitle'] = 'Subtitling is disabled. Check transcode, subtitle a
 
 $string['cloudpoodll:allowaudio'] = 'Allow Audio Recording';
 $string['cloudpoodll:allowvideo'] = 'Allow Video Recording';
+$string['cloudpoodll:allowscreen'] = 'Allow Screen Recording';
 $string['cloudpoodll:allowupload'] = 'Allow Upload';
 $string['cloudpoodll:allowsubtitling'] = 'Allow Subtitling';
 $string['cloudpoodll:visible'] = 'Visible';
@@ -209,7 +214,5 @@ $string['sortAscending'] = ': activate to sort column ascending';
 $string['sortDescending'] = ': activate to sort column descending';
 $string['showhistory']="Show history tab";
 $string['showhistory_details']="The history tab allows users to select from their previously recorded audio or video.";
-$string['screen']="Screen Recording";
-$string['showscreen']="Screen Recording";
-$string['showscreen_details']="Record your screen as video";
-$string['skinscreen']="Screen Recording";
+
+

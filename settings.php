@@ -71,6 +71,8 @@ if ($ADMIN->fulltree) {
             get_string('enableaudio', constants::M_COMPONENT), '', 1));
     $settings->add(new admin_setting_configcheckbox(constants::M_COMPONENT . '/enablevideo',
             get_string('enablevideo', constants::M_COMPONENT), '', 1));
+    $settings->add(new admin_setting_configcheckbox(constants::M_COMPONENT . '/enablescreen',
+            get_string('enablescreen', constants::M_COMPONENT), '', 1));
     $settings->add(new admin_setting_configcheckbox(constants::M_COMPONENT . '/enablewidgets',
         get_string('enablewidgets', constants::M_COMPONENT), '', 1));
 
@@ -83,9 +85,6 @@ if ($ADMIN->fulltree) {
             get_string('showhistory', constants::M_COMPONENT), get_string('showhistory_details', constants::M_COMPONENT),
             1));
 
-    $settings->add(new admin_setting_configcheckbox(constants::M_COMPONENT . '/showscreen',
-            get_string('showscreen', constants::M_COMPONENT), get_string('showscreen_details', constants::M_COMPONENT),
-            1));
 
     $skinoptions = utils::fetch_options_skins();
     unset($skinoptions[constants::SKIN_ONCE]);

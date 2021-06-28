@@ -29,6 +29,7 @@ define(['jquery', 'core/log',
                     });
             },
             fetch_guessed_extension(mediatype){
+                if(mediatype==='screen'){mediatype='video';}
                 var mimetype = CloudPoodll.guess_mimetype(mediatype,0,false);
                 if(mimetype){
                     var bits = mimetype.split('/');
