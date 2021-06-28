@@ -271,8 +271,8 @@ var poodllRecorder = null;
                 if(STATE.subtitleaudiobydefault === 1){basicItems.letssubtitleaudio=true;}
                 if(STATE.subtitlevideobydefault === 1){basicItems.letssubtitlevideo=true;}
                 if(STATE.insertmethod === INSERTMETHOD.TAGS){basicItems.mediataginsert=true;}
-                if(STATE.subtitleaudiobydefault === 1){basicItems.subtitleaudiobydefault=true;}
-                if(STATE.subtitlevideobydefault === 1){basicItems.subtitlevideobydefault=true;}
+                basicItems.subtitleaudiobydefault=STATE.subtitleaudiobydefault;
+                basicItems.subtitlevideobydefault=STATE.subtitlevideobydefault;
                 if(STATE.showhistory){basicItems.showhistory=true;}
                 if(CLOUDPOODLL.cansubtitle){basicItems.cansubtitle=true;}
 
