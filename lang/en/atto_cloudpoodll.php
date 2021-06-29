@@ -111,6 +111,7 @@ $string['video'] = 'Video';
 $string['video_desc'] = 'Video recorder';
 $string['widgets'] = 'Widgets';
 $string['widgets_desc'] = 'Insert a Widget';
+$string['screen_desc'] = 'Screen recorder';
 $string['insert'] = 'Insert';
 $string['cancel'] = 'Cancel';
 $string['createvideo'] = 'Create Video';
@@ -214,5 +215,6 @@ $string['sortAscending'] = ': activate to sort column ascending';
 $string['sortDescending'] = ': activate to sort column descending';
 $string['showhistory']="Show history tab";
 $string['showhistory_details']="The history tab allows users to select from their previously recorded audio or video.";
+$string['expiredays'] = 'Days to keep the file:';
 
 

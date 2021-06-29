@@ -40,7 +40,7 @@ function atto_cloudpoodll_strings_for_js() {
         $langstrings[]= strtolower($key);
     };
     $otherstrings = array('createaudio', 'createvideo','createscreen', 'insert', 'cancel', 'audio', 'video','screen', 'upload', 'subtitle', 'options',
-            'history','subtitlecheckbox', 'mediainsertcheckbox', 'subtitleinstructions', 'audio_desc', 'video_desc',
+            'history','subtitlecheckbox', 'mediainsertcheckbox', 'subtitleinstructions', 'audio_desc', 'video_desc','screen_desc',
             'speakerlanguage', 'uploadinstructions', 'cannotsubtitle','notoken', 'widgets_desc', 'dialogtitle', 'chooseinsert'
         , 'fieldsheader','nofieldsheader');
     $strings = array_merge($langstrings ,$otherstrings);

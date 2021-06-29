@@ -87,6 +87,7 @@ YUI.add('moodle-atto_cloudpoodll-button', function (Y, NAME) {
         HISTORY: 'atto_cloudpoodll_history',
         SCREEN: 'atto_cloudpoodll_screen',
         LANG_SELECT: 'atto_cloudpoodll_languageselect',
+        EXPIREDAYS_SELECT: 'atto_cloudpoodll_expiredaysselect',
         SUBTITLE_CHECKBOX: 'atto_cloudpoodll_subtitle_checkbox',
         MEDIAINSERT_CHECKBOX: 'atto_cloudpoodll_mediainsert_checkbox',
         ATTO_CLOUDPOODLL_FORM: 'atto_cloudpoodll_form',
@@ -115,7 +116,7 @@ YUI.add('moodle-atto_cloudpoodll-button', function (Y, NAME) {
         HTML_MEDIA: {
             VIDEO: '' +
                 '&nbsp;<video ' +
-                'controls="true" crossorigin="anonymous"  controlsList="nodownload" preload="metadata"' +
+                'controls="true" crossorigin="anonymous"  controlsList="nodownload" preload="metadata" style="width: 100%; max-width: 800px;"' +
                 '>' +
                 "{{#if includesourcetrack}}" +
                 '<source src="{{sourceurl}}" type="{{sourcemimetype}}">' +
@@ -278,6 +279,7 @@ var poodllRecorder = null;
                 if(STATE.showhistory){basicItems.showhistory=true;}
                 if(CLOUDPOODLL.cansubtitle){basicItems.cansubtitle=true;}
 
+                //languages
                 if(CLOUDPOODLL.language === LANGUAGE.ENUS){basicItems.useENUS =true;}
                 if(CLOUDPOODLL.language === LANGUAGE.ENGB){basicItems.useENGB =true;}
                 if(CLOUDPOODLL.language === LANGUAGE.ENIN){basicItems.useENIN =true;}
@@ -309,6 +311,9 @@ var poodllRecorder = null;
                 if(CLOUDPOODLL.language === LANGUAGE.TAIN){basicItems.useTAIN =true;}
                 if(CLOUDPOODLL.language === LANGUAGE.TEIN){basicItems.useTEIN =true;}
                 if(CLOUDPOODLL.language === LANGUAGE.TRTR){basicItems.useTRTR =true;}
+
+                //expire days
+                basicItems['expire' + CLOUDPOODLL.expiredays] =true;
 
                 return Y.merge(basicItems,extra);
             },
@@ -697,13 +702,6 @@ var poodllRecorder = null;
                 dialogue.set('height', height + 'px');
             }
 
-            //store some common elements we will refer to later
-            STATE.elementid = this.get('host').get('elementid');
-            STATE.subtitlecheckbox = Y.one('#' + STATE.elementid + '_' + CSS.SUBTITLE_CHECKBOX);
-            STATE.mediainsertcheckbox = Y.one('#' + STATE.elementid + '_' + CSS.MEDIAINSERT_CHECKBOX);
-            STATE.languageselect = Y.one('#' + STATE.elementid + '_' + CSS.LANG_SELECT);
-            var topnode = Y.one('#' + STATE.elementid + '_' + CSS.ATTO_CLOUDPOODLL_FORM);
-
             var output = '';
             if (CLOUDPOODLL.token == '') {
                 output = M.util.get_string('notoken', COMPONENTNAME);
@@ -719,6 +717,16 @@ var poodllRecorder = null;
 
                         // Set the dialogue content, and then show the dialogue.
                         dialogue.set('bodyContent', content).show();
+
+
+                        //store some common elements we will refer to later
+                        STATE.elementid = that.get('host').get('elementid');
+                        STATE.subtitlecheckbox = Y.one('#' + STATE.elementid + '_' + CSS.SUBTITLE_CHECKBOX);
+                        STATE.mediainsertcheckbox = Y.one('#' + STATE.elementid + '_' + CSS.MEDIAINSERT_CHECKBOX);
+                        STATE.languageselect = Y.one('#' + STATE.elementid + '_' + CSS.LANG_SELECT);
+                        STATE.expiredays = Y.one('#' + STATE.elementid + '_' + CSS.EXPIREDAYS_SELECT);
+                        var topnode = Y.one('#' + STATE.elementid + '_' + CSS.ATTO_CLOUDPOODLL_FORM);
+
 
                         //this is important?
                         poodllRecorder = that;
@@ -763,13 +771,28 @@ var poodllRecorder = null;
                             });
                         }
 
-                        //language selectopr
+                        //language selector
                         if (STATE.languageselect != null) {
                             STATE.languageselect.on('change', function (e) {
                                 var element = e.currentTarget;
                                 if (element) {
-                                    CLOUDPOODLL.language = element.selectedOptionValue();
+                                    CLOUDPOODLL.language =element.get('value');
                                     topnode.all('.' + CSS.CP_SWAP).setAttribute('data-language', CLOUDPOODLL.language);
+                                    topnode.all('.' + CSS.CP_SWAP).setAttribute('data-alreadyparsed', 'false');
+                                    //reload the recorders
+                                    topnode.all('.' + CSS.CP_SWAP).empty();
+                                    that._loadRecorders();
+                                }
+                            });
+                        }
+
+                        //expire days selector
+                        if (STATE.expiredays != null) {
+                            STATE.expiredays.on('change', function (e) {
+                                var element = e.currentTarget;
+                                if (element) {
+                                    CLOUDPOODLL.expiredays = element.get('value');
+                                    topnode.all('.' + CSS.CP_SWAP).setAttribute('data-expiredays', CLOUDPOODLL.expiredays);
                                     topnode.all('.' + CSS.CP_SWAP).setAttribute('data-alreadyparsed', 'false');
                                     //reload the recorders
                                     topnode.all('.' + CSS.CP_SWAP).empty();

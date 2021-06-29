@@ -23,11 +23,26 @@
     The purpose of this template is to render recorder type history by user.
   }}
   <div data-medium-type="{{CSS.OPTIONS}}" data-field="options" class="tab-pane" id="{{elementid}}_{{CSS.OPTIONS}}">
-      <br><label>
+      <br>
+      <label>{{#str}} expiredays, atto_cloudpoodll{{/str}}&nbsp;
+          <select id="{{elementid}}_{{CSS.EXPIREDAYS_SELECT}}" class="{{CSS.EXPIREDAYS_SELECT}}">
+              <option value="1" {{#expire1}}selected="selected"{{/expire1}}>1</option>
+              <option value="3" {{#expire3}}selected="selected"{{/expire3}}>3</option>
+              <option value="7" {{#expire7}}selected="selected"{{/expire7}}>7</option>
+              <option value="30" {{#expire30}}selected="selected"{{/expire30}}>30</option>
+              <option value="90" {{#expire90}}selected="selected"{{/expire90}}>90</option>
+              <option value="180" {{#expire180}}selected="selected"{{/expire180}}>180</option>
+              <option value="365" {{#expire365}}selected="selected"{{/expire365}}>365</option>
+              <option value="730" {{#expire730}}selected="selected"{{/expire730}}>730</option>
+              <option value="9999" {{#expire9999}}selected="selected"{{/expire9999}}>{{#str}} forever, atto_cloudpoodll {{/str}}</option>
+          </select>
+          </label>
+          <br><label>
           <input type="checkbox" id="{{elementid}}_{{CSS.MEDIAINSERT_CHECKBOX}}" class="{{CSS.MEDIAINSERT_CHECKBOX}}"
           {{#mediataginsert}} checked="true"{{/mediataginsert}}
           />&nbsp;{{#str}} mediainsertcheckbox, atto_cloudpoodll {{/str}}
           </label>
+
       {{#cansubtitle}}
           <br><label>
               <input type="checkbox" id="{{elementid}}_{{CSS.SUBTITLE_CHECKBOX}}" class="{{CSS.SUBTITLE_CHECKBOX}}"
