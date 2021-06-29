@@ -234,8 +234,7 @@ function atto_cloudpoodll_params_for_js($elementid, $options, $fpoptions) {
 
     //showhistory or not
     $params['showhistory'] = $config->showhistory;
-    //showscreen recording or not
-    $params['showscreen'] = $config->showscreen;
+
 
     //add icons to editor if the permissions and settings are all ok
     $recorders = array('audio', 'video','screen');

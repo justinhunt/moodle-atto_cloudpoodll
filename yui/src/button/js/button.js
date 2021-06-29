@@ -222,9 +222,6 @@ var poodllRecorder = null;
             //show history tab
             STATE.showhistory = config.showhistory== '1';
 
-            //show screen tab
-            STATE.showscreen = config.showscreen== '1';
-
             //set up the cloudpoodll div
             CLOUDPOODLL.parent = M.cfg.wwwroot;
             CLOUDPOODLL.appid = 'atto_cloudpoodll';
