@@ -31,6 +31,7 @@ class constants {
     const M_COMPONENT = 'atto_cloudpoodll';
     const M_TABLE = 'atto_cpoodll';
     const M_SUBPLUGIN = 'cloudpoodll';
+    const M_URL='lib/editor/atto/plugins/cloudpoodll';
 
     const APPID = 'atto_cloudpoodll';
 

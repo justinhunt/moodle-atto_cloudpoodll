@@ -217,4 +217,10 @@ $string['showhistory']="Show history tab";
 $string['showhistory_details']="The history tab allows users to select from their previously recorded audio or video.";
 $string['expiredays'] = 'Days to keep the file:';
 
+$string['freetrial'] = "Get Cloud Poodll API Credentials and a Free Trial";
+$string['freetrial_desc'] = "A dialog should appear that allows you to register for a free trial with Poodll. After registering you should login to the members dashboard to get your API user and secret. And to register your site URL.";
+$string['memberdashboard'] = "Member Dashboard";
+$string['memberdashboard_desc'] = "";
+$string['fillcredentials']="Set API user and secret with existing credentials";
+
 
