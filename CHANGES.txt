@@ -1,3 +1,6 @@
+Version 1.0.29 (Build 2022030100)
+- forced video rec on iOS to get new code from cloudpoodll
+
 Version 1.0.28 (Build 2021122200)
 - added credential fetching
 
