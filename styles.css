@@ -32,3 +32,7 @@
     overflow: hidden;
     padding-top: 130%;
 }
+div.atto_widget_buttons {
+    display: inline-block;
+    margin: 5px;
+}
