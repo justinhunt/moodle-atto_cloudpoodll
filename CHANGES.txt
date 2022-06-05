@@ -1,5 +1,7 @@
-Version 1.0.30 (Build 20220301XX)
-- a little hack because the widget buttons were not laying out correctly
+Version 1.0.30 (Build 2022060500)
+- Changed AMD build steps
+- Change free trial jump link
+- A little hack because the widget buttons were not laying out correctly
 
 Version 1.0.29 (Build 2022030100)
 - forced video rec on iOS to get new code from cloudpoodll
@@ -46,7 +48,7 @@ Version 1.0.16 (Build 2020020700)
 -nothing special, version bump for internal reasons
 
 Version 1.0.15 (Build 2020012300)
--added languages(arabic, chinese, portuguese, japanese, tamil, telegu, dutch, farsi, wales english, ireland english, scotland english, russian, turkish, malay, indonesian,hebrew, swiss german)
+-added languages(arabic, chinese, portuguese, japanese, tamil, Telugu, dutch, farsi, wales english, ireland english, scotland english, russian, turkish, malay, indonesian,hebrew, swiss german)
 -added user tagging
 
 Version 1.0.14 (Build 2019112100)
