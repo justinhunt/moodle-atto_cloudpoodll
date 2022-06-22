@@ -216,5 +216,3 @@ $string['sortDescending'] = ': activate to sort column descending';
 $string['showhistory']="Show history tab";
 $string['showhistory_details']="The history tab allows users to select from their previously recorded audio or video.";
 $string['expiredays'] = 'Days to keep the file:';
-
-
