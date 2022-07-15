@@ -117,8 +117,8 @@ class atto_cloudpoodll_history_external extends external_api {
             'sourceurl' => new external_value(PARAM_URL, 'Source URL'),
             'mediaurl' => new external_value(PARAM_URL, 'Media URL'),
             'sourcemimetype' => new external_value(PARAM_TEXT, 'Source mimetype'),
-            'subtitling' => new external_value(PARAM_INT, 'Subtitling enabled', VALUE_OPTIONAL),
-            'subtitleurl' => new external_value(PARAM_URL, 'Subtitle URL', VALUE_OPTIONAL)
+            'subtitling' => new external_value(PARAM_INT, 'Subtitling enabled', VALUE_DEFAULT,0),
+            'subtitleurl' => new external_value(PARAM_URL, 'Subtitle URL', VALUE_DEFAULT,'')
         ));
     }
 

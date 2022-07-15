@@ -1,3 +1,6 @@
+Version 1.0.31 (Build 202207XXXX)
+- fixed web service optional value = > default value
+
 Version 1.0.30 (Build 2022060500)
 - Changed AMD build steps
 - Change free trial jump link
