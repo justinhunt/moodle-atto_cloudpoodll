@@ -95,7 +95,8 @@ YUI.add('moodle-atto_cloudpoodll-button', function (Y, NAME) {
         CP_SCREEN: 'atto_cloudpoodll_screen_cont',
         CP_AUDIO: 'atto_cloudpoodll_audio_cont',
         CP_UPLOAD: 'atto_cloudpoodll_upload_cont',
-        CP_SWAP: 'atto_cloudpoodll_swapmeout'
+        CP_SWAP: 'atto_cloudpoodll_swapmeout',
+        TEMPLATEVARIABLE: 'atto_cloudpoodll_templatevariable'
 
     };
     var STATE = {
@@ -159,11 +160,11 @@ YUI.add('moodle-atto_cloudpoodll-button', function (Y, NAME) {
         '</div>';
 
 var FIELDTEMPLATE = '' +
-    '<div id="{{elementid}}_{{innerform}}" class="mdl-align">{{variable}}' +
+    '<div id="{{elementid}}_{{innerform}}"><span class="atto_cloudpoodll_widgetlabel">{{label}}</span>' +
     '&nbsp;<input type="text" class="' + CSS.TEMPLATEVARIABLE + '_{{variableindex}} atto_widget_field" value="{{defaultvalue}}"></input>' +
     '</div>';
 var SELECTCONTAINERTEMPLATE = '' +
-    '<div id="{{elementid}}_{{innerform}}" class="mdl-align">{{variable}}</div>';
+    '<div id="{{elementid}}_{{innerform}}"><span class="atto_cloudpoodll_widgetlabel">{{label}}</span></div>';
 
 var SELECTTEMPLATE = '' +
     '<select class="' + CSS.TEMPLATEVARIABLE + '_{{variableindex}} atto_widget_field"></select>';
@@ -511,10 +512,11 @@ var poodllRecorder = null;
             instructions = decodeURIComponent(instructions);
 
             //get header node. It will be different if we have no fields
+            var useheadertext = "";
             if (fields && fields.length > 0) {
-                var useheadertext = M.util.get_string('fieldsheader', COMPONENTNAME);
+                useheadertext = M.util.get_string('fieldsheader', COMPONENTNAME);
             } else {
-                var useheadertext = M.util.get_string('nofieldsheader', COMPONENTNAME);
+                useheadertext = M.util.get_string('nofieldsheader', COMPONENTNAME);
             }
             var template = Y.Handlebars.compile(FIELDSHEADERTEMPLATE),
                 content = Y.Node.create(template({
@@ -565,12 +567,15 @@ var poodllRecorder = null;
             var defaultsarray = thedefaults;
 
             Y.Array.each(thevariables, function (thevariable, currentindex) {
+                //set the variable label
+                var thelabel = this._makeLabel(thevariable);
                 //loop start
                 if ((thevariable in defaultsarray) && defaultsarray[thevariable].indexOf('|') > -1) {
 
                     var containertemplate = Y.Handlebars.compile(SELECTCONTAINERTEMPLATE),
                         content = Y.Node.create(containertemplate({
                             elementid: this.get('host').get('elementid'),
+                            label: thelabel,
                             variable: thevariable,
                             defaultvalue: defaultsarray[thevariable],
                             variableindex: currentindex
@@ -599,6 +604,7 @@ var poodllRecorder = null;
                     var template = Y.Handlebars.compile(FIELDTEMPLATE),
                         content = Y.Node.create(template({
                             elementid: this.get('host').get('elementid'),
+                            label: thelabel,
                             variable: thevariable,
                             defaultvalue: defaultsarray[thevariable],
                             variableindex: currentindex
@@ -612,6 +618,12 @@ var poodllRecorder = null;
 
 
             return allcontent;
+        },
+
+        _makeLabel: function(templatevariable) {
+            return templatevariable.split('_').map(function capitalize(part) {
+                return part.charAt(0).toUpperCase() + part.slice(1);
+            }).join(' ');
         },
 
         /**

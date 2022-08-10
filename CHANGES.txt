@@ -1,5 +1,6 @@
-Version 1.0.31 (Build 202207XXXX)
+Version 1.0.31 (Build 2022081000)
 - fixed web service optional value = > default value
+- Improved layout of widget fields
 
 Version 1.0.30 (Build 2022060500)
 - Changed AMD build steps
