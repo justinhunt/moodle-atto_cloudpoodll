@@ -184,10 +184,7 @@ $string['appauthorised'] = "Atto Cloud Poodll is authorised for this site.";
 $string['appnotauthorised'] = "Atto Cloud Poodll  is NOT authorised for this site.";
 $string['refreshtoken'] = "Refresh license information";
 $string['notokenincache'] = "Refresh to see license information. Contact Poodll support if there is a problem.";
-//shown in popup
 $string['notoken'] = 'API user and secret were rejected and could not gain access. Please check the Atto Cloud Poodll plugin settings page.';
-
-//shown in history tabs
 $string['historyback'] = 'Back to history';
 $string['deleteitem'] = 'Delete item';
 $string['loading'] = 'Loading...';
@@ -218,6 +215,6 @@ $string['showhistory_details']="The history tab allows users to select from thei
 $string['expiredays'] = 'Days to keep the file:';
 $string['freetrial'] = "Get Cloud Poodll API Credentials and a Free Trial";
 $string['freetrial_desc'] = "A dialog should appear that allows you to register for a free trial with Poodll. After registering you should login to the members dashboard to get your API user and secret. And to register your site URL.";
-$string['memberdashboard'] = "Member Dashboard";
-$string['memberdashboard_desc'] = "";
+//$string['memberdashboard'] = "Member Dashboard";
+//$string['memberdashboard_desc'] = "";
 $string['fillcredentials']="Set API user and secret with existing credentials";
