@@ -55,19 +55,3 @@ $functions = array(
         'ajax' => true,
     )
 );
-
-$services = array(
-    'Cloud Poodll' => array(
-        'functions' => array(
-            'atto_cloudpoodll_history_create',
-            'atto_cloudpoodll_history_archive',
-            'atto_cloudpoodll_history_get_item',
-            'atto_cloudpoodll_history_get_items'
-        ),
-        'requiredcapability' => 'atto/cloudpoodll:visible',
-        'enabled' => 1,
-        'restrictedusers' => 0,
-        'downloadfiles' => 0,
-        'uploadfiles' => 0
-    )
-);

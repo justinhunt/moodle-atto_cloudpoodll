@@ -230,7 +230,7 @@ class atto_cloudpoodll_history_external extends external_api {
     public static function get_history_items_parameters() {
         return new external_function_parameters(
             array(
-                'recordertype' => new external_value(PARAM_TEXT, 'recordertype', VALUE_OPTIONAL)
+                'recordertype' => new external_value(PARAM_TEXT, 'recordertype')
             )
         );
     }
