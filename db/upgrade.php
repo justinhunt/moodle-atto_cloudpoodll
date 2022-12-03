@@ -70,6 +70,22 @@ function xmldb_atto_cloudpoodll_upgrade($oldversion) {
         upgrade_plugin_savepoint(true, 2020020700, 'atto', 'cloudpoodll');
     }
 
+    if ($oldversion < 2022120302) {
+        // Define table cloudpoodll_history to be created.
+        $table = new xmldb_table('cloudpoodll_history');
+        $field =  new xmldb_field('sourcemimetype', XMLDB_TYPE_CHAR, '255', null, XMLDB_NOTNULL, null, null);
+
+        if (!$dbman->field_exists($table, $field)) {
+            $dbman->add_field($table, $field);
+        }else{
+            $dbman->change_field_precision($table, $field);
+        }
+
+        // Cloudpoodll savepoint reached.
+        upgrade_plugin_savepoint(true, 2022120302, 'atto', 'cloudpoodll');
+    }
+
+
     return true;
 }
 

@@ -101,6 +101,42 @@ $capabilities = array(
                         'user' => CAP_ALLOW
                 )
         ),
+        'atto/cloudpoodll:allowhistory' => array(
+            'captype' => 'write',
+            'contextlevel' => CONTEXT_MODULE,
+            'archetypes' => array(
+                'coursecreator' => CAP_ALLOW,
+                'teacher' => CAP_ALLOW,
+                'editingteacher' => CAP_ALLOW,
+                'student' => CAP_ALLOW,
+                'manager' => CAP_ALLOW,
+                'user' => CAP_ALLOW
+            )
+        ),
+    'atto/cloudpoodll:allowoptions' => array(
+        'captype' => 'write',
+        'contextlevel' => CONTEXT_MODULE,
+        'archetypes' => array(
+            'coursecreator' => CAP_ALLOW,
+            'teacher' => CAP_ALLOW,
+            'editingteacher' => CAP_ALLOW,
+            'student' => CAP_ALLOW,
+            'manager' => CAP_ALLOW,
+            'user' => CAP_ALLOW
+        )
+    ),
+    'atto/cloudpoodll:allowexpiredays' => array(
+        'captype' => 'write',
+        'contextlevel' => CONTEXT_MODULE,
+        'archetypes' => array(
+            'coursecreator' => CAP_ALLOW,
+            'teacher' => CAP_ALLOW,
+            'editingteacher' => CAP_ALLOW,
+            'student' => CAP_ALLOW,
+            'manager' => CAP_ALLOW,
+            'user' => CAP_ALLOW
+        )
+    ),
         'atto/cloudpoodll:allowsubtitling' => array(
                 'captype' => 'write',
                 'contextlevel' => CONTEXT_MODULE,

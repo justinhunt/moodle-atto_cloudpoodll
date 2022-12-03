@@ -123,6 +123,14 @@ if ($ADMIN->fulltree) {
             get_string('showhistory', constants::M_COMPONENT), get_string('showhistory_details', constants::M_COMPONENT),
             1));
 
+    $settings->add(new admin_setting_configcheckbox(constants::M_COMPONENT . '/showoptions',
+        get_string('showoptions', constants::M_COMPONENT), get_string('showoptions_details', constants::M_COMPONENT),
+        1));
+
+    $settings->add(new admin_setting_configcheckbox(constants::M_COMPONENT . '/showupload',
+        get_string('showupload', constants::M_COMPONENT), get_string('showupload_details', constants::M_COMPONENT),
+        1));
+
 
     $skinoptions = utils::fetch_options_skins();
     unset($skinoptions[constants::SKIN_ONCE]);

@@ -209,6 +209,18 @@ function atto_cloudpoodll_params_for_js($elementid, $options, $fpoptions) {
             $config->enablesubtitling &&
             has_capability('atto/cloudpoodll:allowsubtitling', $context);
 
+    //expire days
+    $canexpiredays = has_capability('atto/cloudpoodll:allowexpiredays', $context);
+
+    //upload
+    $canupload =  $config->showupload && has_capability('atto/cloudpoodll:allowupload', $context);
+
+    //history
+    $canhistory = $config->showhistory && has_capability('atto/cloudpoodll:allowhistory', $context);
+
+    //options
+    $canoptions = $config->showoptions && has_capability('atto/cloudpoodll:allowoptions', $context);
+
     //cloudpoodll params
     $params['cp_expiredays'] = $config->expiredays;
     $params['cp_cansubtitle'] = $cansubtitle;
@@ -233,8 +245,13 @@ function atto_cloudpoodll_params_for_js($elementid, $options, $fpoptions) {
     $params['filetitle_displaylength'] = constants::FILETITLE_DISPLAYLENGTH;
 
     //showhistory or not
-    $params['showhistory'] = $config->showhistory;
-
+    $params['showhistory'] =  $canhistory;
+    //showoptions or not
+    $params['showoptions'] =  $canoptions;
+    //showupload or not
+    $params['showupload'] =  $canupload;
+    //expire days
+    $params['showexpiredays'] =  $canexpiredays;
 
     //add icons to editor if the permissions and settings are all ok
     $recorders = array('audio', 'video','screen');

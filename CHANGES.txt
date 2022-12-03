@@ -1,3 +1,8 @@
+Version 1.0.34 (Build 2022120301)
+- added more permissions to control visibility of expire days, options and upload
+- added a media_file_received event
+- fixed an issue with history failing on some browsers and media type (eg Chrome + video)
+
 Version 1.0.33 (Build 2022112700)
 - Removed custom web service declaration and optional param issue
 

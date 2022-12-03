@@ -103,6 +103,24 @@ class atto_cloudpoodll_history_external extends external_api {
         $history = new atto_cloudpoodll\history();
         $history->create($item);
 
+        // Trigger event for this media posting
+        $params = array(
+            'context' => $context,
+            'courseid' => $COURSE->id,
+            'userid' => $USER->id,
+            'other' => array(
+                'recordertype' => $recordertype,
+                'mediafilename' => $mediafilename,
+                'sourceurl' => $sourceurl,
+                'mediaurl' => $mediaurl,
+                'sourcemimetype' => $sourcemimetype,
+                'subtitling' => $subtitling,
+                'subtitleurl' => $subtitleurl
+            )
+        );
+        $event = \atto_cloudpoodll\event\media_file_received::create($params);
+        $event->trigger();
+
         return null;
     }
 

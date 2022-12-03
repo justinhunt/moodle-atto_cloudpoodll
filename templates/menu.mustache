@@ -21,17 +21,21 @@
         </li>
     {{/isaudio}}
     {{^isscreen}}
-    <li data-medium-type="{{CSS.UPLOAD}}" class="nav-item">
-        <a class="nav-link" href="#{{elementid}}_{{CSS.UPLOAD}}" role="tab" data-toggle="tab">
-            {{#str}}upload, atto_cloudpoodll{{/str}}
-            </a>
-    </li>
+        {{#showupload}}
+            <li data-medium-type="{{CSS.UPLOAD}}" class="nav-item">
+                <a class="nav-link" href="#{{elementid}}_{{CSS.UPLOAD}}" role="tab" data-toggle="tab">
+                    {{#str}}upload, atto_cloudpoodll{{/str}}
+                    </a>
+            </li>
+        {{/showupload}}
     {{/isscreen}}
-    <li data-medium-type="{{CSS.OPTIONS}}" class="nav-item">
-        <a class="nav-link" href="#{{elementid}}_{{CSS.OPTIONS}}" role="tab" data-toggle="tab">
-            {{#str}}options, atto_cloudpoodll{{/str}}
-        </a>
-    </li>
+    {{#showoptions}}
+        <li data-medium-type="{{CSS.OPTIONS}}" class="nav-item">
+            <a class="nav-link" href="#{{elementid}}_{{CSS.OPTIONS}}" role="tab" data-toggle="tab">
+                {{#str}}options, atto_cloudpoodll{{/str}}
+            </a>
+        </li>
+    {{/showoptions}}
     {{#showhistory}}
         <li data-medium-type="{{CSS.HISTORY}}" class="nav-item" data-content="history" >
             <a class="nav-link" href="#{{elementid}}_{{CSS.HISTORY}}" role="tab" data-toggle="tab">

@@ -110,7 +110,10 @@ YUI.add('moodle-atto_cloudpoodll-button', function (Y, NAME) {
         elementid: false,
         subtitlecheckbox: false,
         filetitledisplaylength: 30,
-        showhistory: true
+        showhistory: true,
+        showupload: true,
+        showoptions: true,
+        showexpiredays: true
     };
 
     var TEMPLATES = {
@@ -222,8 +225,11 @@ var poodllRecorder = null;
             //file title display length
             STATE.filetitledisplaylength = config.filetitle_displaylength;
 
-            //show history tab
+            //show tabs
             STATE.showhistory = config.showhistory== '1';
+            STATE.showupload = config.showupload== '1';
+            STATE.showoptions = config.showoptions== '1';
+            STATE.showexpiredays = config.showexpiredays== '1';
 
             //set up the cloudpoodll div
             CLOUDPOODLL.parent = M.cfg.wwwroot;
@@ -275,6 +281,9 @@ var poodllRecorder = null;
                 basicItems.subtitleaudiobydefault=STATE.subtitleaudiobydefault;
                 basicItems.subtitlevideobydefault=STATE.subtitlevideobydefault;
                 if(STATE.showhistory){basicItems.showhistory=true;}
+                if(STATE.showupload){basicItems.showupload=true;}
+                if(STATE.showoptions){basicItems.showoptions=true;}
+                if(STATE.showexpiredays){basicItems.showexpiredays=true;}
                 if(CLOUDPOODLL.cansubtitle){basicItems.cansubtitle=true;}
 
                 //languages
