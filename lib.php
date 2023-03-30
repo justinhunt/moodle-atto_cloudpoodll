@@ -115,6 +115,7 @@ function atto_cloudpoodll_widgets_params_for_js() {
                 && strpos($tempvar, 'USER:') === false
                 && strpos($tempvar, 'DATASET:') === false
                 && strpos($tempvar, 'URLPARAM:') === false
+                && strpos($tempvar, 'STRING:') === false
                 && $tempvar != 'MOODLEPAGEID'
                 && $tempvar != 'WWWROOT'
                 && $tempvar != 'AUTOID'

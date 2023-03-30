@@ -1,3 +1,8 @@
+Version 1.0.35 (Build 2023033000)
+- Fixed issue with subtitling default not checking the checkbox
+- Added support for Poodll filter widgets new lang string support
+
+
 Version 1.0.34 (Build 2022120301)
 - added more permissions to control visibility of expire days, options and upload
 - added a media_file_received event

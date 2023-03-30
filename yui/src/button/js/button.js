@@ -273,8 +273,8 @@ var poodllRecorder = null;
                 if(STATE.currentrecorder === RECORDERS.VIDEO){basicItems.isvideo=true;}
                 if(STATE.currentrecorder === RECORDERS.SCREEN){basicItems.isscreen=true;}
                 if(STATE.currentrecorder === RECORDERS.AUDIO){basicItems.isaudio=true;}
-                if(STATE.subtitleaudiobydefault === 1){basicItems.letssubtitleaudio=true;}
-                if(STATE.subtitlevideobydefault === 1){basicItems.letssubtitlevideo=true;}
+                if(STATE.subtitleaudiobydefault == 1){basicItems.letssubtitleaudio=true;}
+                if(STATE.subtitlevideobydefault == 1){basicItems.letssubtitlevideo=true;}
                 if(STATE.insertmethod === INSERTMETHOD.TAGS){basicItems.mediataginsert=true;}
                 basicItems.subtitleaudiobydefault=STATE.subtitleaudiobydefault;
                 basicItems.subtitlevideobydefault=STATE.subtitlevideobydefault;
