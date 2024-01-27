@@ -55,7 +55,7 @@ function atto_cloudpoodll_strings_for_js() {
 function atto_cloudpoodll_widgets_params_for_js() {
     global $USER, $COURSE;
 
-    //generico specific
+    //poodll specific
     $templates = get_object_vars(get_config('filter_poodll'));
 
     $instructions = array();
@@ -253,6 +253,11 @@ function atto_cloudpoodll_params_for_js($elementid, $options, $fpoptions) {
     $params['showupload'] =  $canupload;
     //expire days
     $params['showexpiredays'] =  $canexpiredays;
+
+    //loom
+    $params['loom']=true;
+    $params['jws']=utils::fetch_loom_token($params['cp_token'], $config->awsregion);
+
 
     //add icons to editor if the permissions and settings are all ok
     $recorders = array('audio', 'video','screen');

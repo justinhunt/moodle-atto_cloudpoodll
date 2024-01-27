@@ -28,6 +28,9 @@ defined('MOODLE_INTERNAL') || die;
 
 class utils {
 
+    //const CLOUDPOODLL = 'https://vbox.poodll.com/cphost';
+    const CLOUDPOODLL = 'https://cloud.poodll.com';
+
     public static function fetch_options_recorders() {
         $rec_options = array(constants::REC_AUDIO => get_string("recorderaudio", constants::M_COMPONENT),
                 constants::REC_VIDEO => get_string("recordervideo", constants::M_COMPONENT));
@@ -225,7 +228,7 @@ class utils {
         }
 
         // Send the request & save response to $resp
-        $token_url = "https://cloud.poodll.com/local/cpapi/poodlltoken.php";
+        $token_url = self::CLOUDPOODLL .  "/local/cpapi/poodlltoken.php";
         $postdata = array(
                 'username' => $apiuser,
                 'password' => $apisecret,
@@ -274,5 +277,51 @@ class utils {
             $token = '';
         }
         return $token;
+    }
+
+    public static function fetch_loom_token($cloudpoodlltoken,$region) {
+        global $USER;
+
+        //The REST API we are calling
+        $functionname = 'local_cpapi_fetch_loom_token';
+
+        $params = array();
+        $params['wstoken'] = $cloudpoodlltoken;
+        $params['wsfunction'] = $functionname;
+        $params['moodlewsrestformat'] = 'json';
+        $params['region'] = $region;
+
+
+        //log.debug(params);
+
+        $serverurl = self::CLOUDPOODLL . '/webservice/rest/server.php';
+        $response = self::curl_fetch($serverurl, $params);
+        if (!self::is_json($response)) {
+            return false;
+        }
+        $payloadobject = json_decode($response);
+
+        //returnCode > 0  indicates an error
+        if (!isset($payloadobject->returnCode) || $payloadobject->returnCode > 0) {
+            return false;
+            //if all good, then lets do the embed
+        } else if ($payloadobject->returnCode === 0) {
+            $loomtoken = $payloadobject->returnMessage;
+            return $loomtoken;
+        } else {
+            return false;
+        }
+    }
+
+    //see if this is truly json or some error
+    public static function is_json($string) {
+        if (!$string) {
+            return false;
+        }
+        if (empty($string)) {
+            return false;
+        }
+        json_decode($string);
+        return (json_last_error() == JSON_ERROR_NONE);
     }
 }

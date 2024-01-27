@@ -113,7 +113,9 @@ YUI.add('moodle-atto_cloudpoodll-button', function (Y, NAME) {
         showhistory: true,
         showupload: true,
         showoptions: true,
-        showexpiredays: true
+        showexpiredays: true,
+        loom: false,
+        jws: ''
     };
 
     var TEMPLATES = {
@@ -231,6 +233,11 @@ var poodllRecorder = null;
             STATE.showoptions = config.showoptions== '1';
             STATE.showexpiredays = config.showexpiredays== '1';
 
+            //loom
+            STATE.loom = config.loom;
+            STATE.jws = config.jws;
+
+
             //set up the cloudpoodll div
             CLOUDPOODLL.parent = M.cfg.wwwroot;
             CLOUDPOODLL.appid = 'atto_cloudpoodll';
@@ -273,7 +280,13 @@ var poodllRecorder = null;
                     LANG: LANGUAGE
                 };
                 if(STATE.currentrecorder === RECORDERS.VIDEO){basicItems.isvideo=true;}
-                if(STATE.currentrecorder === RECORDERS.SCREEN){basicItems.isscreen=true;}
+                if(STATE.currentrecorder === RECORDERS.SCREEN){
+                    basicItems.isscreen=true;
+                    if(STATE.loom){
+                        basicItems.loom=true;
+                        basicItems.jws=STATE.jws;
+                    }
+                }
                 if(STATE.currentrecorder === RECORDERS.AUDIO){basicItems.isaudio=true;}
                 if(STATE.subtitleaudiobydefault == 1){basicItems.letssubtitleaudio=true;}
                 if(STATE.subtitlevideobydefault == 1){basicItems.letssubtitlevideo=true;}
@@ -727,9 +740,10 @@ var poodllRecorder = null;
                 //this block should be portioned into an async/await and function, but shifter wont allow it.
                 var context = this._getContext();
                 var that = this;
-                require(['core/templates','core/ajax', 'core/notification'], function (templates,ajax, notification) {
+                require(['core/templates','core/ajax','core/log', 'core/notification'], function (templates,ajax, log, notification) {
 
                     templates.render('atto_cloudpoodll/root', context).then(function (html, js) {
+                        log.debug('renderriiiiiing');
                         output = html;
                         var content = Y.Node.create(output);
 
@@ -819,8 +833,14 @@ var poodllRecorder = null;
                             });
                         }
 
+                        log.debug('recorder loadiiiiiing');
+
                         //so finally load those recorders
                         that._loadRecorders();
+
+                        //and then run any JS loaded from the templates (loom...)
+                        log.debug('template js runiiiiiing');
+                        templates.runTemplateJS(js);
 
 
                     }).fail(function (ex) {
