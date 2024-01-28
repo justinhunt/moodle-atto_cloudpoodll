@@ -1,0 +1,13 @@
+
+<div id="{{uniqid}}_target"></div>
+<script type="module">
+    import * as loomembed from "https://www.unpkg.com/@loomhq/loom-embed@1.2.2/dist/esm/index.js?module";
+    async function insertEmbedPlayer() {
+        const { html } = await loomembed.oembed('{{mediaurl}}', { width: 400 });
+        const target = document.getElementById("{{uniqid}}_target");
+        if (target) {
+            target.innerHTML = html;
+        }
+    }
+    insertEmbedPlayer();
+</script>

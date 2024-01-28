@@ -283,6 +283,7 @@ var poodllRecorder = null;
                     if(STATE.loom){
                         basicItems.loom=true;
                         basicItems.jws=STATE.jws;
+                        basicItems.loomid='loom1234';
                     }
                 }
                 if(STATE.currentrecorder === RECORDERS.AUDIO){basicItems.isaudio=true;}
@@ -741,7 +742,6 @@ var poodllRecorder = null;
                 require(['core/templates','core/ajax','core/log', 'core/notification'], function (templates,ajax, log, notification) {
 
                     templates.render('atto_cloudpoodll/root', context).then(function (html, js) {
-                        log.debug('renderriiiiiing');
                         output = html;
                         var content = Y.Node.create(output);
 
@@ -830,15 +830,35 @@ var poodllRecorder = null;
                                 }
                             });
                         }
-
-                        log.debug('recorder loadiiiiiing');
-
                         //so finally load those recorders
                         that._loadRecorders();
 
                         //and then run any JS loaded from the templates (loom...)
-                        log.debug('template js runiiiiiing');
                         templates.runTemplateJS(js);
+
+                        if(context.loom){
+                            console.log('contextloom');
+                            templates.render('atto_cloudpoodll/loomscript', context).then(function (loomcode) {
+                                
+                                console.log('rendering scriptelement');
+
+                                var scriptElement = document.createElement('script');
+                                scriptElement.type = 'module';
+                                scriptElement.appendChild(document.createTextNode(loomcode));
+                                console.log(scriptElement);
+
+
+                                // Get the div with id "loomscript"
+                                var loomscriptDiv = document.getElementById(context.loomid + '_script');
+                                loomscriptDiv.appendChild(scriptElement);
+
+                          //      var docbody = document.body;
+                                // Append the script element to the div
+                          //      docbody.appendChild(scriptElement);
+                            });
+                        }else{
+                            console.log('no contextloom');
+                        }
 
 
                     }).fail(function (ex) {
