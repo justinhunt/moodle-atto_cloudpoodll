@@ -255,9 +255,13 @@ function atto_cloudpoodll_params_for_js($elementid, $options, $fpoptions) {
     $params['showexpiredays'] =  $canexpiredays;
 
     //loom
-    $params['loom']=true;
-    $params['jws']=utils::fetch_loom_token($params['cp_token'], $config->awsregion);
-
+    if(get_config('atto_cloudpoodll', 'screenrecorder')==constants::SCREENREC_LOOM){
+        $params['loom'] = true;
+        $params['jws'] = utils::fetch_loom_token($params['cp_token'], $config->awsregion);
+    }else{
+        $params['loom'] = false;
+        $params['jws'] = '';
+    }
 
     //add icons to editor if the permissions and settings are all ok
     $recorders = array('audio', 'video','screen');

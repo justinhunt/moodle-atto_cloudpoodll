@@ -37,6 +37,11 @@ class utils {
         return $rec_options;
     }
 
+    public static function fetch_options_screenrec() {
+        $options = array(constants::SCREENREC_DEFAULT => get_string("screenrecdefault", constants::M_COMPONENT),
+            constants::SCREENREC_LOOM => get_string("screenrecloom", constants::M_COMPONENT));
+        return $options;
+    }
     public static function fetch_options_fallback() {
         $options = array(constants::FALLBACK_UPLOAD => get_string("fallbackupload", constants::M_COMPONENT),
                 constants::FALLBACK_IOSUPLOAD => get_string("fallbackiosupload", constants::M_COMPONENT),

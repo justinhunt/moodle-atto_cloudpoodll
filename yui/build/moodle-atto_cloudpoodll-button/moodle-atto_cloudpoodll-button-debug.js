@@ -741,7 +741,7 @@ var poodllRecorder = null;
                 //this block should be portioned into an async/await and function, but shifter wont allow it.
                 var context = this._getContext();
                 var that = this;
-                require(['core/templates','core/ajax','core/log', 'core/notification'], function (templates,ajax, log, notification) {
+                require(['core/templates', 'core/ajax', 'core/log', 'core/notification'], function (templates, ajax, log, notification) {
 
                     templates.render('atto_cloudpoodll/root', context).then(function (html, js) {
                         output = html;
@@ -808,7 +808,7 @@ var poodllRecorder = null;
                             STATE.languageselect.on('change', function (e) {
                                 var element = e.currentTarget;
                                 if (element) {
-                                    CLOUDPOODLL.language =element.get('value');
+                                    CLOUDPOODLL.language = element.get('value');
                                     topnode.all('.' + CSS.CP_SWAP).setAttribute('data-language', CLOUDPOODLL.language);
                                     topnode.all('.' + CSS.CP_SWAP).setAttribute('data-alreadyparsed', 'false');
                                     //reload the recorders
@@ -835,42 +835,73 @@ var poodllRecorder = null;
                         //so finally load those recorders
                         that._loadRecorders();
 
-                        //and then run any JS loaded from the templates (loom...)
-                        templates.runTemplateJS(js);
+                        //and then run any JS loaded from the templates (currently none, so just commented out)
+                        //templates.runTemplateJS(js);
 
-                        if(context.loom){
-                            console.log('contextloom');
+                        //Adding Loom JS .. this is a bit of a hack, but it works
+                        //Tried creating a loomloader AMD  module,
+                        // but if we fetch the loom JS from CDN it is ES6 modules, so it would complain about no define etc
+                        // loom JS cdn also has CJS modules, but AMD complained similarly
+                        // Tried to declare the AMD module as an ES6 module and give it a .mjs extension
+                        // that would grunt ok and the ES6 module would be transpiled to AMD. To that point it was all good
+                        // but when the CDN libs were loaded they were ES6 and they complained about imports not in a module
+                        // So I thought maybe just download the loom sdk, though its big, and put it in the plugin.
+                        // But there are way too many dependencies for that and the licensing is not clear
+                        // So just loading the Loom JS in a script tag of type module works in modern browsers,
+                        // and though we don't get all the optimizations of the AMD loader at least it works
+                        // Well . it doesn't work if inserted on the page with the rest of the loompanel.mustache HTML via:
+                        // dialogue.set('bodyContent', content).show();  (internally this uses innerhtml=xxx DOM doesn't notice JS)
+                        // so we insert it separately with appendChild. Hence the loomscript is another mustache template
+                        //...all good? ja, here we go ...
+                        if (context.loom) {
+
+                            //hide dialogue
+                            that.getDialogue({
+                                focusAfterHide: null
+                            }).hide();
+
                             templates.render('atto_cloudpoodll/loomscript', context).then(function (loomcode) {
-                                
-                                console.log('rendering scriptelement');
-
                                 var scriptElement = document.createElement('script');
                                 scriptElement.type = 'module';
                                 scriptElement.appendChild(document.createTextNode(loomcode));
-                                console.log(scriptElement);
-
-
-                                // Get the div with id "loomscript"
                                 var loomscriptDiv = document.getElementById(context.loomid + '_script');
                                 loomscriptDiv.appendChild(scriptElement);
+                                var loomvideourlField = document.getElementById(context.loomid + '_videourl');
+                                var loomplayersourceField = document.getElementById(context.loomid + '_playersource');
 
-                          //      var docbody = document.body;
-                                // Append the script element to the div
-                          //      docbody.appendChild(scriptElement);
-                            });
-                        }else{
-                            console.log('no contextloom');
-                        }
+                                loomvideourlField.addEventListener('change', function () {
+
+                                    //get the video url
+                                    var thevideourl= loomvideourlField.value;
+
+                                    //get the loom id
+                                    // https://www.loom.com/share/c6e6ddd51d5c459eb21a8dcf3f3fa43b => c6e6ddd51d5c459eb21a8dcf3f3fa43b
+                                    var lastSlashIndex = thevideourl.lastIndexOf('/');
+                                    var loomid = thevideourl.substring(lastSlashIndex + 1);
 
 
-                    }).fail(function (ex) {
-                        notification.exception(ex);
+                                    //Get the player source (raw)
+                                    //this wont survive a save in the editor, at least not in Atto (and without special permissions)
+                                    //var loomplayersource = loomplayersourceField.value;
 
-                    });
-                });
+                                    //Use Poodll filter (or Generico)
+                                    var loomplayersource = "{POODLL:type=loom,loomid=" + loomid + "}";
 
-            }//end of if cloudpoodll token
-        },
+                                    //insert into editor
+                                    that.editor.focus();
+                                    that.get('host').insertContentAtFocusPoint(loomplayersource);
+                                    that.markUpdated();
+
+                                });
+                            }).fail(function (ex) {
+                                notification.exception(ex);
+
+                            });//end of templates.render
+                        } //end of if context.loom
+                    });//end of templates.render
+                });//end of require
+            }//end of if cloud poodll token
+        },//end of displaydialogue
 
         _disableSubtitleCheckbox: function () {
             //this function is never called, because if not transcribable, not shown

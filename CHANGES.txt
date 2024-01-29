@@ -1,3 +1,6 @@
+Version 1.0.36 (Build 2024012900)
+- Added Loom recording support (beta)
+
 Version 1.0.35 (Build 2023033000)
 - Fixed issue with subtitling default not checking the checkbox
 - Added support for Poodll filter widgets new lang string support

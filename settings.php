@@ -151,4 +151,9 @@ if ($ADMIN->fulltree) {
             new lang_string('fallback', constants::M_COMPONENT),
             new lang_string('fallbackdetails', constants::M_COMPONENT), constants::FALLBACK_WARNING, $fallback_options));
 
+    $screenrecoptions = utils::fetch_options_screenrec();
+    $settings->add(new admin_setting_configselect(constants::M_COMPONENT . '/screenrecorder',
+        get_string('screenrecorder', constants::M_COMPONENT),
+        get_string('screenrecorder_details', constants::M_COMPONENT), constants::SCREENREC_DEFAULT, $screenrecoptions));
+
 }

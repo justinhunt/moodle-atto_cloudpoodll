@@ -45,6 +45,9 @@ class constants {
     const SKIN_ONCE = 'once';
     const SKIN_SCREEN = 'screen';
 
+    const SCREENREC_DEFAULT = 'default';
+    const SCREENREC_LOOM = 'loom';
+
     const LANG_ENUS = 'en-US';
     const LANG_ENGB = 'en-GB';
     const LANG_ENAU = 'en-AU';

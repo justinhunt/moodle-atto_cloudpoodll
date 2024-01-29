@@ -226,3 +226,7 @@ $string['freetrial_desc'] = "A dialog should appear that allows you to register 
 //$string['memberdashboard_desc'] = "";
 $string['fillcredentials']="Set API user and secret with existing credentials";
 $string['startscreencast']="Start Screencast";
+$string['screenrecdefault']="Default";
+$string['screenrecloom']="Loom (beta)";
+$string['screenrecorder']="Screen Recorder";
+$string['screenrecorder_details']="If you use the Loom recorder you will need to <a href='https://support.poodll.com/en/support/solutions/articles/19000157152-poodll-widget-loom'>set up a Loom template</a> in the Poodll filter or Generico filter, to display the video.";
