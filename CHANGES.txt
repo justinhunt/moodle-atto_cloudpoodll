@@ -1,4 +1,4 @@
-Version 1.0.37 (Build 20250925XX)
+Version 1.0.37 (Build 2025092500)
 - Added Vietnamese and other languages
 
 Version 1.0.36 (Build 2024012900)
