@@ -240,6 +240,7 @@ var poodllRecorder = null;
             CLOUDPOODLL.parent = M.cfg.wwwroot;
             CLOUDPOODLL.appid = 'atto_cloudpoodll';
             CLOUDPOODLL.token = config.cp_token;
+            CLOUDPOODLL.cloudpoodllurl = config.cp_cloudpoodllurl;
             CLOUDPOODLL.region = config.cp_region;
             CLOUDPOODLL.owner = config.cp_owner;
             CLOUDPOODLL.expiredays = config.cp_expiredays;

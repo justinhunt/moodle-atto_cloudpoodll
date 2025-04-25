@@ -27,9 +27,17 @@ namespace atto_cloudpoodll;
 defined('MOODLE_INTERNAL') || die;
 
 class utils {
+    
 
-    //const CLOUDPOODLL = 'https://vbox.poodll.com/cphost';
-    const CLOUDPOODLL = 'https://cloud.poodll.com';
+    // Get the Cloud Poodll Server URL
+    public static function get_cloud_poodll_server() {
+        $conf = get_config(constants::M_COMPONENT);
+        if (isset($conf->cloudpoodllserver) && !empty($conf->cloudpoodllserver)) {
+            return 'https://' . $conf->cloudpoodllserver;
+        } else {
+            return 'https://' . constants::M_DEFAULT_CLOUDPOODLL;
+        }
+    }
 
     public static function fetch_options_recorders() {
         $rec_options = array(constants::REC_AUDIO => get_string("recorderaudio", constants::M_COMPONENT),
@@ -255,7 +263,7 @@ class utils {
         }
 
         // Send the request & save response to $resp
-        $token_url = self::CLOUDPOODLL .  "/local/cpapi/poodlltoken.php";
+        $token_url = self::get_cloud_poodll_server() .  "/local/cpapi/poodlltoken.php";
         $postdata = array(
                 'username' => $apiuser,
                 'password' => $apisecret,
@@ -321,7 +329,7 @@ class utils {
 
         //log.debug(params);
 
-        $serverurl = self::CLOUDPOODLL . '/webservice/rest/server.php';
+        $serverurl = self::get_cloud_poodll_server() . '/webservice/rest/server.php';
         $response = self::curl_fetch($serverurl, $params);
         if (!self::is_json($response)) {
             return false;

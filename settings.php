@@ -75,6 +75,12 @@ if ($ADMIN->fulltree) {
             get_string('apisecret', constants::M_COMPONENT), $show_below_apisecret,
             '', PARAM_TEXT));
 
+    // Cloud Poodll Server.
+    $settings->add(new admin_setting_configtext(constants::M_COMPONENT .  '/cloudpoodllserver',
+        get_string('cloudpoodllserver', constants::M_COMPONENT),
+        get_string('cloudpoodllserver_details', constants::M_COMPONENT),
+        constants::M_DEFAULT_CLOUDPOODLL, PARAM_URL));
+
     $regions = utils::get_region_options();
     $settings->add(new admin_setting_configselect(constants::M_COMPONENT . '/awsregion',
             get_string('awsregion', constants::M_COMPONENT),

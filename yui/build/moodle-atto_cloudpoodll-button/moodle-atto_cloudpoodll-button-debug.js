@@ -242,6 +242,7 @@ var poodllRecorder = null;
             CLOUDPOODLL.parent = M.cfg.wwwroot;
             CLOUDPOODLL.appid = 'atto_cloudpoodll';
             CLOUDPOODLL.token = config.cp_token;
+            CLOUDPOODLL.cloudpoodllurl = config.cp_cloudpoodllurl;
             CLOUDPOODLL.region = config.cp_region;
             CLOUDPOODLL.owner = config.cp_owner;
             CLOUDPOODLL.expiredays = config.cp_expiredays;
@@ -855,7 +856,8 @@ var poodllRecorder = null;
                         //...all good? ja, here we go ...
                         if (context.loom) {
 
-                            //hide dialogue
+                            //hide dialogue // this is a bit hacky because we do have a panel and button and we load it
+                            //in a dedicated icon for the toolbar we would not do this hack. it just keeps it in atto_cloudpoodll
                             that.getDialogue({
                                 focusAfterHide: null
                             }).hide();
@@ -882,6 +884,7 @@ var poodllRecorder = null;
 
                                     //Get the player source (raw)
                                     //this wont survive a save in the editor, at least not in Atto (and without special permissions)
+                                    //so for now we don't use it
                                     //var loomplayersource = loomplayersourceField.value;
 
                                     //Use Poodll filter (or Generico)

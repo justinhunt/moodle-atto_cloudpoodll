@@ -226,6 +226,7 @@ function atto_cloudpoodll_params_for_js($elementid, $options, $fpoptions) {
     $params['cp_expiredays'] = $config->expiredays;
     $params['cp_cansubtitle'] = $cansubtitle;
     $params['cp_token'] = utils::fetch_token($config->apiuser, $config->apisecret);
+    $params['cp_cloudpoodllurl'] = utils::get_cloud_poodll_server();
     $params['cp_region'] = $config->awsregion;
     $params['cp_language'] = $config->language;
     $params['cp_expiredays'] = $config->expiredays;

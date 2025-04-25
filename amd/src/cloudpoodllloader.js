@@ -1,5 +1,5 @@
 define(['jquery', 'core/log',
-        'https://cdn.jsdelivr.net/gh/justinhunt/cloudpoodll@latest/amd/build/cloudpoodll.min.js',
+        'atto_cloudpoodll/cloudpoodll',
         'core/str'],
     function($, log, CloudPoodll, str) {
         return {

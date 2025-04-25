@@ -29,6 +29,7 @@ defined('MOODLE_INTERNAL') || die;
 class constants {
 
     const M_COMPONENT = 'atto_cloudpoodll';
+    const M_DEFAULT_CLOUDPOODLL = 'cloud.poodll.com';
     const M_TABLE = 'atto_cpoodll';
     const M_SUBPLUGIN = 'cloudpoodll';
     const M_URL='lib/editor/atto/plugins/cloudpoodll';

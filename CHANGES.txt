@@ -1,3 +1,6 @@
+Version 1.0.38 (Build 2025092501)
+- Added support for M5.0 and PHP 8.4
+
 Version 1.0.37 (Build 2025092500)
 - Added Vietnamese and other languages
 

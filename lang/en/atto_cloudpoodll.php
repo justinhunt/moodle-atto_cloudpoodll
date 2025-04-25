@@ -260,3 +260,5 @@ $string['screenrecdefault']="Default";
 $string['screenrecloom']="Loom (beta)";
 $string['screenrecorder']="Screen Recorder";
 $string['screenrecorder_details']="If you use the Loom recorder you will need to <a href='https://support.poodll.com/en/support/solutions/articles/19000157152-poodll-widget-loom'>set up a Loom template</a> in the Poodll filter or Generico filter, to display the video.";
+$string['cloudpoodllserver'] = 'Cloud Poodll Server';
+$string['cloudpoodllserver_details'] = 'The server to use for Cloud Poodll. Only change this if Poodll has provided a different one.';

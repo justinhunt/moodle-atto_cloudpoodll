@@ -1,21 +1,21 @@
 <ul class="root nav nav-tabs" role="tablist">
     {{#isvideo}}
         <li data-medium-type="{{CSS.VIDEO}}" class="nav-item">
-            <a class="nav-link active" href="#{{elementid}}_{{CSS.VIDEO}}" role="tab" data-toggle="tab">
+            <a class="nav-link active" href="#{{elementid}}_{{CSS.VIDEO}}" role="tab" data-bs-toggle="tab" data-toggle="tab">
                 {{#str}}video, atto_cloudpoodll{{/str}}
                 </a>
         </li>
     {{/isvideo}}
     {{#isscreen}}
         <li data-medium-type="{{CSS.SCREEN}}" class="nav-item">
-            <a class="nav-link active" href="#{{elementid}}_{{CSS.SCREEN}}" role="tab" data-toggle="tab">
+            <a class="nav-link active" href="#{{elementid}}_{{CSS.SCREEN}}" role="tab" data-bs-toggle="tab" data-toggle="tab">
                 {{#str}}screen, atto_cloudpoodll{{/str}}
             </a>
         </li>
     {{/isscreen}}
     {{#isaudio}}
         <li data-medium-type="{{CSS.AUDIO}}" class="nav-item">
-            <a class="nav-link active" href="#{{elementid}}_{{CSS.AUDIO}}" role="tab" data-toggle="tab">
+            <a class="nav-link active" href="#{{elementid}}_{{CSS.AUDIO}}" role="tab" data-bs-toggle="tab" data-toggle="tab">
                 {{#str}}audio, atto_cloudpoodll{{/str}}
                 </a>
         </li>
@@ -23,7 +23,7 @@
     {{^isscreen}}
         {{#showupload}}
             <li data-medium-type="{{CSS.UPLOAD}}" class="nav-item">
-                <a class="nav-link" href="#{{elementid}}_{{CSS.UPLOAD}}" role="tab" data-toggle="tab">
+                <a class="nav-link" href="#{{elementid}}_{{CSS.UPLOAD}}" role="tab" data-bs-toggle="tab" data-toggle="tab">
                     {{#str}}upload, atto_cloudpoodll{{/str}}
                     </a>
             </li>
@@ -31,14 +31,14 @@
     {{/isscreen}}
     {{#showoptions}}
         <li data-medium-type="{{CSS.OPTIONS}}" class="nav-item">
-            <a class="nav-link" href="#{{elementid}}_{{CSS.OPTIONS}}" role="tab" data-toggle="tab">
+            <a class="nav-link" href="#{{elementid}}_{{CSS.OPTIONS}}" role="tab" data-bs-toggle="tab" data-toggle="tab">
                 {{#str}}options, atto_cloudpoodll{{/str}}
             </a>
         </li>
     {{/showoptions}}
     {{#showhistory}}
         <li data-medium-type="{{CSS.HISTORY}}" class="nav-item" data-content="history" >
-            <a class="nav-link" href="#{{elementid}}_{{CSS.HISTORY}}" role="tab" data-toggle="tab">
+            <a class="nav-link" href="#{{elementid}}_{{CSS.HISTORY}}" role="tab" data-bs-toggle="tab" data-toggle="tab">
                 {{#str}}history, atto_cloudpoodll{{/str}}
             </a>
         </li>
