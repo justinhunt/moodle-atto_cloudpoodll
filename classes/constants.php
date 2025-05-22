@@ -130,6 +130,7 @@ class constants {
     const REGION_MUMBAI = 'mumbai';
     const REGION_CAPETOWN = 'capetown';
     const REGION_BAHRAIN = 'bahrain';
+    const REGION_NINGXIA = 'ningxia';
 
     const FILETITLE_DISPLAYLENGTH = 30;
 
